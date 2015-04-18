@@ -1,13 +1,23 @@
-local Robot = class("Robot", Entity)
+local Enemy = require("Enemy")
+
+local Robot = class("Robot", Enemy)
 
 function Robot:initialize(x, y)
-	Entity.initialize(self, x, y, 0)
+	Enemy.initialize(self, x, y, 0)
 	
-	self.sprite = Resources.getImage("images/robot.png")
+	self.sprite = Resources.getImage("robot.png")
 end
 
-function Robot:update()
-	
+function Robot:update(dt)
+	if self:isLinked() == false and Mouse.wasPressed("l") then
+		local mx, my = Mouse.getPositionCamera()
+		if mx >= self.x - 16 and mx <= self.x + 16
+		and my >= self.y - 48 and my <= self.y then
+			self:setLinked()
+			local link = self.scene:find("link")
+			link:addLink(self)
+		end
+	end
 end
 
 function Robot:draw()

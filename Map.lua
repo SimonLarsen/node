@@ -4,7 +4,7 @@ function Map:initialize()
 	Entity.initialize(self, 0, 0, 100)
 
 	self.width, self.height = 32, 32
-	self.img_floor_tiles = Resources.getImage("images/floor_tiles.png")
+	self.img_floor_tiles = Resources.getImage("floor_tiles.png")
 	self.floor_batch = love.graphics.newSpriteBatch(self.img_floor_tiles, 32*32)
 
 	self:createQuads()

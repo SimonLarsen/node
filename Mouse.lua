@@ -22,6 +22,11 @@ function Mouse.getPosition()
 	return mx/SCALE, my/SCALE
 end
 
+function Mouse:getPositionCamera()
+	local mx, my = love.mouse.getPosition()
+	return mx/SCALE + camera:getLeft(), my/SCALE + camera:getTop()
+end
+
 function Mouse.mousepressed(x, y, button)
 	state.down[button] = true
 	state.pressed[button] = true

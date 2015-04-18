@@ -16,6 +16,14 @@ function Camera:getX()
 	return x
 end
 
+function Camera:getLeft()
+	return self.x - WIDTH/2
+end
+
+function Camera:getTop()
+	return self.y - HEIGHT/2
+end
+
 function Camera:getY()
 	return y
 end

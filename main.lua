@@ -6,6 +6,7 @@ Timer = require("hump.timer")
 Scene = require("Scene")
 Keyboard = require("Keyboard")
 Mouse = require("Mouse")
+Camera = require("Camera")
 util = require("util")
 
 local GameScene = require("GameScene")
@@ -15,6 +16,8 @@ local canvas
 function love.load()
 	love.graphics.setDefaultFilter("nearest", "nearest")
 	love.graphics.setLineStyle("rough")
+
+	camera = Camera()
 
 	updateViewport()
 
@@ -112,7 +115,7 @@ function love.run()
 			canvas:clear()
 			love.graphics.setCanvas(canvas)
 
-			gamestate.current():getCamera():apply()
+			camera:apply()
 
             love.draw()
 

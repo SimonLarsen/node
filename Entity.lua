@@ -4,6 +4,8 @@ function Entity:initialize(x, y, z)
 	self.x = x or 0
 	self.y = y or 0
 	self.z = z or 0
+	
+	self.name = nil
 
 	self.alive = true
 end
@@ -30,6 +32,14 @@ end
 
 function Entity:isAlive()
 	return self.alive
+end
+
+function Entity:setName(name)
+	self.name = name
+end
+
+function Entity:getName()
+	return self.name
 end
 
 return Entity

@@ -1,10 +1,7 @@
-local Camera = require("Camera")
-
 local Scene = class("Scene")
 
 function Scene:initialize()
 	self.entities = {}
-	self.camera = Camera()
 end
 
 function Scene:update(dt)
@@ -52,14 +49,10 @@ end
 
 function Scene:find(name)
 	for i,v in ipairs(self.entities) do
-		if v.name == name then
+		if v:getName() == name then
 			return v
 		end
 	end
-end
-
-function Scene:getCamera()
-	return self.camera
 end
 
 function Scene:sortEntities()

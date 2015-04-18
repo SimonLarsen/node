@@ -1,5 +1,3 @@
-local Link = require("Link")
-
 local Player = class("Player", Entity)
 
 Player.static.MOVE_SPEED = 3
@@ -7,12 +5,8 @@ Player.static.MOVE_SPEED = 3
 function Player:initialize(x, y)
 	Entity.initialize(self, x, y, 0)
 
-	self.image = Resources.getImage("images/player.png")
-	self.crosshair = Resources.getImage("images/crosshair.png")
-end
-
-function Player:enter()
-	self.link = self.scene:add(Link())
+	self.image = Resources.getImage("player.png")
+	self.crosshair = Resources.getImage("crosshair.png")
 end
 
 function Player:update()
@@ -29,7 +23,7 @@ function Player:update()
 		self.y = self.y + Player.static.MOVE_SPEED
 	end
 
-	self.scene:getCamera():setPosition(self.x, self.y)
+	camera:setPosition(self.x, self.y)
 end
 
 function Player:draw()
