@@ -1,6 +1,6 @@
 local LinkJoint = class("LinkJoint")
 
-LinkJoint.static.MIN_SPEED = 48
+LinkJoint.static.MIN_SPEED = 64
 
 function LinkJoint:initialize(e1, e2)
 	self.e1, self.e2 = e1, e2

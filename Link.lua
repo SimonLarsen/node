@@ -40,20 +40,26 @@ function Link:update(dt)
 			end
 
 			for i,v in ipairs(self.joints) do
-				local diffX = v.e1.x - v.e2.x
-				local diffY = v.e1.y - v.e2.y
-				local d = math.sqrt(diffX^2 + diffY^2)
+				if v:isActive() then
+					local diffX = v.e1.x - v.e2.x
+					local diffY = v.e1.y - v.e2.y
+					local d = math.sqrt(diffX^2 + diffY^2)
 
-				local diff = (v.dist - d) / d
+					local diff = (v.dist - d) / d
 
-				local transX = diffX * stiffness * diff
-				local transY = diffY * stiffness * diff
+					local transX = diffX * stiffness * diff
+					local transY = diffY * stiffness * diff
 
-				v.e1.x = v.e1.x + transX
-				v.e1.y = v.e1.y + transY
+					if v.e1:isSolid() == false then
+						v.e1.x = v.e1.x + transX
+						v.e1.y = v.e1.y + transY
+					end
 
-				v.e2.x = v.e2.x - transX
-				v.e2.y = v.e2.y - transY
+					if v.e2:isSolid() == false then
+						v.e2.x = v.e2.x - transX
+						v.e2.y = v.e2.y - transY
+					end
+				end
 			end
 		end
 

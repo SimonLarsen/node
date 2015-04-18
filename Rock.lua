@@ -1,17 +1,16 @@
 local Enemy = require("Enemy")
+local Rock = class("Rock", Enemy)
 
-local Spider = class("Spider", Enemy)
+Rock.static.MASS = 10000
+Rock.static.SOLID = true
 
-Spider.static.MASS = 30
-Spider.static.SOLID = false
+function Rock:initialize(x, y)
+	Enemy.initialize(self, x, y, 0, Rock.static.MASS, Rock.static.SOLID)
 
-function Spider:initialize(x, y)
-	Enemy.initialize(self, x, y, 0, Spider.static.MASS, Spider.static.SOLID)
-
-	self.animator = Animator(Resources.getAnimator("spider.lua"))
+	self.animator = Animator(Resources.getAnimator("rock.lua"))
 end
 
-function Spider:update(dt)
+function Rock:update(dt)
 	self.animator:update(dt)
 
 	if self:isLinked() == false and Mouse.wasPressed("l") then
@@ -25,8 +24,8 @@ function Spider:update(dt)
 	end
 end
 
-function Spider:draw()
+function Rock:draw()
 	self.animator:draw(self.x, self.y, 0, 1, 1, 16, 32)
 end
 
-return Spider
+return Rock
