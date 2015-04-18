@@ -7,6 +7,7 @@ Player.static.MOVE_SPEED = 200
 
 function Player:initialize(x, y)
 	Entity.initialize(self, x, y, 0)
+	self:setName("player")
 
 	self.dir = 1
 

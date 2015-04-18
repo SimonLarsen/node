@@ -7,7 +7,7 @@ local Spider = class("Spider", Enemy)
 Spider.static.MASS = 30
 Spider.static.SOLID = false
 
-Spider.static.WALK_SPEED = 50
+Spider.static.WALK_SPEED = 60
 
 Spider.static.STATE_IDLE = 0
 Spider.static.STATE_WALK = 1
@@ -50,8 +50,7 @@ function Spider:update(dt)
 		self.x = self.x + self.xspeed * dt
 		self.y = self.y + self.yspeed * dt
 
-		local collision
-		collision = CollisionHandler.checkMapBox(self.map, self)
+		local collision = CollisionHandler.checkMapBox(self.map, self)
 		if collision then
 			self.x, self.y = oldx, oldy
 		end
@@ -59,8 +58,6 @@ function Spider:update(dt)
 		if self.time <= 0 or collision then
 			self.state = Spider.static.STATE_IDLE
 			self.time = love.math.random() * 2
-			self.xspeed = 0
-			self.yspeed = 0
 		end
 	end
 

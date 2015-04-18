@@ -6,6 +6,12 @@ function Scene:initialize()
 	self.entities = {}
 end
 
+function Scene:enter()
+	for i,v in ipairs(self.entities) do
+		v:enter()
+	end
+end
+
 function Scene:update(dt)
 	CollisionHandler.checkAll(self.entities)
 	CollisionHandler.checkClicked(self.entities)
@@ -48,7 +54,6 @@ end
 function Scene:add(e)
 	table.insert(self.entities, e)
 	e.scene = self
-	e:enter()
 	return e
 end
 

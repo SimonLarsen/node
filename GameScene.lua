@@ -18,6 +18,8 @@ function GameScene:initialize()
 	self:add(Robot(480, 632))
 	self:add(Rock(550, 630))
 	self:add(Spider(650, 700))
+
+	self:enter()
 end
 
 return GameScene
