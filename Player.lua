@@ -1,11 +1,12 @@
 local Player = class("Player", Entity)
 
-Player.static.MOVE_SPEED = 8
+Player.static.MOVE_SPEED = 3
 
-function Player:initialize()
-	Entity.initialize(self, 0, 0, 0)
+function Player:initialize(x, y)
+	Entity.initialize(self, x, y, 0)
 
-	self.image = Resources.getImage("images/test.png")
+	self.image = Resources.getImage("images/player.png")
+	self.crosshair = Resources.getImage("images/crosshair.png")
 end
 
 function Player:update()
@@ -21,10 +22,17 @@ function Player:update()
 	if Keyboard.isDown("s") then
 		self.y = self.y + Player.static.MOVE_SPEED
 	end
+
+	self.scene:getCamera():setPosition(self.x, self.y)
 end
 
 function Player:draw()
-	love.graphics.draw(self.image, self.x, self.y, 0, 1, 1, 16, 16)
+	love.graphics.draw(self.image, self.x, self.y, 0, 1, 1, 16, 48)
+end
+
+function Player:gui()
+	local mx, my = Mouse.getPosition()
+	love.graphics.draw(self.crosshair, mx, my, 0, 1, 1, 16, 16)
 end
 
 return Player

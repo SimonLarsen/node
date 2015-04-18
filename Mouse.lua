@@ -19,7 +19,7 @@ end
 
 function Mouse.getPosition()
 	local mx, my = love.mouse.getPosition()
-	return mx/SCALE - OFFSET_X, my/SCALE
+	return mx/SCALE, my/SCALE
 end
 
 function Mouse.mousepressed(x, y, button)

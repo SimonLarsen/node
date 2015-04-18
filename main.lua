@@ -9,7 +9,6 @@ Mouse = require("Mouse")
 
 local GameScene = require("GameScene")
 
-local scale = 1
 local canvas
 
 function love.load()
@@ -25,12 +24,12 @@ end
 function updateViewport()
 	local width, height, flags = love.window.getMode()
 
-	scale = math.max(1, math.ceil(math.min(width, height) / 500))
+	SCALE = math.max(1, math.ceil(math.min(width, height) / 500))
 
-	local cw = math.ceil(width / scale)
-	local ch = math.ceil(height / scale)
+	WIDTH = math.ceil(width / SCALE)
+	HEIGHT = math.ceil(height / SCALE)
 
-	canvas = love.graphics.newCanvas(cw, ch)
+	canvas = love.graphics.newCanvas(WIDTH, HEIGHT)
 end
 
 function love.gui()
@@ -109,16 +108,22 @@ function love.run()
             love.graphics.origin()
 			love.graphics.push()
 
-			canvas:clear(0, 0, 0, 255)
+			canvas:clear()
 			love.graphics.setCanvas(canvas)
 
+			gamestate.current():getCamera():apply()
+
             love.draw()
+
+			love.graphics.pop()
+			love.graphics.push()
+
 			love.gui()
 
 			love.graphics.pop()
 			love.graphics.push()
 
-			love.graphics.scale(scale, scale)
+			love.graphics.scale(SCALE, SCALE)
 			love.graphics.setCanvas()
 			love.graphics.draw(canvas, 0, 0)
 
