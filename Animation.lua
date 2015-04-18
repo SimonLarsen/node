@@ -53,7 +53,13 @@ function Animation:reset()
 end
 
 function Animation:draw(x, y, r, sx, sy, ox, oy)
-	love.graphics.draw(self._image, self._quads[self._frame], x, y, r, sx, sy, ox or self._ox, oy or self._oy)
+	love.graphics.draw(
+		self._image,
+		self._quads[self._frame],
+		x, y, r,
+		sx, sy,
+		ox or self._ox, oy or self._oy
+	)
 end
 
 function Animation:setSpeed(speed)

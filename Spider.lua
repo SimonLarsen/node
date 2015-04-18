@@ -1,5 +1,6 @@
 local Enemy = require("Enemy")
 local BoxCollider = require("BoxCollider")
+local CollisionHandler = require("CollisionHandler")
 
 local Spider = class("Spider", Enemy)
 
@@ -25,6 +26,10 @@ function Spider:initialize(x, y)
 	self.time = love.math.random() * 2
 end
 
+function Spider:enter()
+	self.map = self.scene:find("map")
+end
+
 function Spider:update(dt)
 	self.animator:update(dt)
 
@@ -40,7 +45,18 @@ function Spider:update(dt)
 		end
 	elseif self.state == Spider.static.STATE_WALK then
 		self.time = self.time - dt
-		if self.time <= 0 then
+
+		local oldx, oldy = self.x, self.y
+		self.x = self.x + self.xspeed * dt
+		self.y = self.y + self.yspeed * dt
+
+		local collision
+		collision = CollisionHandler.checkMapBox(self.map, self)
+		if collision then
+			self.x, self.y = oldx, oldy
+		end
+
+		if self.time <= 0 or collision then
 			self.state = Spider.static.STATE_IDLE
 			self.time = love.math.random() * 2
 			self.xspeed = 0
@@ -49,9 +65,6 @@ function Spider:update(dt)
 	end
 
 	self.animator:setProperty("state", self.state)
-
-	self.x = self.x + self.xspeed * dt
-	self.y = self.y + self.yspeed * dt
 end
 
 function Spider:draw()
