@@ -42,4 +42,12 @@ function Entity:getName()
 	return self.name
 end
 
+function Entity:onCollide(o)
+	
+end
+
+function Entity:onClick(x, y)
+	
+end
+
 return Entity

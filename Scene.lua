@@ -1,3 +1,5 @@
+local CollisionHandler = require("CollisionHandler")
+
 local Scene = class("Scene")
 
 function Scene:initialize()
@@ -5,6 +7,9 @@ function Scene:initialize()
 end
 
 function Scene:update(dt)
+	CollisionHandler.checkAll(self.entities)
+	CollisionHandler.checkClicked(self.entities)
+
 	for i,v in ipairs(self.entities) do
 		if v:isAlive() and v.update then
 			v:update(dt)

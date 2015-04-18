@@ -78,14 +78,25 @@ function Link:draw()
 	for i=1, #self.links-1 do
 		love.graphics.line(self.links[i].x, self.links[i].y-16, self.links[i+1].x, self.links[i+1].y-16)
 	end
+
+	if #self.links > 0 and self.triggered == false then
+		local mx, my = Mouse.getPositionCamera()
+		love.graphics.line(self.links[#self.links].x, self.links[#self.links].y-16, mx, my)
+	end
 end
 
 function Link:addLink(e)
-	table.insert(self.links, e)
+	if self.triggered == true then
+		return false
+	else
+		table.insert(self.links, e)
+		return true
+	end
 end
 
 function Link:trigger()
 	if #self.links == 1 then
+		self.links[1]:setLinked(false)
 		self.links = {}
 		return
 	end

@@ -6,15 +6,15 @@ state.pressed = {}
 state.released = {}
 
 function Keyboard.wasPressed(k)
-	return state.pressed[k]
+	return state.pressed[k] == true
 end
 
 function Keyboard.wasReleased(k)
-	return state.released[k]
+	return state.released[k] == true
 end
 
 function Keyboard.isDown(k)
-	return state.down[k]
+	return state.down[k] == true
 end
 
 function Keyboard.keypressed(k)

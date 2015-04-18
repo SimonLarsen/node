@@ -1,4 +1,5 @@
 local Enemy = require("Enemy")
+local BoxCollider = require("BoxCollider")
 
 local Robot = class("Robot", Enemy)
 
@@ -9,18 +10,11 @@ function Robot:initialize(x, y)
 	Enemy.initialize(self, x, y, 0, Robot.static.MASS, Robot.static.SOLID)
 	
 	self.sprite = Resources.getImage("robot.png")
+	self.collider = BoxCollider(32, 48, -16, -48)
 end
 
 function Robot:update(dt)
-	if self:isLinked() == false and Mouse.wasPressed("l") then
-		local mx, my = Mouse.getPositionCamera()
-		if mx >= self.x - 16 and mx <= self.x + 16
-		and my >= self.y - 48 and my <= self.y then
-			self:setLinked()
-			local link = self.scene:find("link")
-			link:addLink(self)
-		end
-	end
+
 end
 
 function Robot:draw()

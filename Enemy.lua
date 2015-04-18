@@ -13,12 +13,21 @@ function Enemy:isLinked()
 	return self.linked
 end
 
-function Enemy:setLinked()
-	self.linked = true
+function Enemy:setLinked(state)
+	self.linked = state
 end
 
 function Enemy:isSolid()
 	return self.solid
+end
+
+function Enemy:onClick(x, y)
+	if self:isLinked() == false then
+		local link = self.scene:find("link")
+		self:setLinked(link:addLink(self))
+	end
+
+	return true
 end
 
 return Enemy

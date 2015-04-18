@@ -6,15 +6,15 @@ state.pressed = {}
 state.released = {}
 
 function Mouse.wasPressed(button)
-	return state.pressed[button]
+	return state.pressed[button] == true
 end
 
 function Mouse.wasReleased(button)
-	return state.released[button]
+	return state.released[button] == true
 end
 
 function Mouse.isDown(button)
-	return state.down[button]
+	return state.down[button] == true
 end
 
 function Mouse.getPosition()
