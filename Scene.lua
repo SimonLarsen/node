@@ -4,9 +4,11 @@ local Scene = class("Scene")
 
 function Scene:initialize()
 	self.entities = {}
+	self.hasEntered = false
 end
 
 function Scene:enter()
+	self.hasEntered = true
 	for i,v in ipairs(self.entities) do
 		v:enter()
 	end
@@ -14,7 +16,7 @@ end
 
 function Scene:update(dt)
 	CollisionHandler.checkAll(self.entities)
-	CollisionHandler.checkClicked(self.entities)
+	--CollisionHandler.checkClicked(self.entities)
 
 	for i,v in ipairs(self.entities) do
 		if v:isAlive() and v.update then
@@ -54,6 +56,9 @@ end
 function Scene:add(e)
 	table.insert(self.entities, e)
 	e.scene = self
+	if self.hasEntered then
+		e:enter()
+	end
 	return e
 end
 

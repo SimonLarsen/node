@@ -13,7 +13,7 @@ function Player:initialize(x, y)
 
 	self.animator = Animator(Resources.getAnimator("player.lua"))
 	self.crosshair = Resources.getImage("crosshair.png")
-	self.collider = BoxCollider(20, 48, 10, 48)
+	self.collider = BoxCollider(20, 48, 0, 0)
 end
 
 function Player:enter()
@@ -60,6 +60,7 @@ function Player:update(dt)
 end
 
 function Player:draw()
+	love.graphics.rectangle("fill", self.x-2, self.y-2, 4, 4)
 	self.animator:draw(self.x, self.y, 0, self.dir, 1, nil, 48)
 end
 

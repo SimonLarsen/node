@@ -6,7 +6,7 @@ Rock.static.MASS = 10000
 Rock.static.SOLID = true
 
 function Rock:initialize(x, y)
-	Enemy.initialize(self, x, y, 0, Rock.static.MASS, Rock.static.SOLID)
+	Enemy.initialize(self, x, y, 0, Rock.static.MASS, Rock.static.SOLID, -16)
 
 	self.animator = Animator(Resources.getAnimator("rock.lua"))
 	self.collider = BoxCollider(32, 32, -16, -32)
@@ -14,6 +14,7 @@ end
 
 function Rock:update(dt)
 	self.animator:update(dt)
+	self:checkLinked()
 end
 
 function Rock:draw()

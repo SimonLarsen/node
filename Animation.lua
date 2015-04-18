@@ -56,7 +56,9 @@ function Animation:draw(x, y, r, sx, sy, ox, oy)
 	love.graphics.draw(
 		self._image,
 		self._quads[self._frame],
-		x, y, r,
+		math.floor(x),
+		math.floor(y),
+		r,
 		sx, sy,
 		ox or self._ox, oy or self._oy
 	)

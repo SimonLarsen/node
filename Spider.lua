@@ -13,7 +13,7 @@ Spider.static.STATE_IDLE = 0
 Spider.static.STATE_WALK = 1
 
 function Spider:initialize(x, y)
-	Enemy.initialize(self, x, y, 0, Spider.static.MASS, Spider.static.SOLID)
+	Enemy.initialize(self, x, y, 0, Spider.static.MASS, Spider.static.SOLID, -8)
 
 	self.xspeed = 0
 	self.yspeed = 0
@@ -32,6 +32,7 @@ end
 
 function Spider:update(dt)
 	self.animator:update(dt)
+	self:checkLinked()
 
 	if self.state == Spider.static.STATE_IDLE then
 		self.time = self.time - dt

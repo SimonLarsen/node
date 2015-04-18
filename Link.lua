@@ -18,6 +18,13 @@ end
 
 function Link:update(dt)
 	if self.triggered == false then
+		for i,v in ipairs(self.links) do
+			if v:isAlive() == false then
+				self:cancel()
+				return
+			end
+		end
+
 		if Mouse.wasPressed("r") then
 			if #self.links >= 1 then
 				self:trigger()
@@ -85,12 +92,12 @@ end
 
 function Link:draw()
 	for i=1, #self.links-1 do
-		love.graphics.line(self.links[i].x, self.links[i].y-16, self.links[i+1].x, self.links[i+1].y-16)
+		love.graphics.line(self.links[i].x, self.links[i].y+self.links[i].linkz, self.links[i+1].x, self.links[i+1].y+self.links[i+1].linkz)
 	end
 
 	if #self.links > 0 and self.triggered == false then
 		local mx, my = Mouse.getPositionCamera()
-		love.graphics.line(self.links[#self.links].x, self.links[#self.links].y-16, mx, my)
+		love.graphics.line(self.links[#self.links].x, self.links[#self.links].y+self.links[#self.links].linkz, mx, my)
 	end
 end
 
@@ -105,8 +112,7 @@ end
 
 function Link:trigger()
 	if #self.links == 1 then
-		self.links[1]:setLinked(false)
-		self.links = {}
+		self:cancel()
 		return
 	end
 
@@ -116,6 +122,16 @@ function Link:trigger()
 	end
 	self.timeacc = 0
 	self.triggered = true
+end
+
+function Link:cancel()
+	print("cancel!")
+	for i,v in ipairs(self.links) do
+		v:setLinked(false)
+	end
+	self.links = {}
+	self.joints = {}
+	self.triggered = false
 end
 
 return Link

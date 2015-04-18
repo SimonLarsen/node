@@ -78,4 +78,13 @@ function CollisionHandler.checkClicked(entities)
 	end
 end
 
+function CollisionHandler.checkMouseHover(v)
+	local mx, my = Mouse.getPositionCamera()
+	if v.collider and v.collider:getType() == "box" then
+		return CollisionHandler.checkBoxPoint(v, mx, my)
+	end
+
+	return false
+end
+
 return CollisionHandler

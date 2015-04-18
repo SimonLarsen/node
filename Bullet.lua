@@ -1,26 +1,46 @@
 local Enemy = require("Enemy")
 local BoxCollider = require("BoxCollider")
+local CollisionHandler = require("CollisionHandler")
 
 local Bullet = class("Bullet", Enemy)
 
-Bullet.static.MAXX = 10
+Bullet.static.MASS = 10
 Bullet.static.SOLID = false
 
-function Bullet:initialize(x, y, dir, speed)
-	Enemy.initialize(self. x, y, 0, Bullet.static.MASS, Bullet.static.SOLID)
+Bullet.static.SPEED = 75
 
-	self.xspeed = math.cos(dir) * speed
-	self.yspeed = math.sin(dir) * speed
+function Bullet:initialize(x, y, dir)
+	Enemy.initialize(self, x, y, 0, Bullet.static.MASS, Bullet.static.SOLID, -16)
+
+	self.xspeed = math.cos(dir) * Bullet.static.SPEED
+	self.yspeed = math.sin(dir) * Bullet.static.SPEED
 
 	self.sprite = Resources.getImage("bullet.png")
-	self.collider = BoxCollider(8, 8, 4, 4)
+	self.collider = BoxCollider(12, 12, 6, 6-16)
+end
+
+function Bullet:enter()
+	self.map = self.scene:find("map")
 end
 
 function Bullet:update(dt)
+	self:checkLinked()
+
 	self.x = self.x + self.xspeed * dt
 	self.y = self.y + self.yspeed * dt
+
+	if self.x < 0 or self.x > 1024
+	or self.y < 0 or self.y > 1024
+	or CollisionHandler.checkMapBox(self.map, self) then
+		self:kill()
+	end
 end
 
 function Bullet:draw()
-	love.graphics.draw(self.sprite, self.x, self.y, 0, 1, 1, 4, 4)
+	love.graphics.setColor(0, 0, 0, 128)
+	love.graphics.circle("fill", self.x, self.y, 4, 8)
+	love.graphics.setColor(255, 255, 255, 255)
+	love.graphics.draw(self.sprite, self.x, self.y-16, 0, 1, 1, 6, 6)
 end
+
+return Bullet

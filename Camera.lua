@@ -43,7 +43,10 @@ function Camera:reset()
 end
 
 function Camera:apply()
-	love.graphics.translate(-self.x + WIDTH/2, -self.y + HEIGHT/2)
+	love.graphics.translate(
+		math.floor(-self.x + WIDTH/2 + 0.5),
+		math.floor(-self.y + HEIGHT/2 + 0.5)
+	)
 	love.graphics.scale(self.scale)
 end
 

@@ -13,14 +13,18 @@ Robot.static.WALK_SPEED = 40
 Robot.static.STATE_IDLE = 0
 Robot.static.STATE_RUN = 1
 
+Robot.static.COOLDOWN = 0.75
+
 function Robot:initialize(x, y)
-	Enemy.initialize(self, x, y, 0, Robot.static.MASS, Robot.static.SOLID)
+	Enemy.initialize(self, x, y, 0, Robot.static.MASS, Robot.static.SOLID, -17)
 	
 	self.animator = Animator(Resources.getAnimator("robot.lua"))
 	self.collider = BoxCollider(32, 48, -16, -48)
 
 	self.state = Robot.static.STATE_IDLE
 	self.time = love.math.random() * 2
+
+	self.cooldown = 2
 end
 
 function Robot:enter()
@@ -30,6 +34,7 @@ end
 
 function Robot:update(dt)
 	self.animator:update(dt)
+	self:checkLinked()
 
 	if self.state == Robot.static.STATE_IDLE then
 		self.time = self.time - dt
@@ -60,11 +65,26 @@ function Robot:update(dt)
 		end
 	end
 
+	self.cooldown = self.cooldown - dt
+	if self.cooldown <= 0 then
+		self.cooldown = Robot.static.COOLDOWN
+
+		local dx = self.player.x - self.x
+		local dy = self.player.y - self.y
+
+		local len = math.sqrt(dx^2 + dy^2)
+
+		if len < 200 then
+			local dir = math.atan2(dy, dx)
+			self.scene:add(Bullet(self.x, self.y, dir))
+		end
+	end
+
 	self.animator:setProperty("state", self.state)
 end
 
 function Robot:draw()
-	self.animator:draw(self.x, self.y, 0, self.dir, 1, nil, 48)
+	self.animator:draw(self.x, self.y, 0, self.dir, 1, nil, 40)
 end
 
 return Robot
