@@ -1,6 +1,6 @@
 local Player = class("Player", Entity)
 
-Player.static.MOVE_SPEED = 3
+Player.static.MOVE_SPEED = 200
 
 function Player:initialize(x, y)
 	Entity.initialize(self, x, y, 0)
@@ -9,18 +9,18 @@ function Player:initialize(x, y)
 	self.crosshair = Resources.getImage("crosshair.png")
 end
 
-function Player:update()
+function Player:update(dt)
 	if Keyboard.isDown("a") then
-		self.x = self.x - Player.static.MOVE_SPEED
+		self.x = self.x - Player.static.MOVE_SPEED * dt
 	end
 	if Keyboard.isDown("d") then
-		self.x = self.x + Player.static.MOVE_SPEED
+		self.x = self.x + Player.static.MOVE_SPEED * dt
 	end
 	if Keyboard.isDown("w") then
-		self.y = self.y - Player.static.MOVE_SPEED
+		self.y = self.y - Player.static.MOVE_SPEED * dt
 	end
 	if Keyboard.isDown("s") then
-		self.y = self.y + Player.static.MOVE_SPEED
+		self.y = self.y + Player.static.MOVE_SPEED * dt
 	end
 
 	camera:setPosition(self.x, self.y)

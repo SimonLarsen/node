@@ -8,3 +8,21 @@ function math.movetowards(x, y, dt)
 		return x + dt
 	end
 end
+
+function math.sign(x)
+	if x < 0 then
+		return -1
+	else
+		return 1
+	end
+end
+
+function math.signz(x)
+	if x < 0 then
+		return -1
+	elseif x > 0 then
+		return 1
+	else
+		return 0
+	end
+end

@@ -16,8 +16,11 @@ function GameScene:initialize()
 	self:add(Robot(512, 512))
 	self:add(Robot(572, 600))
 	self:add(Robot(480, 632))
-	self:add(Spider(500, 600))
 	self:add(Rock(550, 630))
+
+	for i = 0, 10 do
+		self:add(Spider(love.math.random(32, 1000), love.math.random(32, 1000)))
+	end
 end
 
 return GameScene

@@ -27,7 +27,7 @@ function LinkJoint:update(dt)
 
 	self.dist = math.movetowards(self.dist, 0, speed)
 
-	self.active = self.dist > 1
+	self.active = self.dist > 16
 end
 
 function LinkJoint:isActive()

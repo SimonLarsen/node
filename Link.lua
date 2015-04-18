@@ -3,7 +3,7 @@ local LinkJoint = require("LinkJoint")
 local Link = class("Link", Entity)
 
 Link.static.STEP_TIME = 1/60
-Link.static.STIFFNESS = 1
+Link.static.STIFFNESS = 0.9
 
 function Link:initialize()
 	Entity.initialize(self, 0, 1000000, 0)
@@ -33,10 +33,19 @@ function Link:update(dt)
 			self.timeacc = self.timeacc - Link.static.STEP_TIME
 
 			active = false
-			for i,v in ipairs(self.joints) do
+			for i=#self.joints, 1, -1 do
+				local v = self.joints[i]
 				v:update(Link.static.STEP_TIME)
 				allActive = allActive and v:isActive()
 				active = active or v:isActive()
+
+				if i > 1 then
+					local w = self.joints[i-1]
+					if v:isActive() == false and w:isActive() == false then
+						w.e2 = v.e1
+						table.remove(self.joints, i)
+					end
+				end
 			end
 
 			for i,v in ipairs(self.joints) do
