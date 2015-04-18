@@ -3,8 +3,11 @@ local Animator = require("Animator")
 
 local Spider = class("Spider", Enemy)
 
+Spider.static.MASS = 30
+Spider.static.SOLID = false
+
 function Spider:initialize(x, y)
-	Enemy.initialize(self, x, y, 0)
+	Enemy.initialize(self, x, y, 0, Spider.static.MASS, Spider.static.SOLID)
 
 	self.animator = Animator(Resources.getAnimator("spider.lua"))
 end

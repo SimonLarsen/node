@@ -2,8 +2,11 @@ local Enemy = require("Enemy")
 
 local Robot = class("Robot", Enemy)
 
+Robot.static.MASS = 200
+Robot.static.SOLID = false
+
 function Robot:initialize(x, y)
-	Enemy.initialize(self, x, y, 0)
+	Enemy.initialize(self, x, y, 0, Robot.static.MASS, Robot.static.SOLID)
 	
 	self.sprite = Resources.getImage("robot.png")
 end

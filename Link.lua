@@ -1,6 +1,9 @@
+local LinkJoint = require("LinkJoint")
+
 local Link = class("Link", Entity)
 
 Link.static.STEP_TIME = 1/60
+Link.static.STIFFNESS = 1
 
 function Link:initialize()
 	Entity.initialize(self, 0, 1000000, 0)
@@ -10,6 +13,7 @@ function Link:initialize()
 	self.triggered = false
 	self.timeacc = 0
 	self.links = {}
+	self.joints = {}
 end
 
 function Link:update(dt)
@@ -21,8 +25,45 @@ function Link:update(dt)
 		end
 	else
 		self.timeacc = self.timeacc + dt
+
+		local stiffness = Link.static.STIFFNESS
+
+		local active = true
 		while self.timeacc > Link.static.STEP_TIME do
 			self.timeacc = self.timeacc - Link.static.STEP_TIME
+
+			active = false
+			for i,v in ipairs(self.joints) do
+				v:update(Link.static.STEP_TIME)
+				allActive = allActive and v:isActive()
+				active = active or v:isActive()
+			end
+
+			for i,v in ipairs(self.joints) do
+				local diffX = v.e1.x - v.e2.x
+				local diffY = v.e1.y - v.e2.y
+				local d = math.sqrt(diffX^2 + diffY^2)
+
+				local diff = (v.dist - d) / d
+
+				local transX = diffX * stiffness * diff
+				local transY = diffY * stiffness * diff
+
+				v.e1.x = v.e1.x + transX
+				v.e1.y = v.e1.y + transY
+
+				v.e2.x = v.e2.x - transX
+				v.e2.y = v.e2.y - transY
+			end
+		end
+
+		if active == false then
+			for i,v in ipairs(self.links) do
+				v:kill()
+			end
+			self.links = {}
+			self.joints = {}
+			self.triggered = false
 		end
 	end
 end
@@ -45,9 +86,10 @@ function Link:trigger()
 
 	self.joints = {}
 	for i = 1, #self.links-1 do
-		local dist
+		table.insert(self.joints, LinkJoint(self.links[i], self.links[i+1]))
 	end
 	self.timeacc = 0
+	self.triggered = true
 end
 
 return Link

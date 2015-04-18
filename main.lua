@@ -8,6 +8,7 @@ Keyboard = require("Keyboard")
 Mouse = require("Mouse")
 Camera = require("Camera")
 util = require("util")
+require("mymath")
 
 local GameScene = require("GameScene")
 
