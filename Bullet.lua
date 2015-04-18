@@ -16,7 +16,7 @@ function Bullet:initialize(x, y, dir)
 	self.yspeed = math.sin(dir) * Bullet.static.SPEED
 
 	self.sprite = Resources.getImage("bullet.png")
-	self.collider = BoxCollider(12, 12, 6, 6-16)
+	self.collider = BoxCollider(16, 16, 8, 8-16)
 end
 
 function Bullet:enter()
@@ -40,7 +40,7 @@ function Bullet:draw()
 	love.graphics.setColor(0, 0, 0, 128)
 	love.graphics.circle("fill", self.x, self.y, 4, 8)
 	love.graphics.setColor(255, 255, 255, 255)
-	love.graphics.draw(self.sprite, self.x, self.y-16, 0, 1, 1, 6, 6)
+	love.graphics.draw(self.sprite, self.x, self.y-16, 0, 1, 1, 8, 8)
 end
 
 return Bullet

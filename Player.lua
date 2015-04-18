@@ -60,7 +60,6 @@ function Player:update(dt)
 end
 
 function Player:draw()
-	love.graphics.rectangle("fill", self.x-2, self.y-2, 4, 4)
 	self.animator:draw(self.x, self.y, 0, self.dir, 1, nil, 48)
 end
 

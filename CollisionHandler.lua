@@ -30,8 +30,8 @@ function CollisionHandler.checkBoxBox(a, b)
 end
 
 function CollisionHandler.checkBoxPoint(a, x, y)
-	if x >= a.x + a.collider.ox and x <= a.x + a.collider.ox + a.collider.w
-	and y >= a.y + a.collider.oy and y <= a.y + a.collider.oy + a.collider.h then
+	if math.abs(a.x + a.collider.ox - x) < a.collider.w/2
+	and math.abs(a.y + a.collider.oy - y) < a.collider.h/2 then
 		return true
 	end
 

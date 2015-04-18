@@ -13,14 +13,14 @@ Spider.static.STATE_IDLE = 0
 Spider.static.STATE_WALK = 1
 
 function Spider:initialize(x, y)
-	Enemy.initialize(self, x, y, 0, Spider.static.MASS, Spider.static.SOLID, -8)
+	Enemy.initialize(self, x, y, 0, Spider.static.MASS, Spider.static.SOLID, -12)
 
 	self.xspeed = 0
 	self.yspeed = 0
 	self.dir = -1 + love.math.random(0, 1) * 2
 
 	self.animator = Animator(Resources.getAnimator("spider.lua"))
-	self.collider = BoxCollider(32, 32, -16, -32)
+	self.collider = BoxCollider(32, 32, 0, -16)
 
 	self.state = Spider.static.STATE_IDLE
 	self.time = love.math.random() * 2

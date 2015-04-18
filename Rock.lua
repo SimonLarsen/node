@@ -9,7 +9,7 @@ function Rock:initialize(x, y)
 	Enemy.initialize(self, x, y, 0, Rock.static.MASS, Rock.static.SOLID, -16)
 
 	self.animator = Animator(Resources.getAnimator("rock.lua"))
-	self.collider = BoxCollider(32, 32, -16, -32)
+	self.collider = BoxCollider(32, 32, 0, -16)
 end
 
 function Rock:update(dt)

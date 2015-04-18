@@ -44,8 +44,8 @@ end
 
 function Camera:apply()
 	love.graphics.translate(
-		math.floor(-self.x + WIDTH/2 + 0.5),
-		math.floor(-self.y + HEIGHT/2 + 0.5)
+		-self.x + WIDTH/2 + 0.5,
+		-self.y + HEIGHT/2 + 0.5
 	)
 	love.graphics.scale(self.scale)
 end

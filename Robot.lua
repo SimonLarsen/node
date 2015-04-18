@@ -19,7 +19,7 @@ function Robot:initialize(x, y)
 	Enemy.initialize(self, x, y, 0, Robot.static.MASS, Robot.static.SOLID, -17)
 	
 	self.animator = Animator(Resources.getAnimator("robot.lua"))
-	self.collider = BoxCollider(32, 48, -16, -48)
+	self.collider = BoxCollider(32, 48, 0, -24)
 
 	self.state = Robot.static.STATE_IDLE
 	self.time = love.math.random() * 2

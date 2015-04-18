@@ -125,7 +125,6 @@ function Link:trigger()
 end
 
 function Link:cancel()
-	print("cancel!")
 	for i,v in ipairs(self.links) do
 		v:setLinked(false)
 	end
