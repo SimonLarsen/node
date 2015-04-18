@@ -3,7 +3,7 @@ local LinkJoint = require("LinkJoint")
 local Link = class("Link", Entity)
 
 Link.static.STEP_TIME = 1/60
-Link.static.STIFFNESS = 0.9
+Link.static.STIFFNESS = 1.0
 
 function Link:initialize()
 	Entity.initialize(self, 0, 1000000, 0)
@@ -40,12 +40,21 @@ function Link:update(dt)
 			self.timeacc = self.timeacc - Link.static.STEP_TIME
 
 			active = false
+
+			while #self.joints > 1 and self.joints[1]:isActive() == false do
+				table.remove(self.joints, 1)
+			end
+			while #self.joints > 1 and self.joints[#self.joints]:isActive() == false do
+				table.remove(self.joints, #self.joints)
+			end
+
 			for i=#self.joints, 1, -1 do
 				local v = self.joints[i]
 				v:update(Link.static.STEP_TIME)
 				allActive = allActive and v:isActive()
 				active = active or v:isActive()
 
+				--[[
 				if i > 1 then
 					local w = self.joints[i-1]
 					if v:isActive() == false and w:isActive() == false then
@@ -53,6 +62,7 @@ function Link:update(dt)
 						table.remove(self.joints, i)
 					end
 				end
+				]]
 			end
 
 			for i,v in ipairs(self.joints) do
@@ -63,17 +73,20 @@ function Link:update(dt)
 
 					local diff = (v.dist - d) / d
 
-					local transX = diffX * stiffness * diff
-					local transY = diffY * stiffness * diff
+					local im1 = 1 / v.e1.mass
+					local im2 = 1 / v.e2.mass
+
+					local sc1 = (im1 / (im1 + im2)) * stiffness
+					local sc2 = stiffness - sc1
 
 					if v.e1:isSolid() == false then
-						v.e1.x = v.e1.x + transX
-						v.e1.y = v.e1.y + transY
+						v.e1.x = v.e1.x + diffX * sc1 * diff
+						v.e1.y = v.e1.y + diffY * sc1 * diff
 					end
 
 					if v.e2:isSolid() == false then
-						v.e2.x = v.e2.x - transX
-						v.e2.y = v.e2.y - transY
+						v.e2.x = v.e2.x - diffX * sc2 * diff
+						v.e2.y = v.e2.y - diffY * sc2 * diff
 					end
 				end
 			end
