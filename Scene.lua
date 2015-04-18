@@ -16,12 +16,8 @@ function Scene:update(dt)
 
 	Timer.update(dt)
 
-	table.sort(self.entities, function(a, b)
-		if a.y == b.y then
-			return a.z > b.z
-		else
-			return a.y < b.y
-		end
+	util.insertionsort(self.entities, function(a, b)
+		return (a.y == b.y and a.z < b.z) or a.y > b.y
 	end)
 
 	for i=#self.entities, 1, -1 do
@@ -50,6 +46,7 @@ end
 function Scene:add(e)
 	table.insert(self.entities, e)
 	e.scene = self
+	e:enter()
 	return e
 end
 
@@ -63,6 +60,10 @@ end
 
 function Scene:getCamera()
 	return self.camera
+end
+
+function Scene:sortEntities()
+
 end
 
 return Scene

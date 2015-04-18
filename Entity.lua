@@ -8,6 +8,10 @@ function Entity:initialize(x, y, z)
 	self.alive = true
 end
 
+function Entity:enter()
+	
+end
+
 function Entity:update(dt)
 	
 end

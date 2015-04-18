@@ -6,6 +6,7 @@ Timer = require("hump.timer")
 Scene = require("Scene")
 Keyboard = require("Keyboard")
 Mouse = require("Mouse")
+util = require("util")
 
 local GameScene = require("GameScene")
 
