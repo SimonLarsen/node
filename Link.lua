@@ -3,7 +3,8 @@ local Explosion = require("Explosion")
 
 local Link = class("Link", Entity)
 
-Link.static.MAX_DISTANCE = 170
+Link.static.PLAYER_REACH = 170
+Link.static.LINK_REACH = 220
 
 function Link:initialize()
 	Entity.initialize(self, 0, 1000000, 0)
@@ -64,11 +65,11 @@ function Link:update(dt)
 	if #self.links > 0 then
 		local xdist = self.links[#self.links].x - mx
 		local ydist = self.links[#self.links].y - my
-		self.hasReach = xdist^2 + ydist^2 < Link.static.MAX_DISTANCE^2
+		self.hasReach = xdist^2 + ydist^2 < Link.static.LINK_REACH^2
 	else
 		local xdist = self.player.x - mx
 		local ydist = self.player.y - my
-		self.hasReach = xdist^2 + ydist^2 < Link.static.MAX_DISTANCE^2
+		self.hasReach = xdist^2 + ydist^2 < Link.static.PLAYER_REACH^2
 	end
 end
 

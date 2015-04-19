@@ -3,6 +3,7 @@ local MapCollider = require("MapCollider")
 local Robot = require("Robot")
 local Spider = require("Spider")
 local Rock = require("Rock")
+local Sentinel = require("Sentinel")
 
 local bresenham = require("bresenham.bresenham")
 
@@ -45,6 +46,7 @@ function Map:generate()
 				local y = cy*32+16 + math.sin(dir) * r*32/2
 				self.scene:add(Robot(x, y))
 			end
+			self.scene:add(Sentinel(cx*32+16, cy*32+16))
 		end
 		self:setCircle(cx, cy, r)
 		lastx, lasty = cx, cy
