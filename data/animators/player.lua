@@ -2,7 +2,7 @@ return {
 	default = "idle",
 
 	states = {
-		["idle"] = { image = "player_idle.png", fw = 32, fh = 48, delay = 0.1 },
+		["idle"] = { image = "player_idle.png", fw = 20, fh = 48, delay = 0.2 },
 		["run"] = { image = "player_run.png", fw = 50, fh = 48, delay = 0.1 }
 	},
 

@@ -14,10 +14,12 @@ function GameScene:initialize()
 	self:add(Player(512, 512))
 	self:add(Link())
 	self:add(Robot(512, 512))
-	self:add(Robot(572, 600))
+	self:add(Robot(562, 600))
 	self:add(Robot(480, 632))
 	self:add(Rock(550, 630))
 	self:add(Spider(650, 700))
+	self:add(Spider(350, 700))
+	self:add(Spider(350, 600))
 
 	self:enter()
 end

@@ -14,7 +14,7 @@ function Map:initialize()
 	self.back_batch = love.graphics.newSpriteBatch(self.img_walls, 256)
 	self.front_batch = love.graphics.newSpriteBatch(self.img_walls, 256)
 
-	self:generate()
+	self:loadLayout()
 	self:createQuads()
 	self:createSpriteBatches()
 
@@ -25,39 +25,20 @@ function Map:enter()
 	self.scene:add(MapCover(self.front_batch))
 end
 
-function Map:generate()
-	-- Fill empty tile map
+function Map:loadLayout()
+	local data = love.image.newImageData("data/layouts/1/1.png")
+
 	self.map = {}
 	for ix = 0, self.width-1 do
 		self.map[ix] = {}
 		for iy = 0, self.height-1 do
-			self.map[ix][iy] = 0
-		end
-	end
-
-	-- Draw circles
-	for i=1, 10 do
-		local cx = love.math.random(8, 24)
-		local cy = love.math.random(8, 24)
-		local r = love.math.random(2, 6)
-
-		for ix = math.max(1, cx - r), math.min(30, cx + r) do
-			for iy = math.max(1, cy - r), math.min(30, cy + r) do
-				if (ix-cx)^2+(iy-cy)^2 <= r^2 then
-					self.map[ix][iy] = 1
-				end
+			local r, g, b, a = data:getPixel(ix, iy)
+			if r == 255 then
+				self.map[ix][iy] = 1
+			else
+				self.map[ix][iy] = 0
 			end
 		end
-	end
-
-	-- Add border tiles
-	for ix = 0, self.width-1 do
-		self.map[ix][0] = 0
-		self.map[ix][self.height-1] = 0
-	end
-	for iy = 0, self.height-1 do
-		self.map[0][iy] = 0
-		self.map[self.width-1][iy] = 0
 	end
 end
 
