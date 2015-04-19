@@ -33,9 +33,10 @@ function Link:update(dt)
 	else
 		self.time = self.time - dt
 		if self.time <= 0 then
-			self.scene:add(Explosion(self.targetx, self.targety))
 			for i,v in ipairs(self.links) do
-				v:kill()
+				v.x = v.x + love.math.random() * 16 - 8
+				v.y = v.y + love.math.random() * 16 - 8
+				v:destroy()
 			end
 			self:clear()
 			return
