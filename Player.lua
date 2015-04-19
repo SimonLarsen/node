@@ -18,7 +18,6 @@ function Player:initialize(x, y)
 	self.state = Player.static.STATE_IDLE
 
 	self.animator = Animator(Resources.getAnimator("player.lua"))
-	self.crosshair = Resources.getImage("crosshair.png")
 	self.collider = BoxCollider(20, 48, 0, 0)
 end
 
@@ -80,11 +79,6 @@ end
 
 function Player:draw()
 	self.animator:draw(self.x, self.y, 0, self.dir, 1, nil, 48)
-end
-
-function Player:gui()
-	local mx, my = Mouse.getPosition()
-	love.graphics.draw(self.crosshair, mx, my, 0, 1, 1, 16, 16)
 end
 
 function Player:onCollide(o)

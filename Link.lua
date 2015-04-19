@@ -3,13 +3,21 @@ local Explosion = require("Explosion")
 
 local Link = class("Link", Entity)
 
+Link.static.MAX_DISTANCE = 170
+
 function Link:initialize()
 	Entity.initialize(self, 0, 1000000, 0)
 
 	self:setName("link")
+	self.crosshair = Resources.getImage("crosshair.png")
 
 	self.active = false
+	self.hasReach = false
 	self.links = {}
+end
+
+function Link:enter()
+	self.player = self.scene:find("player")
 end
 
 function Link:update(dt)
@@ -51,6 +59,17 @@ function Link:update(dt)
 			end
 		end
 	end
+
+	local mx, my = Mouse.getPositionCamera()
+	if #self.links > 0 then
+		local xdist = self.links[#self.links].x - mx
+		local ydist = self.links[#self.links].y - my
+		self.hasReach = xdist^2 + ydist^2 < Link.static.MAX_DISTANCE^2
+	else
+		local xdist = self.player.x - mx
+		local ydist = self.player.y - my
+		self.hasReach = xdist^2 + ydist^2 < Link.static.MAX_DISTANCE^2
+	end
 end
 
 function Link:draw()
@@ -60,10 +79,23 @@ function Link:draw()
 		love.graphics.line(self.links[i].x, self.links[i].y+self.links[i].linkz, self.links[i+1].x, self.links[i+1].y+self.links[i+1].linkz)
 	end
 
+	local mx, my = Mouse.getPositionCamera()
 	if #self.links > 0 and self.active == false then
-		local mx, my = Mouse.getPositionCamera()
+		if not self.hasReach then
+			love.graphics.setColor(255, 33, 33)
+		end
 		love.graphics.line(self.links[#self.links].x, self.links[#self.links].y+self.links[#self.links].linkz, mx, my)
+		love.graphics.setColor(255, 255, 255)
 	end
+end
+
+function Link:gui()
+	local mx, my = Mouse.getPosition()
+	if not self.hasReach then
+		love.graphics.setColor(255, 33, 33)
+	end
+	love.graphics.draw(self.crosshair, mx, my, 0, 1, 1, 16, 16)
+	love.graphics.setColor(255, 255, 255)
 end
 
 function Link:addLink(e)
@@ -72,12 +104,12 @@ function Link:addLink(e)
 			return false
 		end
 	end
-	if self.active == true then
+	if self.hasReach == false or self.active == true then
 		return false
-	else
-		table.insert(self.links, e)
-		return true
 	end
+
+	table.insert(self.links, e)
+	return true
 end
 
 function Link:trigger()

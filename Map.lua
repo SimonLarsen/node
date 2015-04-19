@@ -41,8 +41,8 @@ function Map:generate()
 			self:setPath(lastx, lasty, cx, cy)
 			for j=1, counts[i] do
 				local dir = love.math.random()*2*math.pi
-				local x = cx*32+16 + math.cos(dir * r/2)
-				local y = cy*32+16 + math.sin(dir * r/2)
+				local x = cx*32+16 + math.cos(dir) * r*32/2
+				local y = cy*32+16 + math.sin(dir) * r*32/2
 				self.scene:add(Robot(x, y))
 			end
 		end
