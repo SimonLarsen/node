@@ -11,6 +11,7 @@ Bullet.static.SPEED = 75
 
 function Bullet:initialize(x, y, dir)
 	Enemy.initialize(self, x, y, 0, Bullet.static.MASS, Bullet.static.SOLID, -16)
+	self:setName("bullet")
 
 	self.xspeed = math.cos(dir) * Bullet.static.SPEED
 	self.yspeed = math.sin(dir) * Bullet.static.SPEED

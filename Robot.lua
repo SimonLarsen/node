@@ -2,6 +2,7 @@ local Enemy = require("Enemy")
 local BoxCollider = require("BoxCollider")
 local Bullet = require("Bullet")
 local CollisionHandler = require("CollisionHandler")
+local Explosion = require("Explosion")
 
 local Robot = class("Robot", Enemy)
 
@@ -19,7 +20,7 @@ function Robot:initialize(x, y)
 	Enemy.initialize(self, x, y, 0, Robot.static.MASS, Robot.static.SOLID, -17)
 	
 	self.animator = Animator(Resources.getAnimator("robot.lua"))
-	self.collider = BoxCollider(32, 48, 0, -24)
+	self.collider = BoxCollider(20, 32, 0, -16)
 
 	self.state = Robot.static.STATE_IDLE
 	self.time = love.math.random() * 2
@@ -85,6 +86,11 @@ end
 
 function Robot:draw()
 	self.animator:draw(self.x, self.y, 0, self.dir, 1, nil, 40)
+end
+
+function Robot:destroy()
+	self.scene:add(Explosion(self.x, self.y))
+	self:kill()
 end
 
 return Robot

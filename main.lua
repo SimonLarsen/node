@@ -8,6 +8,7 @@ Keyboard = require("Keyboard")
 Mouse = require("Mouse")
 Camera = require("Camera")
 util = require("util")
+Animation = require("Animation")
 Animator = require("Animator")
 require("mymath")
 
@@ -105,6 +106,8 @@ function love.run()
 
         -- Call update and draw
         love.update(dt)
+
+		camera:update(dt)
 
 		Mouse.clear()
 		Keyboard.clear()

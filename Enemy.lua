@@ -25,10 +25,20 @@ function Enemy:isSolid()
 end
 
 function Enemy:checkLinked()
-	if self:isLinked() == false and Mouse.isDown("l")
+	if  Mouse.isDown("l")
 	and CollisionHandler.checkMouseHover(self) then
 		local link = self.scene:find("link")
-		self:setLinked(link:addLink(self))
+		link:addLink(self)
+	end
+end
+
+function Enemy:destroy()
+	self:kill()
+end
+
+function Enemy:onCollide(o)
+	if self:isLinked() == false and o.isLinked and o:isLinked() then
+		self:destroy()
 	end
 end
 
