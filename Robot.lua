@@ -14,7 +14,7 @@ Robot.static.WALK_SPEED = 40
 Robot.static.STATE_IDLE = 0
 Robot.static.STATE_RUN = 1
 
-Robot.static.COOLDOWN = 0.75
+Robot.static.COOLDOWN = 1.0
 
 function Robot:initialize(x, y)
 	Enemy.initialize(self, x, y, 0, Robot.static.MASS, Robot.static.SOLID, -17)
@@ -81,7 +81,7 @@ function Robot:update(dt)
 
 		if self.time <= 0 or collision then
 			self.state = Robot.static.STATE_IDLE
-			self.time = love.math.random() * 2
+			self.time = love.math.random() * 1.5
 		end
 	end
 

@@ -26,6 +26,10 @@ function Link:update(dt)
 				self:trigger()
 			end
 		end
+
+		if Mouse.wasPressed("r") then
+			self:clear()
+		end
 	else
 		self.time = self.time - dt
 		if self.time <= 0 then

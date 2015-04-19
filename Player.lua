@@ -1,15 +1,21 @@
 local BoxCollider = require("BoxCollider")
 local CollisionHandler = require("CollisionHandler")
+local Kick = require("Kick")
 
 local Player = class("Player", Entity)
 
 Player.static.MOVE_SPEED = 200
+
+Player.static.STATE_IDLE = 0
+Player.static.STATE_RUN = 1
+Player.static.STATE_KICK = 2
 
 function Player:initialize(x, y)
 	Entity.initialize(self, x, y, 0)
 	self:setName("player")
 
 	self.dir = 1
+	self.state = Player.static.STATE_IDLE
 
 	self.animator = Animator(Resources.getAnimator("player.lua"))
 	self.crosshair = Resources.getImage("crosshair.png")
@@ -25,37 +31,50 @@ function Player:update(dt)
 
 	local oldx, oldy = self.x, self.y
 
-	local animstate = 0
-	if Keyboard.isDown("a") then
-		self.x = self.x - Player.static.MOVE_SPEED * dt
-		self.dir = -1
-		animstate = 1
-	end
-	if Keyboard.isDown("d") then
-		self.x = self.x + Player.static.MOVE_SPEED * dt
-		self.dir = 1
-		animstate = 1
-	end
+	local animstate = self.state
+	if self.state == Player.static.STATE_IDLE then
+		if Keyboard.isDown("a") then
+			self.x = self.x - Player.static.MOVE_SPEED * dt
+			self.dir = -1
+			animstate = 1
+		end
+		if Keyboard.isDown("d") then
+			self.x = self.x + Player.static.MOVE_SPEED * dt
+			self.dir = 1
+			animstate = 1
+		end
 
-	if CollisionHandler.checkMapBox(self.map, self) then
-		self.x = oldx
-	end
+		if CollisionHandler.checkMapBox(self.map, self) then
+			self.x = oldx
+		end
 
-	if Keyboard.isDown("w") then
-		self.y = self.y - Player.static.MOVE_SPEED * dt
-		animstate = 1
-	end
-	if Keyboard.isDown("s") then
-		self.y = self.y + Player.static.MOVE_SPEED * dt
-		animstate = 1
-	end
+		if Keyboard.isDown("w") then
+			self.y = self.y - Player.static.MOVE_SPEED * dt
+			animstate = 1
+		end
+		if Keyboard.isDown("s") then
+			self.y = self.y + Player.static.MOVE_SPEED * dt
+			animstate = 1
+		end
 
-	if CollisionHandler.checkMapBox(self.map, self) then
-		self.y = oldy
+		if CollisionHandler.checkMapBox(self.map, self) then
+			self.y = oldy
+		end
+
+		if Keyboard.wasPressed(" ") then
+			self.state = Player.static.STATE_KICK
+			self.time = 6 * 0.06
+			self.scene:add(Kick(self.x, self.y))
+		end
+
+	elseif self.state == Player.static.STATE_KICK then
+		self.time = self.time - dt
+		if self.time <= 0 then
+			self.state = Player.static.STATE_IDLE
+		end
 	end
 
 	self.animator:setProperty("state", animstate)
-
 	camera:setPosition(self.x, self.y)
 end
 

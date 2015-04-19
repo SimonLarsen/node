@@ -6,7 +6,7 @@ function CollisionHandler.checkAll(entities)
 			local v = entities[i]
 			local w = entities[j]
 			if v.collider and w.collider then
-				local collision
+				local collision = false
 				if v.collider:getType() == "box" and w.collider:getType() == "box" then
 					collision = CollisionHandler.checkBoxBox(v, w)
 				end
@@ -22,7 +22,7 @@ end
 
 function CollisionHandler.checkBoxBox(a, b)
 	if math.abs((a.x+a.collider.ox)-(b.x+b.collider.ox)) > (a.collider.w+b.collider.w)/2
-	or math.abs((a.y+a.collider.oy)-(b.y+b.collider.oy)) > (a.collider.h+b.collider.h)/2 then
+	or math.abs((a.y+a.collider.oy)-(b.y+b.collider.oy)) > (a.collider.w+b.collider.w)/4 then
 		return false
 	end
 

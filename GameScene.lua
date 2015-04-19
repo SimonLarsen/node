@@ -8,7 +8,7 @@ function GameScene:initialize()
 	Scene.initialize(self)
 
 	local map = self:add(Map())
-	map:loadLayout(1, 3)
+	map:loadLayout(1, 1)
 
 	self:add(Player(map:getPlayerStart()))
 	self:add(Link())

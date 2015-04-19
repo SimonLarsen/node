@@ -86,7 +86,7 @@ function Spider:update(dt)
 			local dist = math.sqrt(xdist^2 + ydist^2)
 			self.xspeed = xdist / dist * Spider.static.CHARGE_SPEED
 			self.yspeed = ydist / dist * Spider.static.CHARGE_SPEED
-			self.time = 2
+			self.time = 1.3
 		end
 
 	elseif self.state == Spider.static.STATE_CHARGE then

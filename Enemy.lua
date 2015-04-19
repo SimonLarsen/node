@@ -42,6 +42,10 @@ function Enemy:onCollide(o)
 	if self:isLinked() == false and o.isLinked and o:isLinked() then
 		self:destroy()
 	end
+
+	if o:getName() == "kick" then
+		self:destroy()
+	end
 end
 
 return Enemy
