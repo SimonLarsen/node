@@ -5,10 +5,12 @@ local Kick = require("Kick")
 local Player = class("Player", Entity)
 
 Player.static.MOVE_SPEED = 200
+Player.static.INVUL_TIME = 1.4
 
 Player.static.STATE_IDLE = 0
 Player.static.STATE_RUN = 1
 Player.static.STATE_KICK = 2
+Player.static.STATE_HIT = 3
 
 function Player:initialize(x, y)
 	Entity.initialize(self, x, y, 0)
@@ -25,6 +27,7 @@ end
 
 function Player:enter()
 	self.map = self.scene:find("map")
+	self.hud = self.scene:find("hud")
 end
 
 function Player:update(dt)
@@ -75,17 +78,39 @@ function Player:update(dt)
 		end
 	end
 
+	if self.invulnerable > 0 then
+		self.invulnerable = self.invulnerable - dt
+
+		if self.invulnerable > 0.7 * Player.static.INVUL_TIME then
+			animstate = Player.static.STATE_HIT
+		end
+	end
+
 	self.animator:setProperty("state", animstate)
 	camera:setPosition(self.x, self.y)
 end
 
 function Player:draw()
-	self.animator:draw(self.x, self.y, 0, self.dir, 1, nil, 48)
+	if self:isInvulnerable() == false or love.timer.getTime() % 0.2 < 0.1 then
+		self.animator:draw(self.x, self.y, 0, self.dir, 1, nil, 48)
+	end
+end
+
+function Player:hit()
+	self.health = self.health - 1
+	self.invulnerable = Player.static.INVUL_TIME
+end
+
+function Player:isInvulnerable()
+	return self.invulnerable > 0
 end
 
 function Player:onCollide(o)
-	if o.collider:getType() == "map" then
-		self.x, self.y = self.lastx, self.lasty
+	if o:getName() == "bullet" then
+		if self:isInvulnerable() == false then
+			self:hit()
+			self.hud:setHealth(self.health)
+		end
 	end
 end
 

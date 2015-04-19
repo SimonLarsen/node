@@ -10,7 +10,7 @@ function Sentinel:initialize(x, y)
 	Enemy.initialize(self, x, y, 0, Sentinel.static.MASS, Sentinel.static.SOLID, -8)
 	self:setName("sentinel")
 
-	self.collider = BoxCollider(32, 32, 0, 0)
+	self.collider = BoxCollider(32, 32, 0, -16)
 	self.sprite = Resources.getImage("sentinel.png")
 end
 

@@ -1,13 +1,20 @@
 local HUD = class("HUD", Entity)
 
-HUD.static.HEALTH_OFFSET_X = 32
-HUD.static.HEALTH_OFFSET_Y = 32
-
 function HUD:initialize()
 	Entity.initialize(self, 0, 0, -200)
+	self:setName("hud")
 
 	self.health = 3
+	self.subhealth = 3
+	self.img_hud_top = Resources.getImage("hud_top.png")
 	self.img_healthbar = Resources.getImage("healthbar.png")
+end
+
+function HUD:setHealth(value)
+	if value > self.health then
+		self.subhealth = value
+	end
+	self.health = value
 end
 
 function HUD:update(dt)
@@ -15,20 +22,20 @@ function HUD:update(dt)
 end
 
 function HUD:gui()
-	love.graphics.setColor(112, 218, 217)
-	love.graphics.rectangle(
+	love.graphics.draw(self.img_hud_top, 0, 8)
+	love.graphics.setColor(112, 218, 218)
+
+	local barlen = self.health * 34
+	love.graphics.polygon(
 		"fill",
-		HUD.static.HEALTH_OFFSET_X+1,
-		HUD.static.HEALTH_OFFSET_Y+1,
-		math.min(self.health*26, 77),
-	10)
+		5, 27,
+		15, 17,
+		barlen+15, 17,
+		barlen+5, 27
+	)
 
 	love.graphics.setColor(255, 255, 255)
-	love.graphics.draw(
-		self.img_healthbar,
-		HUD.static.HEALTH_OFFSET_X,
-		HUD.static.HEALTH_OFFSET_Y
-	)
+	love.graphics.draw(self.img_healthbar, 4, 16)
 end
 
 return HUD

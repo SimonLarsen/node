@@ -13,12 +13,13 @@ function Map:initialize()
 	Entity.initialize(self, 0, -100000, 100000)
 	self:setName("map")
 
-	self.width, self.height = 32, 32
+	self.width = 48
+	self.height = 48
 	self.img_floor_tiles = Resources.getImage("floor_tiles.png")
 	self.img_walls = Resources.getImage("walls.png")
-	self.floor_batch = love.graphics.newSpriteBatch(self.img_floor_tiles, 32*32)
-	self.back_batch = love.graphics.newSpriteBatch(self.img_walls, 256)
-	self.front_batch = love.graphics.newSpriteBatch(self.img_walls, 256)
+	self.floor_batch = love.graphics.newSpriteBatch(self.img_floor_tiles, self.width*self.height)
+	self.back_batch = love.graphics.newSpriteBatch(self.img_walls, self.width*self.height)
+	self.front_batch = love.graphics.newSpriteBatch(self.img_walls, self.width*self.height)
 end
 
 function Map:enter()
@@ -29,18 +30,16 @@ function Map:generate()
 	self:clear()
 
 	local lastx, lasty
-	local counts = util.seq(1, 5)
-	util.shuffle(counts)
-	for i=1, 5 do
+	for i=1, 10 do
 		local cx = love.math.random(4, self.width-5)
 		local cy = love.math.random(4, self.width-5)
-		local r = love.math.random(4, 6)
+		local r = love.math.random(3, 6)
 		if i == 1 then
 			self.startx = cx*32 + 16
 			self.starty = cy*32 + 16
 		else
 			self:setPath(lastx, lasty, cx, cy)
-			for j=1, counts[i] do
+			for j=1, r do
 				local dir = love.math.random()*2*math.pi
 				local x = cx*32+16 + math.cos(dir) * r*32/2
 				local y = cy*32+16 + math.sin(dir) * r*32/2
