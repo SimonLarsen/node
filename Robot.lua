@@ -51,7 +51,7 @@ function Robot:update(dt)
 		end
 
 		self.cooldown = self.cooldown - dt
-		if self.cooldown <= 0 then
+		if self.cooldown <= 0 and self.map:canSee(self, self.player) then
 			self.cooldown = Robot.static.COOLDOWN
 
 			local dx = self.player.x - self.x

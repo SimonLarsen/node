@@ -31,4 +31,22 @@ function util.insertionsort(a, t)
 	end
 end
 
+function util.seq(from, to)
+	local t = {}
+	for i=from, to do
+		table.insert(t, i)
+	end
+	return t
+end
+
+function util.shuffle(a)
+	for i=#a, 2 do
+		local j = love.math.random(0, i)
+		local tmp = a[j]
+		a[j] = a[i]
+		a[i] = tmp
+	end
+	return a
+end
+
 return util

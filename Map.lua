@@ -28,6 +28,8 @@ function Map:generate()
 	self:clear()
 
 	local lastx, lasty
+	local counts = util.seq(1, 5)
+	util.shuffle(counts)
 	for i=1, 5 do
 		local cx = love.math.random(4, self.width-5)
 		local cy = love.math.random(4, self.width-5)
@@ -37,6 +39,12 @@ function Map:generate()
 			self.starty = cy*32 + 16
 		else
 			self:setPath(lastx, lasty, cx, cy)
+			for j=1, counts[i] do
+				local dir = love.math.random()*2*math.pi
+				local x = cx*32+16 + math.cos(dir * r/2)
+				local y = cy*32+16 + math.sin(dir * r/2)
+				self.scene:add(Robot(x, y))
+			end
 		end
 		self:setCircle(cx, cy, r)
 		lastx, lasty = cx, cy
@@ -75,8 +83,8 @@ function Map:createQuads()
 		self.quad_floor[i] = love.graphics.newQuad(i*32, 0, 32, 32, imgw, imgh)
 	end
 
-	self.quad_wall_front = love.graphics.newQuad(0, 0, 32, 40, 64, 40)
-	self.quad_wall_back = love.graphics.newQuad(32, 0, 32, 40, 64, 40)
+	self.quad_wall_front = love.graphics.newQuad(0, 0, 32, 32, 64, 32)
+	self.quad_wall_back = love.graphics.newQuad(32, 0, 32, 32, 64, 32)
 end
 
 function Map:createSpriteBatches()
@@ -90,10 +98,10 @@ function Map:createSpriteBatches()
 			end
 
 			if iy < self.height-1 and tile == 0 and self:get(ix, iy+1) == 1 then
-				self.back_batch:add(self.quad_wall_front, ix*32, iy*32-8)
+				self.back_batch:add(self.quad_wall_front, ix*32, iy*32)
 			end
 			if iy > 0 and tile == 0 and self:get(ix, iy-1) == 1 then
-				self.front_batch:add(self.quad_wall_back, ix*32, iy*32-40)
+				self.front_batch:add(self.quad_wall_back, ix*32, iy*32-32)
 			end
 		end
 	end
@@ -127,6 +135,20 @@ end
 
 function Map:get(x, y)
 	return self.map[x][y]
+end
+
+function Map:los(x1, y1, x2, y2)
+	return bresenham.los(x1, y1, x2, y2, function(x, y)
+		return self:get(x, y) == 1
+	end)
+end
+
+function Map:canSee(e1, e2)
+	local x1 = math.floor(e1.x / 32)
+	local y1 = math.floor(e1.y / 32)
+	local x2 = math.floor(e2.x / 32)
+	local y2 = math.floor(e2.y / 32)
+	return self:los(x1, y1, x2, y2)
 end
 
 return Map
