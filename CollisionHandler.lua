@@ -9,6 +9,10 @@ function CollisionHandler.checkAll(entities)
 				local collision = false
 				if v.collider:getType() == "box" and w.collider:getType() == "box" then
 					collision = CollisionHandler.checkBoxBox(v, w)
+				elseif v.collider:getType() == "line" and w.collider:getType() == "box" then
+					collision = CollisionHandler.checkLineBox(v, w)
+				elseif v.collider:getType() == "box" and w.collider:getType() == "line" then
+					collision = CollisionHandler.checkLineBox(w, v)
 				end
 
 				if collision == true then
@@ -53,6 +57,27 @@ function CollisionHandler.checkMapBox(a, b)
 	end
 
 	return false
+end
+
+function CollisionHandler.checkLineBox(l, a)
+	local bx = l.collider.x2 - l.collider.x1
+	local by = l.collider.y2 - l.collider.y1
+	local blen = math.sqrt(bx^2 + by^2)
+	bx = bx/blen
+	by = by/blen
+
+	local ax = a.x - l.collider.x1
+	local ay = a.y - l.collider.y1
+
+	local a1s = ax * bx + ay * by
+	a1s = math.max(0, a1s)
+	a1s = math.min(blen, a1s)
+
+	local px = l.collider.x1 + bx * a1s
+	local py = l.collider.y1 + by * a1s
+	local dist = math.sqrt((a.x - px)^2 + (a.y - py)^2)
+	
+	return dist < a.collider.w/2
 end
 
 function CollisionHandler.checkClicked(entities)

@@ -4,6 +4,7 @@ local Robot = require("Robot")
 local Spider = require("Spider")
 local Rock = require("Rock")
 local Sentinel = require("Sentinel")
+local Sniper = require("Sniper")
 
 local bresenham = require("bresenham.bresenham")
 
@@ -45,7 +46,7 @@ function Map:generate()
 				local y = cy*32+16 + math.sin(dir) * r*32/2
 				self.scene:add(Robot(x, y))
 			end
-			self.scene:add(Sentinel(cx*32+16, cy*32+16))
+			self.scene:add(Sniper(cx*32+16, cy*32+16))
 		end
 		self:setCircle(cx, cy, r)
 		lastx, lasty = cx, cy
@@ -150,6 +151,16 @@ function Map:canSee(e1, e2)
 	local x2 = math.floor(e2.x / 32)
 	local y2 = math.floor(e2.y / 32)
 	return self:los(x1, y1, x2, y2)
+end
+
+function Map:canSeeLine(e1, e2)
+	local x1 = math.floor(e1.x / 32)
+	local y1 = math.floor(e1.y / 32)
+	local x2 = math.floor(e2.x / 32)
+	local y2 = math.floor(e2.y / 32)
+	return bresenham.line(x1, y1, x2, y2, function(x, y)
+		return self:get(x, y) == 1
+	end)
 end
 
 return Map

@@ -52,8 +52,8 @@ function Spider:update(dt)
 		end
 	end
 
+	self.time = self.time - dt
 	if self.state == Spider.static.STATE_IDLE then
-		self.time = self.time - dt
 		if self.time <= 0 then
 			self.state = Spider.static.STATE_WALK
 			local dir = love.math.random() * 2 * math.pi
@@ -64,8 +64,6 @@ function Spider:update(dt)
 		end
 
 	elseif self.state == Spider.static.STATE_WALK then
-		self.time = self.time - dt
-
 		local oldx, oldy = self.x, self.y
 		self.x = self.x + self.xspeed * dt
 		self.y = self.y + self.yspeed * dt
@@ -81,7 +79,6 @@ function Spider:update(dt)
 		end
 
 	elseif self.state == Spider.static.STATE_ALERT then
-		self.time = self.time - dt
 		self.dir = math.sign(xdist)
 		if self.time <= 0 then
 			self.state = Spider.static.STATE_CHARGE
@@ -92,7 +89,6 @@ function Spider:update(dt)
 		end
 
 	elseif self.state == Spider.static.STATE_CHARGE then
-		self.time = self.time - dt
 
 		self.x = self.x + self.xspeed * dt
 		self.y = self.y + self.yspeed * dt

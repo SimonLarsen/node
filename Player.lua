@@ -99,6 +99,7 @@ end
 function Player:hit()
 	self.health = self.health - 1
 	self.invulnerable = Player.static.INVUL_TIME
+	self.hud:setHealth(self.health)
 end
 
 function Player:isInvulnerable()
@@ -106,11 +107,12 @@ function Player:isInvulnerable()
 end
 
 function Player:onCollide(o)
+	if self:isInvulnerable() then return end
+
 	if o:getName() == "bullet" then
-		if self:isInvulnerable() == false then
-			self:hit()
-			self.hud:setHealth(self.health)
-		end
+		self:hit()
+	elseif o:getName() == "laser" then
+		self:hit()
 	end
 end
 
