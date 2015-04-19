@@ -4,7 +4,7 @@ return {
 	states = {
 		["idle"] = { image = "player_idle.png", fw = 20, fh = 48, delay = 0.14 },
 		["run"] = { image = "player_run.png", fw = 50, fh = 48, delay = 0.1 },
-		["kick"] = { image = "player_kick.png", fw = 39, fh = 48, delay = 0.06 }
+		["kick"] = { image = "player_kick.png", fw = 89, fh = 48, delay = 0.06 }
 	},
 
 	properties = {

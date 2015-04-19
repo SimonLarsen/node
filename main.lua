@@ -19,6 +19,7 @@ local canvas
 function love.load()
 	love.graphics.setDefaultFilter("nearest", "nearest")
 	love.graphics.setLineStyle("rough")
+	love.mouse.setVisible(false)
 
 	camera = Camera()
 

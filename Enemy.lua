@@ -39,7 +39,8 @@ function Enemy:destroy()
 end
 
 function Enemy:onCollide(o)
-	if self:isLinked() == false and o.isLinked and o:isLinked() then
+	if self:isLinked() == false
+	and o.isLinked and o:isLinked() and o:isSolid() == false then
 		self:destroy()
 	end
 

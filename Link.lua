@@ -10,11 +10,12 @@ function Link:initialize()
 	Entity.initialize(self, 0, 1000000, 0)
 
 	self:setName("link")
-	self.crosshair = Resources.getImage("crosshair.png")
 
 	self.active = false
 	self.hasReach = false
 	self.links = {}
+
+	self.crosshair = Animation(Resources.getImage("crosshair.png"), 36, 36, 0.2)
 end
 
 function Link:enter()
@@ -22,6 +23,8 @@ function Link:enter()
 end
 
 function Link:update(dt)
+	self.crosshair:update(dt)
+
 	if self.active == false then
 		for i,v in ipairs(self.links) do
 			if v:isAlive() == false then
@@ -95,7 +98,7 @@ function Link:gui()
 	if not self.hasReach then
 		love.graphics.setColor(255, 33, 33)
 	end
-	love.graphics.draw(self.crosshair, mx, my, 0, 1, 1, 16, 16)
+	self.crosshair:draw(mx, my, 0, 1, 1, 16, 16)
 	love.graphics.setColor(255, 255, 255)
 end
 

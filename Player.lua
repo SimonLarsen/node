@@ -16,6 +16,8 @@ function Player:initialize(x, y)
 
 	self.dir = 1
 	self.state = Player.static.STATE_IDLE
+	self.health = 3
+	self.invulnerable = 0
 
 	self.animator = Animator(Resources.getAnimator("player.lua"))
 	self.collider = BoxCollider(20, 48, 0, 0)
@@ -62,7 +64,7 @@ function Player:update(dt)
 
 		if Keyboard.wasPressed(" ") then
 			self.state = Player.static.STATE_KICK
-			self.time = 6 * 0.06
+			self.time = 8 * 0.06
 			self.scene:add(Kick(self.x, self.y))
 		end
 

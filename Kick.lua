@@ -23,7 +23,7 @@ function Kick:update(dt)
 end
 
 function Kick:draw()
-	love.graphics.draw(self.image, self.x, self.y, 0, 1, 1, 48, 24)
+	--love.graphics.draw(self.image, self.x, self.y, 0, 1, 1, 48, 24)
 end
 
 return Kick
