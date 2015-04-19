@@ -38,4 +38,10 @@ function Bullet:draw()
 	love.graphics.draw(self.sprite, self.x, self.y-16, 0, 1, 1, 8, 8)
 end
 
+function Bullet:onCollide(o)
+	if o:getName("kick") == "kick" then
+		self:kill()
+	end
+end
+
 return Bullet

@@ -64,7 +64,7 @@ function Player:update(dt)
 
 		if Keyboard.wasPressed(" ") then
 			self.state = Player.static.STATE_KICK
-			self.time = 8 * 0.06
+			self.time = 7 * 0.06
 			self.scene:add(Kick(self.x, self.y))
 		end
 

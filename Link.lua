@@ -11,9 +11,10 @@ function Link:initialize()
 
 	self:setName("link")
 
-	self.active = false
-	self.hasReach = false
 	self.links = {}
+	self.active = false
+	self.hasSolid = false
+	self.hasReach = false
 
 	self.crosshair = Animation(Resources.getImage("crosshair.png"), 36, 36, 0.2)
 end
@@ -97,6 +98,8 @@ function Link:gui()
 	local mx, my = Mouse.getPosition()
 	if not self.hasReach then
 		love.graphics.setColor(255, 33, 33)
+	elseif Mouse.isDown("l") then
+		love.graphics.setColor(156, 220, 220)
 	end
 	self.crosshair:draw(mx, my, 0, 1, 1, 16, 16)
 	love.graphics.setColor(255, 255, 255)
@@ -110,6 +113,14 @@ function Link:addLink(e)
 	end
 	if self.hasReach == false or self.active == true then
 		return false
+	end
+
+	if e:isSolid() then
+		if self.hasSolid then
+			return false
+		else
+			self.hasSolid = true
+		end
 	end
 
 	table.insert(self.links, e)
@@ -157,6 +168,7 @@ function Link:clear()
 	end
 	self.links = {}
 	self.active = false
+	self.hasSolid = false
 end
 
 return Link

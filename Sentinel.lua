@@ -3,7 +3,7 @@ local BoxCollider = require("BoxCollider")
 
 local Sentinel = class("Sentinel", Enemy)
 
-Sentinel.static.MASS = 1000
+Sentinel.static.MASS = 10000
 Sentinel.static.SOLID = true
 
 function Sentinel:initialize(x, y)
