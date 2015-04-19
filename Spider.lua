@@ -1,6 +1,7 @@
 local Enemy = require("Enemy")
 local BoxCollider = require("BoxCollider")
 local CollisionHandler = require("CollisionHandler")
+local BigExplosion = require("BigExplosion")
 
 local Spider = class("Spider", Enemy)
 
@@ -108,6 +109,11 @@ function Spider:update(dt)
 	end
 
 	self.animator:setProperty("state", self.state)
+end
+
+function Spider:destroy()
+	self.scene:add(BigExplosion(self.x, self.y))
+	self:kill()
 end
 
 function Spider:draw()
