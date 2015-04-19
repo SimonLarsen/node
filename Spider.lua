@@ -4,7 +4,7 @@ local CollisionHandler = require("CollisionHandler")
 
 local Spider = class("Spider", Enemy)
 
-Spider.static.MASS = 30
+Spider.static.MASS = 50
 Spider.static.SOLID = false
 
 Spider.static.WALK_SPEED = 60

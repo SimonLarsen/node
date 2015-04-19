@@ -48,6 +48,23 @@ function Robot:update(dt)
 			self.dir = math.sign(self.xspeed)
 			self.time = love.math.random() * 2
 		end
+
+		self.cooldown = self.cooldown - dt
+		if self.cooldown <= 0 then
+			self.cooldown = Robot.static.COOLDOWN
+
+			local dx = self.player.x - self.x
+			local dy = self.player.y - self.y
+
+			local len = math.sqrt(dx^2 + dy^2)
+
+			if len < 200 then
+				local dir = math.atan2(dy, dx)
+				self.scene:add(Bullet(self.x, self.y+0.01, dir))
+				self.dir = math.sign(dx)
+				self.animator:setProperty("fire", true)
+			end
+		end
 	elseif self.state == Robot.static.STATE_RUN then
 		self.time = self.time - dt
 
@@ -63,21 +80,6 @@ function Robot:update(dt)
 		if self.time <= 0 or collision then
 			self.state = Robot.static.STATE_IDLE
 			self.time = love.math.random() * 2
-		end
-	end
-
-	self.cooldown = self.cooldown - dt
-	if self.cooldown <= 0 then
-		self.cooldown = Robot.static.COOLDOWN
-
-		local dx = self.player.x - self.x
-		local dy = self.player.y - self.y
-
-		local len = math.sqrt(dx^2 + dy^2)
-
-		if len < 200 then
-			local dir = math.atan2(dy, dx)
-			self.scene:add(Bullet(self.x, self.y, dir))
 		end
 	end
 

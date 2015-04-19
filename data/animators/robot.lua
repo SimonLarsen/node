@@ -3,11 +3,13 @@ return {
 
 	states = {
 		["idle"] = { image = "robot_idle.png", fw = 40, fh = 40, delay = 0.1 },
-		["run"] = { image = "robot_run.png", fw = 40, fh = 40, delay = 0.1 }
+		["run"] = { image = "robot_run.png", fw = 40, fh = 40, delay = 0.1 },
+		["fire"] = { image = "robot_fire.png", fw = 40, fh = 40, delay = 0.15 }
 	},
 
 	properties = {
-		["state"] = { value = 0 }
+		["state"] = { value = 0 },
+		["fire"] = { value = false, isTrigger = true }
 	},
 
 	transitions = {
@@ -18,6 +20,14 @@ return {
 		{
 			from = "run", to = "idle",
 			property = "state", value = 0
+		},
+		{
+			from = "idle", to = "fire",
+			property = "fire", value = true
+		},
+		{
+			from = "fire", to = "idle",
+			property = "_finished", value = true
 		}
 	}
 }

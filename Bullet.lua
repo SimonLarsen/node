@@ -1,16 +1,12 @@
-local Enemy = require("Enemy")
 local BoxCollider = require("BoxCollider")
 local CollisionHandler = require("CollisionHandler")
 
-local Bullet = class("Bullet", Enemy)
+local Bullet = class("Bullet", Entity)
 
-Bullet.static.MASS = 10
-Bullet.static.SOLID = false
-
-Bullet.static.SPEED = 75
+Bullet.static.SPEED = 150
 
 function Bullet:initialize(x, y, dir)
-	Enemy.initialize(self, x, y, 0, Bullet.static.MASS, Bullet.static.SOLID, -16)
+	Entity.initialize(self, x, y)
 	self:setName("bullet")
 
 	self.xspeed = math.cos(dir) * Bullet.static.SPEED
@@ -25,8 +21,6 @@ function Bullet:enter()
 end
 
 function Bullet:update(dt)
-	self:checkLinked()
-
 	self.x = self.x + self.xspeed * dt
 	self.y = self.y + self.yspeed * dt
 
