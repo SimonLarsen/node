@@ -3,7 +3,7 @@ local CollisionHandler = require("CollisionHandler")
 
 local Bullet = class("Bullet", Entity)
 
-Bullet.static.SPEED = 150
+Bullet.static.SPEED = 180
 
 function Bullet:initialize(x, y, dir)
 	Entity.initialize(self, x, y)

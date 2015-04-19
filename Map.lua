@@ -1,5 +1,8 @@
 local MapCover = require("MapCover")
 local MapCollider = require("MapCollider")
+local Robot = require("Robot")
+local Spider = require("Spider")
+local Rock = require("Rock")
 
 local Map = class("Map", Entity)
 
@@ -13,33 +16,40 @@ function Map:initialize()
 	self.floor_batch = love.graphics.newSpriteBatch(self.img_floor_tiles, 32*32)
 	self.back_batch = love.graphics.newSpriteBatch(self.img_walls, 256)
 	self.front_batch = love.graphics.newSpriteBatch(self.img_walls, 256)
-
-	self:loadLayout()
-	self:createQuads()
-	self:createSpriteBatches()
-
-	self.collider = MapCollider(self.map, self.width, self.height, 32)
 end
 
 function Map:enter()
 	self.scene:add(MapCover(self.front_batch))
 end
 
-function Map:loadLayout()
-	local data = love.image.newImageData("data/layouts/1/1.png")
+function Map:loadLayout(cat, id)
+	local data = love.image.newImageData("data/layouts/" .. cat .. "/" .. id .. ".png")
 
 	self.map = {}
 	for ix = 0, self.width-1 do
 		self.map[ix] = {}
 		for iy = 0, self.height-1 do
 			local r, g, b, a = data:getPixel(ix, iy)
-			if r == 255 then
-				self.map[ix][iy] = 1
-			else
+			self.map[ix][iy] = 1
+			if r == 0 and g == 0 and b == 0 then
 				self.map[ix][iy] = 0
+			elseif r == 255 and g == 0 and b == 0 then
+				self.scene:add(Robot(ix*32+16, iy*32+16))
+			elseif r == 255 and g == 0 and b == 255 then
+				self.scene:add(Spider(ix*32+16, iy*32+16))
+			elseif r == 0 and g == 0 and b == 255 then
+				self.scene:add(Rock(ix*32+16, iy*32+16))
+			elseif r == 0 and g == 255 and b == 0 then
+				self.startx = ix*32+16
+				self.starty = iy*32+16
 			end
 		end
 	end
+
+	self:createQuads()
+	self:createSpriteBatches()
+
+	self.collider = MapCollider(self.map, self.width, self.height, 32)
 end
 
 function Map:createQuads()
@@ -77,6 +87,10 @@ end
 function Map:draw()
 	love.graphics.draw(self.floor_batch, 0, 0)
 	love.graphics.draw(self.back_batch, 0, 0)
+end
+
+function Map:getPlayerStart()
+	return self.startx, self.starty
 end
 
 return Map

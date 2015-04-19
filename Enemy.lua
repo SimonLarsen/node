@@ -1,4 +1,5 @@
 local CollisionHandler = require("CollisionHandler")
+local Explosion = require("Explosion")
 
 local Enemy = class("Enemy", Entity)
 
@@ -33,6 +34,7 @@ function Enemy:checkLinked()
 end
 
 function Enemy:destroy()
+	self.scene:add(Explosion(self.x, self.y))
 	self:kill()
 end
 

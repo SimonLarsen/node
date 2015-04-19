@@ -134,6 +134,7 @@ function love.run()
 
 			love.graphics.scale(SCALE, SCALE)
 			love.graphics.setCanvas()
+
 			love.graphics.draw(canvas, 0, 0)
 
 			love.graphics.pop()

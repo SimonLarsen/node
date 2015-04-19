@@ -21,7 +21,7 @@ function Link:update(dt)
 			end
 		end
 
-		if Mouse.wasPressed("r") then
+		if Mouse.wasReleased("l") then
 			if #self.links >= 1 then
 				self:trigger()
 			end
@@ -49,6 +49,8 @@ function Link:update(dt)
 end
 
 function Link:draw()
+	love.graphics.setLineWidth(2)
+
 	for i=1, #self.links-1 do
 		love.graphics.line(self.links[i].x, self.links[i].y+self.links[i].linkz, self.links[i+1].x, self.links[i+1].y+self.links[i+1].linkz)
 	end
@@ -75,6 +77,17 @@ end
 
 function Link:trigger()
 	if #self.links == 1 then
+		self:clear()
+		return
+	end
+
+	local solidcount = 0
+	for i,v in ipairs(self.links) do
+		if v.solid then
+			solidcount = solidcount + 1
+		end
+	end
+	if solidcount > 1 then
 		self:clear()
 		return
 	end

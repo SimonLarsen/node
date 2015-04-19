@@ -60,7 +60,9 @@ function Robot:update(dt)
 
 			if len < 200 then
 				local dir = math.atan2(dy, dx)
+				self.scene:add(Bullet(self.x, self.y+0.01, dir-0.2))
 				self.scene:add(Bullet(self.x, self.y+0.01, dir))
+				self.scene:add(Bullet(self.x, self.y+0.01, dir+0.2))
 				self.dir = math.sign(dx)
 				self.animator:setProperty("fire", true)
 			end
@@ -88,11 +90,6 @@ end
 
 function Robot:draw()
 	self.animator:draw(self.x, self.y, 0, self.dir, 1, nil, 40)
-end
-
-function Robot:destroy()
-	self.scene:add(Explosion(self.x, self.y))
-	self:kill()
 end
 
 return Robot
