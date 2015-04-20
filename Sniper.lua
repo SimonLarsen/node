@@ -10,7 +10,7 @@ Sniper.static.SOLID = false
 Sniper.static.AIM_DIST = 200
 
 Sniper.static.WALK_SPEED = 60
-Sniper.static.COOLDOWN = 2
+Sniper.static.COOLDOWN = 1.5
 Sniper.static.CHARGE_TIME = 1.2
 
 Sniper.static.STATE_IDLE = 0
@@ -61,15 +61,6 @@ function Sniper:update(dt)
 			and self.map:canSee(self, self.player) then
 				self.state = Sniper.static.STATE_CHARGE
 				self.time = Sniper.static.CHARGE_TIME
-
-				local aimx = self.x + 5*xdist
-				local aimy = self.y + 5*ydist
-
-				local cells, view = self.map:canSeeLine(self, {x=aimx, y=aimy})
-
-				self.aimx = cells[#cells][1]*32 + 16
-				self.aimy = cells[#cells][2]*32 + 16
-				self.dir = math.sign(xdist)
 			end
 		end
 
@@ -89,6 +80,20 @@ function Sniper:update(dt)
 		end
 	
 	elseif self.state == Sniper.static.STATE_CHARGE then
+		if self.time <= Sniper.static.CHARGE_TIME/2
+		and self.time > Sniper.static.CHARGE_TIME/4 then
+			local xdist = self.player.x - self.x
+			local ydist = self.player.y - self.y
+			local aimx = self.x + 5*xdist
+			local aimy = self.y + 5*ydist
+
+			local cells, view = self.map:canSeeLine(self, {x=aimx, y=aimy})
+
+			self.aimx = cells[#cells][1]*32 + 16
+			self.aimy = cells[#cells][2]*32 + 16
+			self.dir = math.sign(xdist)
+		end
+
 		if self.time <= 0 then
 			self.state = Sniper.static.STATE_IDLE
 			self.time = 1

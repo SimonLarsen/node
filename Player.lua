@@ -6,11 +6,13 @@ local Player = class("Player", Entity)
 
 Player.static.MOVE_SPEED = 200
 Player.static.INVUL_TIME = 1.4
+Player.static.TRIGGER_TIME = 0.1*4
 
 Player.static.STATE_IDLE = 0
 Player.static.STATE_RUN = 1
 Player.static.STATE_KICK = 2
 Player.static.STATE_HIT = 3
+Player.static.STATE_TRIGGER = 4
 
 function Player:initialize(x, y)
 	Entity.initialize(self, x, y, 0)
@@ -23,9 +25,12 @@ function Player:initialize(x, y)
 	self.state = Player.static.STATE_IDLE
 	self.health = 3
 	self.invulnerable = 0
+	self.time = 0
 
 	self.animator = Animator(Resources.getAnimator("player.lua"))
 	self.collider = BoxCollider(20, 48, 0, 0)
+
+	self.img_viewcircle = Resources.getImage("viewcircle.png")
 end
 
 function Player:enter()
@@ -41,6 +46,8 @@ function Player:update(dt)
 	local animstate = self.state
 	self.xspeed = math.movetowards(self.xspeed, 0, 1000*dt)
 	self.yspeed = math.movetowards(self.yspeed, 0, 1000*dt)
+
+	self.time = self.time - dt
 
 	if self.state == Player.static.STATE_IDLE then
 		if Keyboard.isDown("a") then
@@ -70,7 +77,11 @@ function Player:update(dt)
 		end
 
 	elseif self.state == Player.static.STATE_KICK then
-		self.time = self.time - dt
+		if self.time <= 0 then
+			self.state = Player.static.STATE_IDLE
+		end
+	
+	elseif self.state == Player.static.STATE_TRIGGER then
 		if self.time <= 0 then
 			self.state = Player.static.STATE_IDLE
 		end
@@ -104,10 +115,30 @@ function Player:draw()
 	end
 end
 
+function Player:gui()
+	love.graphics.setColor(0, 0, 0)
+	if WIDTH > 800 then
+		love.graphics.rectangle("fill", 0, 0, WIDTH/2-400, HEIGHT)
+		love.graphics.rectangle("fill", WIDTH/2+400, 0, WIDTH/2-400, HEIGHT)
+	end
+	if HEIGHT > 400 then
+		love.graphics.rectangle("fill", WIDTH/2-400, 0, 800, HEIGHT/2-200)
+		love.graphics.rectangle("fill", WIDTH/2-400, HEIGHT/2+200, 800, HEIGHT/2-200)
+	end
+
+	love.graphics.setColor(255, 255, 255)
+	love.graphics.draw(self.img_viewcircle, WIDTH/2, HEIGHT/2, 0, 1, 1, 400, 200)
+end
+
 function Player:hit()
 	self.health = self.health - 1
 	self.invulnerable = Player.static.INVUL_TIME
 	self.hud:setHealth(self.health)
+end
+
+function Player:trigger()
+	self.state = Player.static.STATE_TRIGGER
+	self.time = Player.static.TRIGGER_TIME
 end
 
 function Player:isInvulnerable()

@@ -3,11 +3,11 @@ local Explosion = require("Explosion")
 
 local Link = class("Link", Entity)
 
-Link.static.PLAYER_REACH = 170
-Link.static.LINK_REACH = 220
+Link.static.PLAYER_REACH = 270
+Link.static.LINK_REACH = 270
 
 function Link:initialize()
-	Entity.initialize(self, 0, 1000000, 0)
+	Entity.initialize(self, 0, 0, -1)
 
 	self:setName("link")
 
@@ -37,6 +37,7 @@ function Link:update(dt)
 		if Mouse.wasReleased("l") then
 			if #self.links >= 1 then
 				self:trigger()
+				self.player:trigger()
 			end
 		end
 
@@ -69,11 +70,11 @@ function Link:update(dt)
 	if #self.links > 0 then
 		local xdist = self.links[#self.links].x - mx
 		local ydist = self.links[#self.links].y - my
-		self.hasReach = xdist^2 + ydist^2 < Link.static.LINK_REACH^2
+		self.hasReach = xdist^2 + (2*ydist)^2 < Link.static.LINK_REACH^2
 	else
 		local xdist = self.player.x - mx
 		local ydist = self.player.y - my
-		self.hasReach = xdist^2 + ydist^2 < Link.static.PLAYER_REACH^2
+		self.hasReach = xdist^2 + (2*ydist)^2 < Link.static.PLAYER_REACH^2
 	end
 end
 

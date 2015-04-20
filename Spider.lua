@@ -101,14 +101,14 @@ function Spider:update(dt)
 
 		local collision = CollisionHandler.checkMapBox(self.map, self)
 		if collision then
-			self:destroy()
+			self:explode()
 		end
 	end
 
 	self.animator:setProperty("state", self.state)
 end
 
-function Spider:destroy()
+function Spider:explode()
 	self.scene:add(BigExplosion(self.x, self.y))
 	self:kill()
 end

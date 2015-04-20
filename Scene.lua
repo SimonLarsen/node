@@ -16,7 +16,6 @@ end
 
 function Scene:update(dt)
 	CollisionHandler.checkAll(self.entities)
-	--CollisionHandler.checkClicked(self.entities)
 
 	for i,v in ipairs(self.entities) do
 		if v:isAlive() and v.update then

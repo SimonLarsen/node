@@ -1,7 +1,7 @@
 local HUD = class("HUD", Entity)
 
 function HUD:initialize()
-	Entity.initialize(self, 0, 0, -200)
+	Entity.initialize(self, 0, 0, -100)
 	self:setName("hud")
 
 	self.health = 3

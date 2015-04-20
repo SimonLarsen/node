@@ -11,7 +11,7 @@ local bresenham = require("bresenham.bresenham")
 local Map = class("Map", Entity)
 
 function Map:initialize()
-	Entity.initialize(self, 0, -100000, 100000)
+	Entity.initialize(self, 0, 0, 10)
 	self:setName("map")
 
 	self.width = 48
