@@ -5,6 +5,7 @@ local Scene = class("Scene")
 function Scene:initialize()
 	self.entities = {}
 	self.hasEntered = false
+	self.speed = 0
 end
 
 function Scene:enter()
@@ -17,16 +18,19 @@ end
 function Scene:update(dt)
 	CollisionHandler.checkAll(self.entities)
 
+	local rt = dt
+	dt = dt * self.speed
+
 	for i,v in ipairs(self.entities) do
 		if v:isAlive() and v.update then
-			v:update(dt)
+			v:update(dt, rt)
 		end
 	end
 
 	Timer.update(dt)
 
 	util.insertionsort(self.entities, function(a, b)
-		return (a.y == b.y and a.z < b.z) or a.y > b.y
+		return (a.z == b.z and a.y > b.y) or a.z < b.z
 	end)
 
 	for i=#self.entities, 1, -1 do
@@ -69,8 +73,8 @@ function Scene:find(name)
 	end
 end
 
-function Scene:sortEntities()
-
+function Scene:setSpeed(speed)
+	self.speed = speed
 end
 
 return Scene

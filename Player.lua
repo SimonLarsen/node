@@ -6,7 +6,8 @@ local Player = class("Player", Entity)
 
 Player.static.MOVE_SPEED = 200
 Player.static.INVUL_TIME = 1.4
-Player.static.TRIGGER_TIME = 0.1*4
+Player.static.TRIGGER_TIME = 0.06*7
+Player.static.SLOWMO_FACTOR = 0.5
 
 Player.static.STATE_IDLE = 0
 Player.static.STATE_RUN = 1
@@ -103,6 +104,12 @@ function Player:update(dt)
 		if self.invulnerable > 0.7 * Player.static.INVUL_TIME then
 			animstate = Player.static.STATE_HIT
 		end
+	end
+
+	if Mouse.isDown("l") then
+		self.scene:setSpeed(Player.static.SLOWMO_FACTOR)
+	else
+		self.scene:setSpeed(1)
 	end
 
 	self.animator:setProperty("state", animstate)

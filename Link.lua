@@ -1,5 +1,6 @@
 local LinkJoint = require("LinkJoint")
 local Explosion = require("Explosion")
+local BigExplosion = require("BigExplosion")
 
 local Link = class("Link", Entity)
 
@@ -50,7 +51,8 @@ function Link:update(dt)
 			for i,v in ipairs(self.links) do
 				v.x = v.x + love.math.random() * 16 - 8
 				v.y = v.y + love.math.random() * 16 - 8
-				v:destroy()
+				self.scene:add(Explosion(v.x, v.y, love.math.randomNormal(0.2, 1.0)))
+				v:kill()
 			end
 			self:clear()
 			return
@@ -67,15 +69,17 @@ function Link:update(dt)
 	end
 
 	local mx, my = Mouse.getPositionCamera()
+	--[[
 	if #self.links > 0 then
 		local xdist = self.links[#self.links].x - mx
 		local ydist = self.links[#self.links].y - my
 		self.hasReach = xdist^2 + (2*ydist)^2 < Link.static.LINK_REACH^2
 	else
+	]]
 		local xdist = self.player.x - mx
 		local ydist = self.player.y - my
 		self.hasReach = xdist^2 + (2*ydist)^2 < Link.static.PLAYER_REACH^2
-	end
+	--end
 end
 
 function Link:draw()

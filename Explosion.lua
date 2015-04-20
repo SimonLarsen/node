@@ -1,10 +1,11 @@
 local Explosion = class("Explosion", Entity)
 
-function Explosion:initialize(x, y)
+function Explosion:initialize(x, y, speed)
 	Entity.initialize(self, x, y, 0)
 
-	self.animation = Animation(Resources.getImage("explosion.png"), 46, 44, 0.1)
-	self.time = 0.7
+	self.speed = speed or 1
+	self.animation = Animation(Resources.getImage("explosion.png"), 46, 44, 0.1 / self.speed)
+	self.time = 7 * 0.1 / self.speed
 	camera:setScreenShake(4, 0.5)
 end
 

@@ -61,6 +61,8 @@ function Sniper:update(dt)
 			and self.map:canSee(self, self.player) then
 				self.state = Sniper.static.STATE_CHARGE
 				self.time = Sniper.static.CHARGE_TIME
+				self.aimx = self.player.x
+				self.aimy = self.player.y
 			end
 		end
 
