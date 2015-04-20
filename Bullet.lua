@@ -37,7 +37,8 @@ function Bullet:draw()
 end
 
 function Bullet:onCollide(o)
-	if o:getName("kick") == "kick" then
+	if o:getName() == "kick"
+	or o:getName() == "player" then
 		self:kill()
 	end
 end

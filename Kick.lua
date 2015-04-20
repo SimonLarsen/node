@@ -2,7 +2,7 @@ local BoxCollider = require("BoxCollider")
 
 local Kick = class("Kick", Entity)
 
-Kick.static.TIME = 0.4
+Kick.static.TIME = 0.3
 
 function Kick:initialize(x, y, xspeed, yspeed)
 	Entity.initialize(self, x, y, 0)

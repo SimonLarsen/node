@@ -109,7 +109,7 @@ function Spider:update(dt)
 end
 
 function Spider:explode()
-	self.scene:add(BigExplosion(self.x, self.y))
+	self.scene:add(BigExplosion(self.x, self.y, true))
 	self:kill()
 end
 

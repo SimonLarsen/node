@@ -35,7 +35,8 @@ function Link:update(dt)
 			end
 		end
 
-		if Mouse.wasReleased("l") then
+		if Mouse.wasReleased("l")
+		or self.player:isLinking() == false then
 			if #self.links >= 2 then
 				self.player:trigger()
 			end

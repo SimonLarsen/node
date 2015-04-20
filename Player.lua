@@ -23,6 +23,14 @@ Player.static.STATE_HIT		= 3
 Player.static.STATE_TRIGGER	= 4
 Player.static.STATE_DASH 	= 5
 
+Player.static.STAMINA_INCREASE = 0.5
+Player.static.STAMINA_COOLDOWN = 0.6
+Player.static.MAX_STAMINA = 1
+
+Player.static.LINK_COST = 0.5
+Player.static.DASH_COST = 0.2
+Player.static.KICK_COST = 0.5
+
 function Player:initialize(x, y)
 	Entity.initialize(self, x, y, 0)
 	self:setName("player")
@@ -32,9 +40,12 @@ function Player:initialize(x, y)
 
 	self.dir = 1
 	self.state = Player.static.STATE_IDLE
-	self.health = 3
 	self.invulnerable = 0
 	self.time = 0
+
+	self.health = 3
+	self.stamina = Player.static.MAX_STAMINA
+	self.stamina_cooldown = 0
 
 	self.animator = Animator(Resources.getAnimator("player.lua"))
 	self.img_ghost = Resources.getImage("dash_ghost.png")
@@ -127,12 +138,16 @@ function Player:update(dt)
 		end
 	end
 
-	if Mouse.isDown("l") then
+	if Mouse.isDown("l")
+	and self:useStamina(Player.static.LINK_COST * dt) then
 		self.scene:setSpeed(Player.static.SLOWMO_FACTOR)
+		self.linking = true
 	else
 		self.scene:setSpeed(1)
+		self.linking = false
 	end
 
+	self:updateStamina(dt)
 	self.animator:setProperty("state", animstate)
 	camera:setPosition(self.x, self.y)
 end
@@ -164,6 +179,7 @@ end
 
 function Player:gui()
 	love.graphics.setColor(0, 0, 0)
+
 	if WIDTH > 800 then
 		love.graphics.rectangle("fill", 0, 0, WIDTH/2-400, HEIGHT)
 		love.graphics.rectangle("fill", WIDTH/2+400, 0, WIDTH/2-400, HEIGHT)
@@ -173,8 +189,9 @@ function Player:gui()
 		love.graphics.rectangle("fill", WIDTH/2-400, HEIGHT/2+200, 800, HEIGHT/2-200)
 	end
 
-	love.graphics.setColor(255, 255, 255)
 	love.graphics.draw(self.img_viewcircle, WIDTH/2, HEIGHT/2, 0, 1, 1, 400, 200)
+
+	love.graphics.setColor(255, 255, 255)
 end
 
 function Player:updateMovement()
@@ -205,32 +222,63 @@ function Player:trigger()
 end
 
 function Player:dash()
-	self.state = Player.static.STATE_DASH
-	self.time = Player.static.DASH_TIME
+	if self:useStamina(Player.static.DASH_COST) then
+		self.state = Player.static.STATE_DASH
+		self.time = Player.static.DASH_TIME
 
-	self.next_ghost = 0
-	self.ghosts = {}
+		self.next_ghost = 0
+		self.ghosts = {}
 
-	self.xspeed = self.xspeed / Player.static.MOVE_SPEED * Player.static.DASH_SPEED
-	self.yspeed = self.yspeed / Player.static.MOVE_SPEED * Player.static.DASH_SPEED
+		self.xspeed = self.xspeed / Player.static.MOVE_SPEED * Player.static.DASH_SPEED
+		self.yspeed = self.yspeed / Player.static.MOVE_SPEED * Player.static.DASH_SPEED
+	end
 end
 
 function Player:kick()
-	self.state = Player.static.STATE_KICK
-	self.time = 7 * 0.06
-	self.scene:add(Kick(self.x, self.y, self.xspeed, self.yspeed))
+	if self:useStamina(Player.static.KICK_COST) then
+		self.state = Player.static.STATE_KICK
+		self.time = 7 * 0.06
+		self.scene:add(Kick(self.x, self.y, self.xspeed, self.yspeed))
+	end
 end
 
 function Player:isInvulnerable()
 	return self.invulnerable > 0
 end
 
+function Player:useStamina(cost)
+	if self.stamina >= cost then
+		self.stamina = self.stamina - cost
+		self.stamina_cooldown = Player.static.STAMINA_COOLDOWN
+		return true
+	else
+		return false
+	end
+end
+
+function Player:isLinking()
+	return self.linking
+end
+
+function Player:updateStamina(dt)
+	if self.stamina_cooldown > 0 then
+		self.stamina_cooldown = self.stamina_cooldown - dt
+	else
+		self.stamina = math.min(
+			Player.static.MAX_STAMINA,
+			self.stamina + Player.static.STAMINA_INCREASE * dt
+		)
+	end
+
+	self.hud:setStamina(self.stamina)
+end
+
 function Player:onCollide(o)
 	if self:isInvulnerable() then return end
 
-	if o:getName() == "bullet" then
-		self:hit()
-	elseif o:getName() == "laser" then
+	if o:getName() == "bullet"
+	or o:getName() == "laser"
+	or o:getName() == "bigexplosion" then
 		self:hit()
 	end
 end
