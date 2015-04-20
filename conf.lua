@@ -1,9 +1,9 @@
 function love.conf(t)
-    t.identity = "ld32"
+    t.identity = "node"
     t.version = "0.9.2" 
     t.console = false
 
-    t.window.title = "LD32"
+    t.window.title = "N.O.D.E."
     t.window.icon = nil
     t.window.width = 800
     t.window.height = 600

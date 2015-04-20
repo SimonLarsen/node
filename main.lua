@@ -43,9 +43,9 @@ end
 function toggleFullscreen()
 	local fullscreen = not love.window.getFullscreen()
 	if fullscreen then
-		love.window.setMode(0, 0, {fullscreen = true})
+		love.window.setMode(0, 0, {fullscreen = true, vsync = true})
 	else
-		love.window.setMode(800, 600, {fullscreen = false})
+		love.window.setMode(800, 600, {fullscreen = false, vsync = true})
 	end
 	updateViewport()
 end
