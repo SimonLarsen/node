@@ -40,11 +40,25 @@ function updateViewport()
 	canvas = love.graphics.newCanvas(WIDTH, HEIGHT)
 end
 
+function toggleFullscreen()
+	local fullscreen = not love.window.getFullscreen()
+	if fullscreen then
+		love.window.setMode(0, 0, {fullscreen = true})
+	else
+		love.window.setMode(800, 600, {fullscreen = false})
+	end
+	updateViewport()
+end
+
 function love.gui()
 	gamestate.current():gui()
 end
 
 function love.keypressed(k)
+	if k == "f11" or
+	k == "return" and (love.keyboard.isDown("lalt", "ralt")) then
+		toggleFullscreen()
+	end
 	Keyboard.keypressed(k)
 end
 
