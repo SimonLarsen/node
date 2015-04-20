@@ -3,6 +3,7 @@ local MapCollider = require("MapCollider")
 local Robot = require("Robot")
 local Spider = require("Spider")
 local Rock = require("Rock")
+local Commander = require("Commander")
 local Sentinel = require("Sentinel")
 local Sniper = require("Sniper")
 
@@ -43,12 +44,14 @@ function Map:generate()
 				local x = cx*32+16 + math.cos(dir) * r*32/2
 				local y = cy*32+16 + math.sin(dir) * r*32/2
 
-				local dice = love.math.random(1, 5)
-				if dice >= 1 and dice <= 3 then
+				local dice = love.math.random(1, 6)
+				if dice >= 1 and dice <= 2 then
 					self.scene:add(Robot(x, y))
-				elseif dice == 4 then
-					self.scene:add(Spider(x, y))
+				elseif dice >= 3 and dice <= 4 then
+					self.scene:add(Commander(x, y))
 				elseif dice == 5 then
+					self.scene:add(Spider(x, y))
+				elseif dice == 6 then
 					self.scene:add(Sniper(x, y))
 				end
 			end

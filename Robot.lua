@@ -61,11 +61,8 @@ function Robot:update(dt)
 
 			if len < 200 then
 				local dir = math.atan2(dy, dx)
-				self.scene:add(Bullet(self.x, self.y+0.01, dir-0.2))
-				self.scene:add(Bullet(self.x, self.y+0.01, dir))
-				self.scene:add(Bullet(self.x, self.y+0.01, dir+0.2))
 				self.dir = math.sign(dx)
-				self.animator:setProperty("fire", true)
+				self:shoot(dir)
 			end
 		end
 	elseif self.state == Robot.static.STATE_RUN then
@@ -87,6 +84,13 @@ function Robot:update(dt)
 	end
 
 	self.animator:setProperty("state", self.state)
+end
+
+function Robot:shoot(dir)
+	--self.scene:add(Bullet(self.x, self.y+0.01, dir-0.2))
+	self.scene:add(Bullet(self.x, self.y+0.01, dir))
+	--self.scene:add(Bullet(self.x, self.y+0.01, dir+0.2))
+	self.animator:setProperty("fire", true)
 end
 
 function Robot:draw()

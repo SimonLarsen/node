@@ -29,8 +29,10 @@ end
 
 function HUD:setStamina(value)
 	if value < self.stamina then
-		self.substamina = self.stamina
 		self.stamina_cooldown = HUD.static.COOLDOWN
+	end
+	if value > self.substamina then
+		self.substamina = value
 	end
 	self.stamina = value
 	self.quad_stamina:setViewport(0, 0, self.stamina*78, 3)
