@@ -4,6 +4,9 @@ local Kick = require("Kick")
 
 local Player = class("Player", Entity)
 
+Player.static.GHOST_COLOR_START = {220, 239, 237}
+Player.static.GHOST_COLOR_DIFF = {220-91, 239-200, 237-186}
+
 Player.static.MOVE_SPEED = 200
 Player.static.DASH_SPEED = 500
 
@@ -11,6 +14,7 @@ Player.static.INVUL_TIME = 1.4
 Player.static.TRIGGER_TIME = 0.42
 Player.static.SLOWMO_FACTOR = 0.5
 Player.static.DASH_TIME = 0.2
+Player.static.GHOST_INTERVAL = 0.06
 
 Player.static.STATE_IDLE	= 0
 Player.static.STATE_RUN		= 1
@@ -33,6 +37,7 @@ function Player:initialize(x, y)
 	self.time = 0
 
 	self.animator = Animator(Resources.getAnimator("player.lua"))
+	self.img_ghost = Resources.getImage("dash_ghost.png")
 	self.collider = BoxCollider(20, 48, 0, 0)
 
 	self.img_viewcircle = Resources.getImage("viewcircle.png")
@@ -85,6 +90,11 @@ function Player:update(dt)
 		end
 	
 	elseif self.state == Player.static.STATE_DASH then
+		self.next_ghost = self.next_ghost - dt
+		if self.next_ghost <= 0 then
+			self.next_ghost = Player.static.GHOST_INTERVAL
+			table.insert(self.ghosts, {x=self.x, y=self.y})
+		end
 		if self.time < Player.static.DASH_TIME / 2 then
 			self.xspeed = math.movetowards(self.xspeed, 0, 2000*dt)
 			self.yspeed = math.movetowards(self.yspeed, 0, 2000*dt)
@@ -128,6 +138,25 @@ function Player:update(dt)
 end
 
 function Player:draw()
+	if self.state == Player.static.STATE_DASH then
+		local inc = 1 / #self.ghosts-1
+		local col_start = Player.static.GHOST_COLOR_START
+		local col_diff = Player.static.GHOST_COLOR_DIFF
+
+		local col = {
+			col_start[1], col_start[2], col_start[3]
+		}
+		
+		for i,v in ipairs(self.ghosts) do
+			love.graphics.setColor(col)
+			love.graphics.draw(self.img_ghost, v.x, v.y, 0, self.dir, 1, 24, 48)
+			col[1] = col[1] + col_diff[1]*inc
+			col[2] = col[2] + col_diff[2]*inc
+			col[3] = col[3] + col_diff[3]*inc
+		end
+	end
+	love.graphics.setColor(255, 255, 255)
+
 	if self:isInvulnerable() == false or love.timer.getTime() % 0.2 < 0.1 then
 		self.animator:draw(self.x, self.y, 0, self.dir, 1, nil, 48)
 	end
@@ -178,6 +207,9 @@ end
 function Player:dash()
 	self.state = Player.static.STATE_DASH
 	self.time = Player.static.DASH_TIME
+
+	self.next_ghost = 0
+	self.ghosts = {}
 
 	self.xspeed = self.xspeed / Player.static.MOVE_SPEED * Player.static.DASH_SPEED
 	self.yspeed = self.yspeed / Player.static.MOVE_SPEED * Player.static.DASH_SPEED
