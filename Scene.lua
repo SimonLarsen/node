@@ -35,6 +35,7 @@ function Scene:update(dt)
 
 	for i=#self.entities, 1, -1 do
 		if self.entities[i]:isAlive() == false then
+			self.entities[i]:onRemove()
 			table.remove(self.entities, i)
 		end
 	end

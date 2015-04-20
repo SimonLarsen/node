@@ -16,15 +16,57 @@ function Map:initialize()
 	Entity.initialize(self, 0, 0, 10)
 	self:setName("map")
 
-	self.width = 48
-	self.height = 48
 	self.img_tiles = Resources.getImage("tiles.png")
-	self.back_batch = love.graphics.newSpriteBatch(self.img_tiles, self.width*self.height)
-	self.front_batch = love.graphics.newSpriteBatch(self.img_tiles, self.width*self.height)
 end
 
 function Map:enter()
 	self.scene:add(MapCover(self.front_batch))
+end
+
+function Map:loadLevel(id)
+	local f = love.filesystem.load("data/levels/" .. id .. ".lua")
+	local data = f()
+
+	self.width = data.width
+	self.height = data.height
+	self:clear()
+
+	for i, layer in ipairs(data.layers) do
+		if layer.type == "tilelayer" then
+			for ix = 0, self.width-1 do
+				for iy = 0, self.height-1 do
+					self.map[ix][iy] = layer.data[iy*self.width + ix + 1]
+				end
+			end
+
+		elseif layer.type == "objectgroup" then
+			for j, o in ipairs(layer.objects) do
+				local x, y = o.x, o.y
+				if o.type == "player" then
+					self.startx = x
+					self.starty = y
+				elseif o.type == "robot" then
+					self.scene:add(Robot(x, y))
+				elseif o.type == "commander" then
+					self.scene:add(Commander(x, y))
+				elseif o.type == "demobot" then
+					self.scene:add(Demobot(x, y))
+				elseif o.type == "spider" then
+					self.scene:add(Spider(x, y))
+				elseif o.type == "sniper" then
+					self.scene:add(Sniper(x, y))
+				end
+			end
+		end
+	end
+
+	-- Add walls
+	self.back_batch = love.graphics.newSpriteBatch(self.img_tiles, self.width*self.height)
+	self.front_batch = love.graphics.newSpriteBatch(self.img_tiles, self.width*self.height)
+	self:createQuads()
+	self:createSpriteBatches()
+
+	self.collider = MapCollider(self, self.width, self.height, 32)
 end
 
 function Map:generate()
@@ -98,10 +140,15 @@ end
 
 function Map:createQuads()
 	local imgw, imgh = self.img_tiles:getDimensions()
+	local xtiles = math.floor(imgw / 32)
+	local ytiles = math.floor(imgh / 32)
 
 	self.quad_tiles = {}
-	for i=0, 3 do
-		self.quad_tiles[i] = love.graphics.newQuad(i*32, 0, 32, 32, imgw, imgh)
+
+	for ix = 0, xtiles-1 do
+		for iy = 0, ytiles-1 do
+			self.quad_tiles[iy*xtiles + ix + 1] = love.graphics.newQuad(ix*32, iy*32, 32, 32, imgw, imgh)
+		end
 	end
 end
 
@@ -116,8 +163,8 @@ function Map:createSpriteBatches()
 			end
 
 			if iy < self.height-2
-			and self:get(ix, iy) == 1 and self:get(ix, iy+1) ~= 1 then
-				self.front_batch:add(self.quad_tiles[0], ix*32, iy*32)
+			and not self:isSolid(ix, iy) and self:isSolid(ix, iy+1) then
+				self.front_batch:add(self.quad_tiles[1], ix*32, iy*32)
 			end
 		end
 	end
@@ -152,9 +199,13 @@ function Map:get(x, y)
 	return self.map[x][y]
 end
 
+function Map:isSolid(x, y)
+	return self:get(x, y) <= 24
+end
+
 function Map:los(x1, y1, x2, y2)
 	return bresenham.los(x1, y1, x2, y2, function(x, y)
-		return self:get(x, y) == 1
+		return not self:isSolid(x, y)
 	end)
 end
 
@@ -172,7 +223,7 @@ function Map:canSeeLine(e1, e2)
 	local x2 = math.floor(e2.x / 32)
 	local y2 = math.floor(e2.y / 32)
 	return bresenham.line(x1, y1, x2, y2, function(x, y)
-		return self:get(x, y) == 1
+		return not self:isSolid(x, y)
 	end)
 end
 

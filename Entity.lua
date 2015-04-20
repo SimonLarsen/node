@@ -50,4 +50,8 @@ function Entity:onClick(x, y)
 	
 end
 
+function Entity:onRemove()
+	
+end
+
 return Entity

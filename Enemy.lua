@@ -50,4 +50,8 @@ function Enemy:onCollide(o)
 	end
 end
 
+function Enemy:onRemove()
+	self.scene:find("score"):addKill()
+end
+
 return Enemy

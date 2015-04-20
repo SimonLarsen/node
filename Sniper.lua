@@ -83,7 +83,7 @@ function Sniper:update(dt)
 	
 	elseif self.state == Sniper.static.STATE_CHARGE then
 		if self.time <= Sniper.static.CHARGE_TIME/2
-		and self.time > Sniper.static.CHARGE_TIME/4 then
+		and self.time > Sniper.static.CHARGE_TIME/3 then
 			local xdist = self.player.x - self.x
 			local ydist = self.player.y - self.y
 			local aimx = self.x + 5*xdist

@@ -118,8 +118,6 @@ function Player:update(dt)
 		end
 	end
 
-	self.dir = math.sign(self.xspeed)
-
 	self.x = self.x + self.xspeed * dt
 	if CollisionHandler.checkMapBox(self.map, self) then
 		self.x = oldx
@@ -197,9 +195,11 @@ end
 function Player:updateMovement()
 	if Keyboard.isDown("a") then
 		self.xspeed = -Player.static.MOVE_SPEED
+		self.dir = -1
 	end
 	if Keyboard.isDown("d") then
 		self.xspeed = Player.static.MOVE_SPEED
+		self.dir = 1
 	end
 
 	if Keyboard.isDown("w") then
