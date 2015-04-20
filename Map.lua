@@ -16,11 +16,9 @@ function Map:initialize()
 
 	self.width = 48
 	self.height = 48
-	self.img_floor_tiles = Resources.getImage("floor_tiles.png")
-	self.img_walls = Resources.getImage("walls.png")
-	self.floor_batch = love.graphics.newSpriteBatch(self.img_floor_tiles, self.width*self.height)
-	self.back_batch = love.graphics.newSpriteBatch(self.img_walls, self.width*self.height)
-	self.front_batch = love.graphics.newSpriteBatch(self.img_walls, self.width*self.height)
+	self.img_tiles = Resources.getImage("tiles.png")
+	self.back_batch = love.graphics.newSpriteBatch(self.img_tiles, self.width*self.height)
+	self.front_batch = love.graphics.newSpriteBatch(self.img_tiles, self.width*self.height)
 end
 
 function Map:enter()
@@ -58,6 +56,14 @@ function Map:generate()
 		self:setCircle(cx, cy, r)
 		lastx, lasty = cx, cy
 	end
+	
+	for ix = 0, self.width-1 do
+		for iy=0, self.height-2 do
+			if self:get(ix, iy) == 0 and self:get(ix, iy+1) == 1 then
+				self:set(ix, iy, 2)
+			end
+		end
+	end
 
 	self:createQuads()
 	self:createSpriteBatches()
@@ -85,39 +91,33 @@ function Map:setPath(x1, y1, x2, y2)
 end
 
 function Map:createQuads()
-	local imgw, imgh = self.img_floor_tiles:getDimensions()
+	local imgw, imgh = self.img_tiles:getDimensions()
 
-	self.quad_floor = {}
+	self.quad_tiles = {}
 	for i=0, 3 do
-		self.quad_floor[i] = love.graphics.newQuad(i*32, 0, 32, 32, imgw, imgh)
+		self.quad_tiles[i] = love.graphics.newQuad(i*32, 0, 32, 32, imgw, imgh)
 	end
-
-	self.quad_wall_front = love.graphics.newQuad(0, 0, 32, 32, 64, 32)
-	self.quad_wall_back = love.graphics.newQuad(32, 0, 32, 32, 64, 32)
 end
 
 function Map:createSpriteBatches()
-	self.floor_batch:clear()
 	self.back_batch:clear()
+	self.front_batch:clear()
 	for ix = 0, self.width-1 do
 		for iy = 0, self.height-1 do
 			local tile = self:get(ix, iy)
 			if tile > 0 then
-				self.floor_batch:add(self.quad_floor[tile], ix*32, iy*32)
+				self.back_batch:add(self.quad_tiles[tile], ix*32, iy*32)
 			end
 
-			if iy < self.height-1 and tile == 0 and self:get(ix, iy+1) == 1 then
-				self.back_batch:add(self.quad_wall_front, ix*32, iy*32)
-			end
-			if iy > 0 and tile == 0 and self:get(ix, iy-1) == 1 then
-				self.front_batch:add(self.quad_wall_back, ix*32, iy*32-32)
+			if iy < self.height-2
+			and self:get(ix, iy) == 1 and self:get(ix, iy+1) ~= 1 then
+				self.front_batch:add(self.quad_tiles[0], ix*32, iy*32)
 			end
 		end
 	end
 end
 
 function Map:draw()
-	love.graphics.draw(self.floor_batch, 0, 0)
 	love.graphics.draw(self.back_batch, 0, 0)
 end
 

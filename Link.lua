@@ -4,7 +4,7 @@ local BigExplosion = require("BigExplosion")
 
 local Link = class("Link", Entity)
 
-Link.static.PLAYER_REACH = 270
+Link.static.PLAYER_REACH = 200
 Link.static.LINK_REACH = 270
 
 function Link:initialize()

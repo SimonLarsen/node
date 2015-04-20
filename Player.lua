@@ -6,7 +6,7 @@ local Player = class("Player", Entity)
 
 Player.static.MOVE_SPEED = 200
 Player.static.INVUL_TIME = 1.4
-Player.static.TRIGGER_TIME = 0.06*7
+Player.static.TRIGGER_TIME = 0.30
 Player.static.SLOWMO_FACTOR = 0.5
 
 Player.static.STATE_IDLE = 0

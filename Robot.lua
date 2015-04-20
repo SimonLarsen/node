@@ -26,7 +26,7 @@ function Robot:initialize(x, y)
 	self.state = Robot.static.STATE_IDLE
 	self.time = love.math.random() * 2
 
-	self.cooldown = 2
+	self.cooldown = Robot.static.COOLDOWN
 end
 
 function Robot:enter()
