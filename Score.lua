@@ -13,6 +13,7 @@ function Score:initialize()
 	self.offy = 0
 	self.next_shake = 0
 
+	self.score = 0
 	self.kills = 0
 	self.cooldown = 0
 
@@ -32,7 +33,8 @@ end
 
 function Score:update(dt)
 	self.time = self.time - dt
-	if self.time <= 0 then
+	if self.combo > 0 and self.time <= 0 then
+		self.score = self.score + (100 + 50*(self.combo-1)) * self.combo
 		self.combo = 0
 	end
 
