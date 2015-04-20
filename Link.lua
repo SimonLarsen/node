@@ -6,6 +6,7 @@ local Link = class("Link", Entity)
 
 Link.static.PLAYER_REACH = 270
 Link.static.LINK_REACH = 270
+Link.static.TIME = 0.35
 
 function Link:initialize()
 	Entity.initialize(self, 0, 0, -1)
@@ -76,17 +77,9 @@ function Link:update(dt)
 	end
 
 	local mx, my = Mouse.getPositionCamera()
-	--[[
-	if #self.links > 0 then
-		local xdist = self.links[#self.links].x - mx
-		local ydist = self.links[#self.links].y - my
-		self.hasReach = xdist^2 + (2*ydist)^2 < Link.static.LINK_REACH^2
-	else
-	]]
-		local xdist = self.player.x - mx
-		local ydist = self.player.y - my
-		self.hasReach = xdist^2 + (2*ydist)^2 < Link.static.PLAYER_REACH^2
-	--end
+	local xdist = self.player.x - mx
+	local ydist = self.player.y - my
+	self.hasReach = xdist^2 + (2*ydist)^2 < Link.static.PLAYER_REACH^2
 end
 
 function Link:draw()
@@ -170,7 +163,7 @@ function Link:trigger()
 	self.targetx = tx / mass
 	self.targety = ty / mass
 
-	self.time = 0.5
+	self.time = Link.static.TIME
 	self.active = true
 end
 

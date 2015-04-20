@@ -54,7 +54,7 @@ function Sniper:update(dt)
 		end
 
 		self.cooldown = self.cooldown - dt
-		if self.cooldown <= 0 and self:isLinked() == false then
+		if self.cooldown <= 0 then
 			local xdist = self.player.x - self.x
 			local ydist = self.player.y - self.y
 			if xdist^2+ydist^2 < Sniper.static.AIM_DIST^2
@@ -96,7 +96,7 @@ function Sniper:update(dt)
 			self.dir = math.sign(xdist)
 		end
 
-		if self.time <= 0 then
+		if self.time <= 0 and self:isLinked() == false then
 			self.state = Sniper.static.STATE_IDLE
 			self.time = 1
 			self.cooldown = Sniper.static.COOLDOWN

@@ -274,7 +274,10 @@ function Player:updateStamina(dt)
 end
 
 function Player:onCollide(o)
-	if self:isInvulnerable() then return end
+	if self:isInvulnerable()
+	or self.state == Player.static.STATE_DASH then
+		return
+	end
 
 	if o:getName() == "bullet"
 	or o:getName() == "laser"
