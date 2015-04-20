@@ -5,15 +5,19 @@ local Kick = require("Kick")
 local Player = class("Player", Entity)
 
 Player.static.MOVE_SPEED = 200
-Player.static.INVUL_TIME = 1.4
-Player.static.TRIGGER_TIME = 0.30
-Player.static.SLOWMO_FACTOR = 0.5
+Player.static.DASH_SPEED = 500
 
-Player.static.STATE_IDLE = 0
-Player.static.STATE_RUN = 1
-Player.static.STATE_KICK = 2
-Player.static.STATE_HIT = 3
-Player.static.STATE_TRIGGER = 4
+Player.static.INVUL_TIME = 1.4
+Player.static.TRIGGER_TIME = 0.42
+Player.static.SLOWMO_FACTOR = 0.5
+Player.static.DASH_TIME = 0.2
+
+Player.static.STATE_IDLE	= 0
+Player.static.STATE_RUN		= 1
+Player.static.STATE_KICK	= 2
+Player.static.STATE_HIT		= 3
+Player.static.STATE_TRIGGER	= 4
+Player.static.STATE_DASH 	= 5
 
 function Player:initialize(x, y)
 	Entity.initialize(self, x, y, 0)
@@ -51,26 +55,14 @@ function Player:update(dt)
 	self.time = self.time - dt
 
 	if self.state == Player.static.STATE_IDLE then
-		if Keyboard.isDown("a") then
-			self.xspeed = -Player.static.MOVE_SPEED
-			self.dir = -1
-		end
-		if Keyboard.isDown("d") then
-			self.xspeed = Player.static.MOVE_SPEED
-			self.dir = 1
-		end
+		self:updateMovement()
 
-		if Keyboard.isDown("w") then
-			self.yspeed = -Player.static.MOVE_SPEED
-		end
-		if Keyboard.isDown("s") then
-			self.yspeed = Player.static.MOVE_SPEED
+		if Mouse.wasPressed("r") then
+			self:kick()
 		end
 
 		if Keyboard.wasPressed(" ") then
-			self.state = Player.static.STATE_KICK
-			self.time = 7 * 0.06
-			self.scene:add(Kick(self.x, self.y))
+			self:dash()
 		end
 
 		if self.xspeed^2+self.yspeed^2 > 50^2 then
@@ -86,7 +78,26 @@ function Player:update(dt)
 		if self.time <= 0 then
 			self.state = Player.static.STATE_IDLE
 		end
+
+		if Keyboard.wasPressed(" ") then
+			self:updateMovement()
+			self:dash()
+		end
+	
+	elseif self.state == Player.static.STATE_DASH then
+		if self.time < Player.static.DASH_TIME / 2 then
+			self.xspeed = math.movetowards(self.xspeed, 0, 2000*dt)
+			self.yspeed = math.movetowards(self.yspeed, 0, 2000*dt)
+		end
+		if self.time <= 0 then
+			self.state = Player.static.STATE_IDLE
+		end
+		if Mouse.wasPressed("r") then
+			self:kick()
+		end
 	end
+
+	self.dir = math.sign(self.xspeed)
 
 	self.x = self.x + self.xspeed * dt
 	if CollisionHandler.checkMapBox(self.map, self) then
@@ -137,6 +148,22 @@ function Player:gui()
 	love.graphics.draw(self.img_viewcircle, WIDTH/2, HEIGHT/2, 0, 1, 1, 400, 200)
 end
 
+function Player:updateMovement()
+	if Keyboard.isDown("a") then
+		self.xspeed = -Player.static.MOVE_SPEED
+	end
+	if Keyboard.isDown("d") then
+		self.xspeed = Player.static.MOVE_SPEED
+	end
+
+	if Keyboard.isDown("w") then
+		self.yspeed = -Player.static.MOVE_SPEED
+	end
+	if Keyboard.isDown("s") then
+		self.yspeed = Player.static.MOVE_SPEED
+	end
+end
+
 function Player:hit()
 	self.health = self.health - 1
 	self.invulnerable = Player.static.INVUL_TIME
@@ -146,6 +173,20 @@ end
 function Player:trigger()
 	self.state = Player.static.STATE_TRIGGER
 	self.time = Player.static.TRIGGER_TIME
+end
+
+function Player:dash()
+	self.state = Player.static.STATE_DASH
+	self.time = Player.static.DASH_TIME
+
+	self.xspeed = self.xspeed / Player.static.MOVE_SPEED * Player.static.DASH_SPEED
+	self.yspeed = self.yspeed / Player.static.MOVE_SPEED * Player.static.DASH_SPEED
+end
+
+function Player:kick()
+	self.state = Player.static.STATE_KICK
+	self.time = 7 * 0.06
+	self.scene:add(Kick(self.x, self.y, self.xspeed, self.yspeed))
 end
 
 function Player:isInvulnerable()

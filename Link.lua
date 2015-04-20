@@ -36,13 +36,16 @@ function Link:update(dt)
 		end
 
 		if Mouse.wasReleased("l") then
+			if #self.links >= 2 then
+				self.player:trigger()
+			end
+
 			if #self.links >= 1 then
 				self:trigger()
-				self.player:trigger()
 			end
 		end
 
-		if Mouse.wasPressed("r") then
+		if Keyboard.wasPressed(" ") then
 			self:clear()
 		end
 	else

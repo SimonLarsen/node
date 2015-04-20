@@ -6,7 +6,8 @@ return {
 		["run"] = { image = "player_run.png", fw = 50, fh = 48, delay = 0.1 },
 		["kick"] = { image = "player_kick.png", fw = 89, fh = 48, delay = 0.06 },
 		["hit"] = { image = "player_hit.png", fw = 48, fh = 48, delay = 0.1 },
-		["trigger"] = { image = "player_trigger.png", fw = 50, fh = 48, delay = 0.06 }
+		["trigger"] = { image = "player_trigger.png", fw = 50, fh = 48, delay = 0.06 },
+		["dash"] = { image = "player_dash.png", fw = 48, fh = 48, delay = 1 }
 	},
 
 	properties = {
@@ -33,6 +34,10 @@ return {
 		{
 			from = "any", to = "trigger",
 			property = "state", value = 4
+		},
+		{
+			from = "any", to = "dash",
+			property = "state", value = 5
 		}
 	}
 }
