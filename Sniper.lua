@@ -54,7 +54,7 @@ function Sniper:update(dt)
 		end
 
 		self.cooldown = self.cooldown - dt
-		if self.cooldown <= 0 then
+		if self.cooldown <= 0 and self:isLinked() == false then
 			local xdist = self.player.x - self.x
 			local ydist = self.player.y - self.y
 			if xdist^2+ydist^2 < Sniper.static.AIM_DIST^2

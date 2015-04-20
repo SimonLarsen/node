@@ -55,8 +55,11 @@ function Link:update(dt)
 			for i,v in ipairs(self.links) do
 				v.x = v.x + love.math.random() * 16 - 8
 				v.y = v.y + love.math.random() * 16 - 8
+				--[[
 				self.scene:add(Explosion(v.x, v.y, love.math.randomNormal(0.2, 1.0)))
 				v:kill()
+				]]
+				v:destroy()
 			end
 			self:clear()
 			return
