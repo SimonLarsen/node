@@ -44,9 +44,16 @@ function Map:generate()
 				local dir = love.math.random()*2*math.pi
 				local x = cx*32+16 + math.cos(dir) * r*32/2
 				local y = cy*32+16 + math.sin(dir) * r*32/2
-				self.scene:add(Robot(x, y))
+
+				local dice = love.math.random(1, 5)
+				if dice >= 1 and dice <= 3 then
+					self.scene:add(Robot(x, y))
+				elseif dice == 4 then
+					self.scene:add(Spider(x, y))
+				elseif dice == 5 then
+					self.scene:add(Sniper(x, y))
+				end
 			end
-			self.scene:add(Sniper(cx*32+16, cy*32+16))
 		end
 		self:setCircle(cx, cy, r)
 		lastx, lasty = cx, cy

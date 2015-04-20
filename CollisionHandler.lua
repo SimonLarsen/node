@@ -25,8 +25,8 @@ function CollisionHandler.checkAll(entities)
 end
 
 function CollisionHandler.checkBoxBox(a, b)
-	if math.abs((a.x+a.collider.ox)-(b.x+b.collider.ox)) > (a.collider.w+b.collider.w)/2
-	or math.abs((a.y+a.collider.oy)-(b.y+b.collider.oy)) > (a.collider.w+b.collider.w)/4 then
+	if math.abs(a.x-b.x) > (a.collider.w+b.collider.w)/2
+	or math.abs(a.y-b.y) > (a.collider.w+b.collider.w)/4 then
 		return false
 	end
 
