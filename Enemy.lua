@@ -44,7 +44,8 @@ function Enemy:onCollide(o)
 		self:destroy()
 	end
 
-	if o:getName() == "kick" then
+	if o:getName() == "kick"
+	or o:getName() == "bigexplosion" then
 		self:destroy()
 	end
 end

@@ -10,6 +10,7 @@ Spider.static.SOLID = false
 
 Spider.static.WALK_SPEED = 60
 Spider.static.CHARGE_SPEED = 200
+Spider.static.DETONATE_DIST = 16
 
 Spider.static.STATE_IDLE = 0
 Spider.static.STATE_WALK = 1
@@ -89,10 +90,12 @@ function Spider:update(dt)
 		end
 
 	elseif self.state == Spider.static.STATE_CHARGE then
-
 		self.x = self.x + self.xspeed * dt
 		self.y = self.y + self.yspeed * dt
 		self.dir = math.sign(self.xspeed)
+
+		local xdist = self.x - self.player.x
+		local ydist = self.y - self.player.y
 
 		if self.time <= 0 then
 			self.state = Spider.static.STATE_IDLE
@@ -100,7 +103,8 @@ function Spider:update(dt)
 		end
 
 		local collision = CollisionHandler.checkMapBox(self.map, self)
-		if collision then
+		if xdist^2+ydist^2 < Spider.static.DETONATE_DIST^2
+		or collision then
 			self:explode()
 		end
 	end
