@@ -12,6 +12,7 @@ Animation = require("Animation")
 Animator = require("Animator")
 require("mymath")
 
+local MainMenuScene = require("MainMenuScene")
 local GameScene = require("GameScene")
 
 local canvas
@@ -19,14 +20,13 @@ local canvas
 function love.load()
 	love.graphics.setDefaultFilter("nearest", "nearest")
 	love.graphics.setLineStyle("rough")
-	love.mouse.setVisible(false)
 
 	camera = Camera()
 
 	updateViewport()
 
 	gamestate.registerEvents()
-	gamestate.switch(GameScene())
+	gamestate.switch(MainMenuScene())
 end
 
 function updateViewport()
