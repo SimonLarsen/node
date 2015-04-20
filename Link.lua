@@ -28,6 +28,11 @@ end
 function Link:update(dt)
 	self.crosshair:update(dt)
 
+	if self.player:isDead() then
+		self.hasReach = false
+		return
+	end
+
 	if self.active == false then
 		for i,v in ipairs(self.links) do
 			if v:isAlive() == false then
@@ -56,10 +61,6 @@ function Link:update(dt)
 			for i,v in ipairs(self.links) do
 				v.x = v.x + love.math.random() * 16 - 8
 				v.y = v.y + love.math.random() * 16 - 8
-				--[[
-				self.scene:add(Explosion(v.x, v.y, love.math.randomNormal(0.2, 1.0)))
-				v:kill()
-				]]
 				v:destroy()
 			end
 			self:clear()

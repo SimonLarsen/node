@@ -22,6 +22,7 @@ Player.static.STATE_KICK	= 2
 Player.static.STATE_HIT		= 3
 Player.static.STATE_TRIGGER	= 4
 Player.static.STATE_DASH 	= 5
+Player.static.STATE_DEAD	= 6
 
 Player.static.STAMINA_INCREASE = 0.5
 Player.static.STAMINA_COOLDOWN = 0.6
@@ -61,6 +62,11 @@ end
 
 function Player:update(dt)
 	self.animator:update(dt)
+
+	if self.state == Player.static.STATE_DEAD then
+		self.animator:setProperty("state", self.state)
+		return
+	end
 
 	local oldx, oldy = self.x, self.y
 
@@ -211,9 +217,15 @@ function Player:updateMovement()
 end
 
 function Player:hit()
-	self.health = self.health - 1
-	self.invulnerable = Player.static.INVUL_TIME
-	self.hud:setHealth(self.health)
+	if self.health > 0 then
+		self.health = self.health - 1
+		self.hud:setHealth(self.health)
+		if self.health == 0 then
+			self.state = Player.static.STATE_DEAD
+		else
+			self.invulnerable = Player.static.INVUL_TIME
+		end
+	end
 end
 
 function Player:trigger()
@@ -284,6 +296,10 @@ function Player:onCollide(o)
 	or o:getName() == "bigexplosion" then
 		self:hit()
 	end
+end
+
+function Player:isDead()
+	return self.state == Player.static.STATE_DEAD
 end
 
 return Player
