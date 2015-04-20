@@ -16,6 +16,9 @@ function Player:initialize(x, y)
 	Entity.initialize(self, x, y, 0)
 	self:setName("player")
 
+	self.xspeed = 0
+	self.yspeed = 0
+
 	self.dir = 1
 	self.state = Player.static.STATE_IDLE
 	self.health = 3
@@ -36,33 +39,24 @@ function Player:update(dt)
 	local oldx, oldy = self.x, self.y
 
 	local animstate = self.state
+	self.xspeed = math.movetowards(self.xspeed, 0, 1000*dt)
+	self.yspeed = math.movetowards(self.yspeed, 0, 1000*dt)
+
 	if self.state == Player.static.STATE_IDLE then
 		if Keyboard.isDown("a") then
-			self.x = self.x - Player.static.MOVE_SPEED * dt
+			self.xspeed = -Player.static.MOVE_SPEED
 			self.dir = -1
-			animstate = 1
 		end
 		if Keyboard.isDown("d") then
-			self.x = self.x + Player.static.MOVE_SPEED * dt
+			self.xspeed = Player.static.MOVE_SPEED
 			self.dir = 1
-			animstate = 1
-		end
-
-		if CollisionHandler.checkMapBox(self.map, self) then
-			self.x = oldx
 		end
 
 		if Keyboard.isDown("w") then
-			self.y = self.y - Player.static.MOVE_SPEED * dt
-			animstate = 1
+			self.yspeed = -Player.static.MOVE_SPEED
 		end
 		if Keyboard.isDown("s") then
-			self.y = self.y + Player.static.MOVE_SPEED * dt
-			animstate = 1
-		end
-
-		if CollisionHandler.checkMapBox(self.map, self) then
-			self.y = oldy
+			self.yspeed = Player.static.MOVE_SPEED
 		end
 
 		if Keyboard.wasPressed(" ") then
@@ -71,11 +65,25 @@ function Player:update(dt)
 			self.scene:add(Kick(self.x, self.y))
 		end
 
+		if self.xspeed^2+self.yspeed^2 > 50^2 then
+			animstate = 1
+		end
+
 	elseif self.state == Player.static.STATE_KICK then
 		self.time = self.time - dt
 		if self.time <= 0 then
 			self.state = Player.static.STATE_IDLE
 		end
+	end
+
+	self.x = self.x + self.xspeed * dt
+	if CollisionHandler.checkMapBox(self.map, self) then
+		self.x = oldx
+	end
+
+	self.y = self.y + self.yspeed * dt
+	if CollisionHandler.checkMapBox(self.map, self) then
+		self.y = oldy
 	end
 
 	if self.invulnerable > 0 then
