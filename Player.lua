@@ -63,11 +63,6 @@ end
 function Player:update(dt)
 	self.animator:update(dt)
 
-	if self.state == Player.static.STATE_DEAD then
-		self.animator:setProperty("state", self.state)
-		return
-	end
-
 	local oldx, oldy = self.x, self.y
 
 	local animstate = self.state
@@ -75,6 +70,14 @@ function Player:update(dt)
 	self.yspeed = math.movetowards(self.yspeed, 0, 1000*dt)
 
 	self.time = self.time - dt
+
+	if self.state == Player.static.STATE_DEAD then
+		self.animator:setProperty("state", self.state)
+		if self.time <= 0 then
+			self.scene:find("pausemenu"):setVisible(true)
+		end
+		return
+	end
 
 	if self.state == Player.static.STATE_IDLE then
 		self:updateMovement()
@@ -222,6 +225,9 @@ function Player:hit()
 		self.hud:setHealth(self.health)
 		if self.health == 0 then
 			self.state = Player.static.STATE_DEAD
+			local menu = self.scene:find("pausemenu")
+			menu:setDead()
+			self.time = 1.5
 		else
 			self.invulnerable = Player.static.INVUL_TIME
 		end

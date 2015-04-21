@@ -2,6 +2,7 @@ local Resources = {}
 
 local images = {}
 local animators = {}
+local fonts = {}
 
 function Resources.getImage(path)
 	if images[path] == nil then
@@ -16,6 +17,13 @@ function Resources.getAnimator(path)
 		animators[path] = f()
 	end
 	return animators[path]
+end
+
+function Resources.getFont(path, size)
+	if fonts[path .. size] == nil then
+		fonts[path .. size] = love.graphics.newFont("data/fonts/" .. path, size)
+	end
+	return fonts[path .. size]
 end
 
 return Resources

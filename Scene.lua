@@ -78,4 +78,8 @@ function Scene:setSpeed(speed)
 	self.speed = speed
 end
 
+function Scene:clearEntities()
+	self.entities = {}
+end
+
 return Scene
