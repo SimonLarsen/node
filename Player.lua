@@ -228,6 +228,7 @@ function Player:hit()
 			local menu = self.scene:find("pausemenu")
 			menu:setDead()
 			self.time = 1.5
+			self.scene:setSpeed(1)
 		else
 			self.invulnerable = Player.static.INVUL_TIME
 		end

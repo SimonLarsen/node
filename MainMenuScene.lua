@@ -35,7 +35,7 @@ function MainMenuScene:update(dt)
 
 	if Mouse.wasPressed("l") then
 		if self.highlighted == 1 then
-			gamestate.switch(GameScene("level1"))
+			gamestate.switch(GameScene(9))
 		elseif self.highlighted == 2 then
 		elseif self.highlighted == 3 then
 			love.event.quit()

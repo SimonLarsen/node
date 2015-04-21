@@ -29,6 +29,7 @@ function Map:loadLevel(id)
 
 	self.width = data.width
 	self.height = data.height
+	self.enemies = 0
 	self:clear()
 
 	for i, layer in ipairs(data.layers) do
@@ -47,14 +48,19 @@ function Map:loadLevel(id)
 					self.starty = y
 				elseif o.type == "robot" then
 					self.scene:add(Robot(x, y))
+					self.enemies = self.enemies + 1
 				elseif o.type == "commander" then
 					self.scene:add(Commander(x, y))
+					self.enemies = self.enemies + 1
 				elseif o.type == "demobot" then
 					self.scene:add(Demobot(x, y))
+					self.enemies = self.enemies + 1
 				elseif o.type == "spider" then
 					self.scene:add(Spider(x, y))
+					self.enemies = self.enemies + 1
 				elseif o.type == "sniper" then
 					self.scene:add(Sniper(x, y))
+					self.enemies = self.enemies + 1
 				end
 			end
 		end
@@ -178,6 +184,10 @@ function Map:getPlayerStart()
 	return self.startx, self.starty
 end
 
+function Map:getNumEnemies()
+	return self.enemies
+end
+
 function Map:clear()
 	self.map = {}
 	for ix = 0, self.width-1 do
@@ -196,6 +206,10 @@ function Map:set(x, y, val)
 end
 
 function Map:get(x, y)
+	if x < 0 or x >= self.width
+	or y < 0 or y >= self.height then
+		return 0
+	end
 	return self.map[x][y]
 end
 

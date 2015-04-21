@@ -6,8 +6,13 @@ local Link = require("Link")
 local HUD = require("HUD")
 local Score = require("Score")
 local PauseMenu = require("PauseMenu")
+local Winscreen = require("Winscreen")
+
+local ClearScreen = require("ClearScreen")
 
 local GameScene = class("GameScene", Scene)
+
+GameScene.static.NUM_LEVELS = 9
 
 function GameScene:initialize(level)
 	Scene.initialize(self)
@@ -21,14 +26,23 @@ function GameScene:initialize(level)
 	self:add(Player(map:getPlayerStart()))
 	self:add(Link())
 	self:add(HUD())
-	self:add(Score())
+	self:add(Score(map:getNumEnemies()))
 
 	self:add(PauseMenu())
+
 	self:enter()
 end
 
 function GameScene:restart()
 	gamestate.switch(GameScene(self.level))
+end
+
+function GameScene:nextLevel()
+	if self.level == GameScene.static.NUM_LEVELS then
+		gamestate.switch(Winscreen())
+	else
+		gamestate.switch(GameScene(self.level+1))
+	end
 end
 
 return GameScene

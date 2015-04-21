@@ -1,9 +1,11 @@
+local ClearScreen = require("ClearScreen")
+
 local Score = class("Score", Entity)
 
 Score.static.COOLDOWN = 0.5
 Score.static.SHOW_TIME = 1.5
 
-function Score:initialize()
+function Score:initialize(enemies)
 	Entity.initialize(self, 0, 0, -200)
 	self:setName("score")
 
@@ -16,9 +18,11 @@ function Score:initialize()
 	self.score = 0
 	self.kills = 0
 	self.cooldown = 0
+	self.enemies = enemies
 
 	self.combo = 0
 	self.time = 0
+	self.elapsed_time = 0
 
 	local imgw, imgh = self.img_text:getDimensions()
 	for ix = 0, 3 do
@@ -31,8 +35,10 @@ function Score:initialize()
 	self.quad_node = love.graphics.newQuad(0, 150, 131, 47, imgw, imgh)
 end
 
-function Score:update(dt)
+function Score:update(dt, rt)
 	self.time = self.time - dt
+	self.elapsed_time = self.elapsed_time + rt
+
 	if self.combo > 0 and self.time <= 0 then
 		self.score = self.score + (100 + 50*(self.combo-1)) * self.combo
 		self.combo = 0
@@ -57,6 +63,11 @@ function Score:addKill()
 	self.combo = self.kills
 	self.cooldown = Score.static.COOLDOWN
 	self.time = Score.static.SHOW_TIME
+
+	self.enemies = self.enemies - 1
+	if self.enemies == 0 then
+		self.scene:add(ClearScreen(self.score, self.elapsed_time))
+	end
 end
 
 function Score:gui()

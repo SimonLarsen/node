@@ -51,7 +51,9 @@ function Enemy:onCollide(o)
 end
 
 function Enemy:onRemove()
-	self.scene:find("score"):addKill()
+	if self:getName() ~= "grenade" then
+		self.scene:find("score"):addKill()
+	end
 end
 
 return Enemy
