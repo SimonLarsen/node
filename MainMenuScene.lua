@@ -11,6 +11,7 @@ function MainMenuScene:initialize()
 	self.img_menupoints = Resources.getImage("mainmenupoints.png")
 	self.img_bg = Resources.getImage("mainmenu.png")
 	self.img_underline = Resources.getImage("selection_underline.png")
+	self.img_credits = Resources.getImage("credits.png")
 
 	self.highlighted = 0
 
@@ -33,12 +34,17 @@ function MainMenuScene:update(dt)
 		end
 	end
 
-	if Mouse.wasPressed("l") then
-		if self.highlighted == 1 then
-			gamestate.switch(GameScene(1))
-		elseif self.highlighted == 2 then
-		elseif self.highlighted == 3 then
-			love.event.quit()
+	if self.state == 1 then
+		if Mouse.wasPressed("l") then
+			if self.highlighted == 1 then
+				gamestate.switch(GameScene(1))
+				Resources.playSound("laser.wav")
+			elseif self.highlighted == 2 then
+				self.state = 2
+				Resources.playSound("laser.wav")
+			elseif self.highlighted == 3 then
+				love.event.quit()
+			end
 		end
 	end
 end
@@ -63,12 +69,20 @@ function MainMenuScene:gui()
 		if self.highlighted > 0 then 
 			love.graphics.draw(self.img_underline, math.floor(WIDTH/2-100), menutop+self.highlighted*50)
 		end
+
+	elseif self.state == 2 then
+		local menutop = math.floor(math.max(HEIGHT/2-84, 0.35*HEIGHT))
+		love.graphics.draw(self.img_credits, math.floor(WIDTH/2-134), menutop)
 	end
 end
 
 function MainMenuScene:keypressed(k)
 	if self.state == 0 then
 		self.state = 1
+		Resources.playSound("laser.wav")
+	elseif self.state == 2 then
+		self.state = 1
+		Resources.playSound("laser.wav")
 	end
 end
 

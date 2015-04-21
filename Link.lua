@@ -45,6 +45,7 @@ function Link:update(dt)
 		or self.player:isLinking() == false then
 			if #self.links >= 2 then
 				self.player:trigger()
+				Resources.playSound("denied.wav")
 			end
 
 			if #self.links >= 1 then
@@ -61,8 +62,9 @@ function Link:update(dt)
 			for i,v in ipairs(self.links) do
 				v.x = v.x + love.math.random() * 16 - 8
 				v.y = v.y + love.math.random() * 16 - 8
-				v:destroy()
+				v:destroy(false)
 			end
+			Resources.playSound("explosion_deep.wav")
 			self:clear()
 			return
 		end
@@ -130,6 +132,7 @@ function Link:addLink(e)
 	end
 
 	table.insert(self.links, e)
+	Resources.playSound("targeting.wav")
 	return true
 end
 

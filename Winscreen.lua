@@ -37,7 +37,7 @@ function Winscreen:gui()
 
 		love.graphics.setColor(255, 255, 255)
 		love.graphics.printf("TOTAL SCORE: " .. Score.static.total_score, 0, HEIGHT/2-30, WIDTH, "center")
-		love.graphics.printf("TOTAL TIME: " .. Score.static.total_score, 0, HEIGHT/2, WIDTH, "center")
+		love.graphics.printf("TOTAL TIME: " .. util.secsToString(Score.static.total_time), 0, HEIGHT/2, WIDTH, "center")
 	end
 
 end

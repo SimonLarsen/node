@@ -59,6 +59,7 @@ function Sniper:update(dt)
 			local ydist = self.player.y - self.y
 			if xdist^2+ydist^2 < Sniper.static.AIM_DIST^2
 			and self.map:canSee(self, self.player) then
+				Resources.playSound("charge.wav")
 				self.state = Sniper.static.STATE_CHARGE
 				self.time = Sniper.static.CHARGE_TIME
 				self.aimx = self.player.x
@@ -100,6 +101,7 @@ function Sniper:update(dt)
 			self.state = Sniper.static.STATE_IDLE
 			self.time = 1
 			self.cooldown = Sniper.static.COOLDOWN
+			Resources.playSound("laser.wav")
 			self.scene:add(Laser(self.x+2*self.dir, self.y, self.aimx, self.aimy))
 		end
 	end

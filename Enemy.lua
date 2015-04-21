@@ -33,7 +33,13 @@ function Enemy:checkLinked()
 	end
 end
 
-function Enemy:destroy()
+function Enemy:destroy(playSound)
+	if playSound == nil then
+		playSound = true
+	end
+	if playSound then
+		Resources.playSound("explosion_light.wav")
+	end
 	self.scene:add(Explosion(self.x, self.y))
 	self:kill()
 end

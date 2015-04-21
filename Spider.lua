@@ -113,6 +113,7 @@ function Spider:update(dt)
 end
 
 function Spider:explode()
+	Resources.playSound("explosion_deep.wav")
 	self.scene:add(BigExplosion(self.x, self.y, true))
 	self:kill()
 end

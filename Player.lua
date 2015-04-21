@@ -223,6 +223,7 @@ function Player:hit()
 	if self.health > 0 then
 		self.health = self.health - 1
 		self.hud:setHealth(self.health)
+		Resources.playSound("hurt.wav")
 		if self.health == 0 then
 			self.state = Player.static.STATE_DEAD
 			local menu = self.scene:find("pausemenu")
@@ -250,6 +251,8 @@ function Player:dash()
 
 		self.xspeed = self.xspeed / Player.static.MOVE_SPEED * Player.static.DASH_SPEED
 		self.yspeed = self.yspeed / Player.static.MOVE_SPEED * Player.static.DASH_SPEED
+	else
+		Resources.playSound("denied.wav")
 	end
 end
 
@@ -258,6 +261,8 @@ function Player:kick()
 		self.state = Player.static.STATE_KICK
 		self.time = 7 * 0.06
 		self.scene:add(Kick(self.x, self.y, self.xspeed, self.yspeed))
+	else
+		Resources.playSound("denied.wav")
 	end
 end
 
