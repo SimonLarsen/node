@@ -3,6 +3,7 @@ local Resources = {}
 local images = {}
 local animators = {}
 local fonts = {}
+local sounds = {}
 
 function Resources.getImage(path)
 	if images[path] == nil then
@@ -24,6 +25,19 @@ function Resources.getFont(path, size)
 		fonts[path .. size] = love.graphics.newFont("data/fonts/" .. path, size)
 	end
 	return fonts[path .. size]
+end
+
+function Resources.getSound(path)
+	if sounds[path] == nil then
+		sounds[path] = love.audio.newSource("data/sounds/" .. path)
+	end
+	return sounds[path]
+end
+
+function Resources.playSound(path, volume)
+	local sound = Resources.getSound(path)
+	sound:setVolume(volume or 1)
+	love.audio.play(sound)
 end
 
 return Resources

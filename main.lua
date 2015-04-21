@@ -1,3 +1,4 @@
+require("slam.slam")
 class = require("middleclass.middleclass")
 gamestate = require("hump.gamestate")
 Resources = require("Resources")
@@ -16,6 +17,7 @@ local MainMenuScene = require("MainMenuScene")
 local GameScene = require("GameScene")
 
 local canvas
+local music
 
 function love.load()
 	love.graphics.setDefaultFilter("nearest", "nearest")
@@ -24,6 +26,11 @@ function love.load()
 	camera = Camera()
 
 	updateViewport()
+
+	music = love.audio.newSource("data/music/redemption.ogg", "stream")
+	music:setLooping(true)
+	music:setVolume(0.5)
+	love.audio.play(music)
 
 	gamestate.registerEvents()
 	gamestate.switch(MainMenuScene())

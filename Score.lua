@@ -5,6 +5,9 @@ local Score = class("Score", Entity)
 Score.static.COOLDOWN = 0.5
 Score.static.SHOW_TIME = 1.5
 
+Score.static.total_score = 0
+Score.static.total_time = 0
+
 function Score:initialize(enemies)
 	Entity.initialize(self, 0, 0, -200)
 	self:setName("score")
@@ -66,6 +69,8 @@ function Score:addKill()
 
 	self.enemies = self.enemies - 1
 	if self.enemies == 0 then
+		Score.static.total_score = Score.static.total_score + self.score
+		Score.static.total_time = Score.static.total_time + self.time
 		self.scene:add(ClearScreen(self.score, self.elapsed_time))
 	end
 end

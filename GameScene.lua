@@ -12,7 +12,7 @@ local ClearScreen = require("ClearScreen")
 
 local GameScene = class("GameScene", Scene)
 
-GameScene.static.NUM_LEVELS = 9
+GameScene.static.NUM_LEVELS = 10
 
 function GameScene:initialize(level)
 	Scene.initialize(self)
