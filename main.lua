@@ -139,7 +139,7 @@ function love.run()
             love.graphics.origin()
 			love.graphics.push()
 
-			canvas:clear()
+			canvas:clear(35, 28, 55, 255)
 			love.graphics.setCanvas(canvas)
 
 			camera:apply()

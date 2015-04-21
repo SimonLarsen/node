@@ -24,7 +24,9 @@ function HUD:initialize()
 end
 
 function HUD:setHealth(value)
+	self.subhealth = self.health
 	self.health = value
+	self.health_cooldown = HUD.static.COOLDOWN*3
 end
 
 function HUD:setStamina(value)
@@ -46,20 +48,19 @@ function HUD:update(dt)
 	end
 	self.quad_substamina:setViewport(0, 0, self.substamina*78, 3)
 
+	self.health_cooldown = self.health_cooldown - dt
 end
 
 function HUD:gui()
 	love.graphics.draw(self.img_hud_top, 0, 8)
-	love.graphics.setColor(112, 218, 218)
 
-	local barlen = self.health * 34
-	love.graphics.polygon(
-		"fill",
-		5, 27,
-		15, 17,
-		barlen+15, 17,
-		barlen+5, 27
-	)
+	local barlen = self.subhealth * 34
+	if self.health_cooldown > 0 then
+		love.graphics.polygon("fill", 5, 27, 15, 17, barlen+15, 17, barlen+5, 27)
+	end
+	love.graphics.setColor(112, 218, 218)
+	barlen = self.health * 34
+	love.graphics.polygon("fill", 5, 27, 15, 17, barlen+15, 17, barlen+5, 27)
 
 	love.graphics.setColor(255, 255, 255)
 	love.graphics.draw(self.img_healthbar, 4, 16)

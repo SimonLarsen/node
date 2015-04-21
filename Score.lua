@@ -70,7 +70,7 @@ function Score:addKill()
 	self.enemies = self.enemies - 1
 	if self.enemies == 0 then
 		Score.static.total_score = Score.static.total_score + self.score
-		Score.static.total_time = Score.static.total_time + self.time
+		Score.static.total_time = Score.static.total_time + self.elapsed_time
 		self.scene:add(ClearScreen(self.score, self.elapsed_time))
 	end
 end

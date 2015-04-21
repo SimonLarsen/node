@@ -37,7 +37,7 @@ function Player:initialize(x, y)
 	self:setName("player")
 
 	self.xspeed = 0
-	self.yspeed = 0
+	self.yspeed = 100.0
 
 	self.dir = 1
 	self.state = Player.static.STATE_IDLE
@@ -230,6 +230,7 @@ function Player:hit()
 			menu:setDead()
 			self.time = 1.5
 			self.scene:setSpeed(1)
+			Resources.playSound("death.wav")
 		else
 			self.invulnerable = Player.static.INVUL_TIME
 		end
@@ -251,6 +252,7 @@ function Player:dash()
 
 		self.xspeed = self.xspeed / Player.static.MOVE_SPEED * Player.static.DASH_SPEED
 		self.yspeed = self.yspeed / Player.static.MOVE_SPEED * Player.static.DASH_SPEED
+		Resources.playSound("dash.wav")
 	else
 		Resources.playSound("denied.wav")
 	end
@@ -261,6 +263,7 @@ function Player:kick()
 		self.state = Player.static.STATE_KICK
 		self.time = 7 * 0.06
 		self.scene:add(Kick(self.x, self.y, self.xspeed, self.yspeed))
+		Resources.playSound("kick.wav")
 	else
 		Resources.playSound("denied.wav")
 	end
