@@ -1,10 +1,10 @@
 N.O.D.E
 =======
 
-*N.O.D.E.* is a topdown shooter but with a twist! instead of shooting your enemies
+N.O.D.E. is a topdown shooter but with a twist! instead of shooting your enemies
 you use your kicks and your linking powers to overcome hordes of cyborgs!
 
-*N.O.D.E.* was made in 72 hours for the Ludum Dare 32 Jam competition.
+N.O.D.E. was made in 72 hours for the Ludum Dare 32 Jam competition.
 See: [http://ludumdare.com/compo/ludum-dare-32/?action=preview&uid=1980](http://ludumdare.com/compo/ludum-dare-32/?action=preview&uid=1980)
 
 ## Controls ##
@@ -29,8 +29,8 @@ Don't kick grenades!
 
 ## Credits ##
 
-Programming: Simon Larsen (@SimonLarsen)
-Art: Lukas Erritsoe (@Lukaserritsoe)
-Art: Hernan Zhou (@HernanZh)
+* Programming: Simon Larsen ([http://twitter.com/SimonLarsen](@SimonLarsen))
+* Art: Lukas Erritsoe ([http://twitter.com/Lukaserritsoe](@Lukaserritsoe))
+* Art: Hernan Zhou ([http://twitter.com/HernanZh](@HernanZh))
 
 (Music made by Simon Larsen pre-jam.)
