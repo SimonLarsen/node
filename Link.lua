@@ -1,6 +1,7 @@
 local LinkJoint = require("LinkJoint")
 local Explosion = require("Explosion")
 local BigExplosion = require("BigExplosion")
+local LinkEffect = require("LinkEffect")
 
 local Link = class("Link", Entity)
 
@@ -132,6 +133,7 @@ function Link:addLink(e)
 	end
 
 	table.insert(self.links, e)
+	self.scene:add(LinkEffect(e))
 	Resources.playSound("targeting.wav")
 	return true
 end
