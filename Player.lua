@@ -58,6 +58,7 @@ end
 function Player:enter()
 	self.map = self.scene:find("map")
 	self.hud = self.scene:find("hud")
+	self.glitchoverlay = self.scene:find("glitchoverlay")
 end
 
 function Player:update(dt)
@@ -149,11 +150,11 @@ function Player:update(dt)
 	and self:useStamina(Player.static.LINK_COST * dt) then
 		self.scene:setSpeed(Player.static.SLOWMO_FACTOR)
 		self.linking = true
-		self.map.glitch = true
+		self.glitchoverlay:setActive(true)
 	else
 		self.scene:setSpeed(1)
 		self.linking = false
-		self.map.glitch = false
+		self.glitchoverlay:setActive(false)
 	end
 
 	self:updateStamina(dt)

@@ -16,17 +16,6 @@ function Map:initialize()
 	self:setName("map")
 
 	self.img_tiles = Resources.getImage("tiles.png")
-
-	self.shader = Resources.getShader("glitch.lua")
-	self.dispswitch = 0
-	self.disppause = 0
-	self.glitch = false
-	self.glitchfactor = 0
-
-	self.disp = {}
-	for i = 1,6 do
-		self.disp[i] = Resources.getImage("disp/" .. i .. ".png")
-	end
 end
 
 function Map:loadLevel(id)
@@ -175,42 +164,8 @@ function Map:createSpriteBatches()
 	end
 end
 
-function Map:update(dt)
-	if self.glitch then
-		self.glitchfactor = math.movetowards(self.glitchfactor, 1, 5*dt)
-
-		self.dispswitch = self.dispswitch - dt
-		self.disppause = self.disppause - dt
-		if self.dispswitch <= 0 then
-			self.dispswitch = love.math.random() * 0.05
-			if love.math.random(1,8) == 1 then
-				self.disppause = love.math.random() * 0.2
-			else
-				self.shader:send("disp", self.disp[love.math.random(1,6)])
-			end
-		end
-	else
-		self.glitchfactor = math.movetowards(self.glitchfactor, 0, 10*dt)
-	end
-end
-
 function Map:draw()
 	love.graphics.draw(self.batch, 0, 0)
-
-	if self.glitch then
-		love.graphics.setColor(120, 220, 220, 100*self.glitchfactor)
-		love.graphics.push()
-		love.graphics.origin()
-		love.graphics.scale(1, 0.5)
-		love.graphics.circle("fill", WIDTH/2, HEIGHT, self.glitchfactor*math.max(WIDTH,HEIGHT)/2, 32)
-		love.graphics.pop()
-		love.graphics.setColor(255, 255, 255)
-
-		if self.disppause < 0 then
-			self.shader:send("factor", self.glitchfactor)
-			self.scene:drawFullscreenShader(self.shader)
-		end
-	end
 end
 
 function Map:getPlayerStart()
