@@ -15,8 +15,6 @@ require("mymath")
 local MainMenuScene = require("MainMenuScene")
 local GameScene = require("GameScene")
 
-local music
-
 function love.load()
 	love.graphics.setDefaultFilter("nearest", "nearest")
 	love.graphics.setLineStyle("rough")
