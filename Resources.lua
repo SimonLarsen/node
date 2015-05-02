@@ -4,6 +4,7 @@ local images = {}
 local animators = {}
 local fonts = {}
 local sounds = {}
+local shaders = {}
 
 function Resources.getImage(path)
 	if images[path] == nil then
@@ -38,6 +39,15 @@ function Resources.playSound(path, volume)
 	local sound = Resources.getSound(path)
 	sound:setVolume(volume or 1)
 	love.audio.play(sound)
+end
+
+function Resources.getShader(path)
+	if shaders[path] == nil then
+		local f = love.filesystem.load("data/shaders/" .. path)
+		local data = f()
+		shaders[path] = love.graphics.newShader(data.pixelcode)
+	end
+	return shaders[path]
 end
 
 return Resources

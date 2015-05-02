@@ -1,4 +1,5 @@
 local CollisionHandler = require("CollisionHandler")
+local Camera = require("Camera")
 
 local Scene = class("Scene")
 
@@ -6,6 +7,9 @@ function Scene:initialize()
 	self.entities = {}
 	self.hasEntered = false
 	self.speed = 0
+	self.camera = Camera()
+
+	Timer.clear()
 end
 
 function Scene:enter()
@@ -16,7 +20,9 @@ function Scene:enter()
 end
 
 function Scene:update(dt)
-	CollisionHandler.checkAll(self.entities)
+	self.camera:update(dt)
+
+	CollisionHandler.checkAll(self)
 
 	local rt = dt
 	dt = dt * self.speed
@@ -42,19 +48,47 @@ function Scene:update(dt)
 end
 
 function Scene:draw()
+	canvas:clear(35, 28, 55, 255)
+
+	love.graphics.push()
+	self.camera:apply()
+
 	for i,v in ipairs(self.entities) do
 		if v.draw then
 			v:draw()
 		end
 	end
+	
+	love.graphics.pop()
 end
 
 function Scene:gui()
+	love.graphics.push()
+
 	for i,v in ipairs(self.entities) do
 		if v.gui then
 			v:gui()
 		end
 	end
+
+	love.graphics.pop()
+end
+
+function Scene:drawFullscreenShader(shader)
+	love.graphics.setShader(shader)
+	love.graphics.setCanvas()
+
+	love.graphics.push()
+	love.graphics.origin()
+	love.graphics.scale(SCALE, SCALE)
+
+	love.graphics.draw(canvas, 0, 0)
+
+	love.graphics.pop()
+
+	canvas:clear(35, 28, 55, 0)
+	love.graphics.setCanvas(canvas)
+	love.graphics.setShader()
 end
 
 function Scene:add(e)
@@ -80,6 +114,14 @@ end
 
 function Scene:clearEntities()
 	self.entities = {}
+end
+
+function Scene:getEntities()
+	return self.entities
+end
+
+function Scene:getCamera()
+	return self.camera
 end
 
 return Scene

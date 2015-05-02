@@ -80,7 +80,7 @@ function Link:update(dt)
 		end
 	end
 
-	local mx, my = Mouse.getPositionCamera()
+	local mx, my = Mouse.getPositionCamera(self.scene:getCamera())
 	local xdist = self.player.x - mx
 	local ydist = self.player.y - my
 	self.hasReach = xdist^2 + (2*ydist)^2 < Link.static.PLAYER_REACH^2
@@ -89,13 +89,16 @@ end
 function Link:draw()
 	love.graphics.setLineWidth(2)
 
+	love.graphics.setColor(255, 128, 248)
 	for i=1, #self.links-1 do
 		love.graphics.line(self.links[i].x, self.links[i].y+self.links[i].linkz, self.links[i+1].x, self.links[i+1].y+self.links[i+1].linkz)
 	end
 
-	local mx, my = Mouse.getPositionCamera()
+	local mx, my = Mouse.getPositionCamera(self.scene:getCamera())
 	if #self.links > 0 and self.active == false then
-		if not self.hasReach then
+		if self.hasReach then
+			love.graphics.setColor(255, 255, 255)
+		else
 			love.graphics.setColor(255, 33, 33)
 		end
 		love.graphics.line(self.links[#self.links].x, self.links[#self.links].y+self.links[#self.links].linkz, mx, my)

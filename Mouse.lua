@@ -22,7 +22,7 @@ function Mouse.getPosition()
 	return mx/SCALE, my/SCALE
 end
 
-function Mouse:getPositionCamera()
+function Mouse.getPositionCamera(camera)
 	local mx, my = love.mouse.getPosition()
 	return mx/SCALE + camera:getLeft(), my/SCALE + camera:getTop()
 end

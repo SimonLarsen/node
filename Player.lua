@@ -149,14 +149,16 @@ function Player:update(dt)
 	and self:useStamina(Player.static.LINK_COST * dt) then
 		self.scene:setSpeed(Player.static.SLOWMO_FACTOR)
 		self.linking = true
+		self.map.glitch = true
 	else
 		self.scene:setSpeed(1)
 		self.linking = false
+		self.map.glitch = false
 	end
 
 	self:updateStamina(dt)
 	self.animator:setProperty("state", animstate)
-	camera:setPosition(self.x, self.y)
+	self.scene:getCamera():setPosition(self.x, self.y)
 end
 
 function Player:draw()

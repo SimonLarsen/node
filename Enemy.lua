@@ -27,7 +27,7 @@ end
 
 function Enemy:checkLinked()
 	if  Mouse.isDown("l")
-	and CollisionHandler.checkMouseHover(self) then
+	and CollisionHandler.checkMouseHover(self.scene:getCamera(), self) then
 		local link = self.scene:find("link")
 		link:addLink(self)
 	end

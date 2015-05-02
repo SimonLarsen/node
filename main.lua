@@ -7,7 +7,6 @@ Timer = require("hump.timer")
 Scene = require("Scene")
 Keyboard = require("Keyboard")
 Mouse = require("Mouse")
-Camera = require("Camera")
 util = require("util")
 Animation = require("Animation")
 Animator = require("Animator")
@@ -16,14 +15,11 @@ require("mymath")
 local MainMenuScene = require("MainMenuScene")
 local GameScene = require("GameScene")
 
-local canvas
 local music
 
 function love.load()
 	love.graphics.setDefaultFilter("nearest", "nearest")
 	love.graphics.setLineStyle("rough")
-
-	camera = Camera()
 
 	updateViewport()
 
@@ -129,34 +125,22 @@ function love.run()
         -- Call update and draw
         love.update(dt)
 
-		camera:update(dt)
-
 		Mouse.clear()
 		Keyboard.clear()
 
         if love.window and love.graphics and love.window.isCreated() then
             love.graphics.clear()
             love.graphics.origin()
-			love.graphics.push()
 
-			canvas:clear(35, 28, 55, 255)
 			love.graphics.setCanvas(canvas)
 
-			camera:apply()
-
-            love.draw()
-
-			love.graphics.pop()
-			love.graphics.push()
-
+			love.draw()
 			love.gui()
 
-			love.graphics.pop()
 			love.graphics.push()
 
 			love.graphics.scale(SCALE, SCALE)
 			love.graphics.setCanvas()
-
 			love.graphics.draw(canvas, 0, 0)
 
 			love.graphics.pop()

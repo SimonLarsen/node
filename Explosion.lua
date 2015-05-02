@@ -6,7 +6,10 @@ function Explosion:initialize(x, y, speed)
 	self.speed = speed or 1
 	self.animation = Animation(Resources.getImage("explosion.png"), 46, 44, 0.1 / self.speed)
 	self.time = 7 * 0.1 / self.speed
-	camera:setScreenShake(4, 0.5)
+end
+
+function Explosion:enter()
+	self.scene:getCamera():setScreenShake(4, 0.5)
 end
 
 function Explosion:update(dt)

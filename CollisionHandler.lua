@@ -1,6 +1,8 @@
 local CollisionHandler = {}
 
-function CollisionHandler.checkAll(entities)
+function CollisionHandler.checkAll(scene)
+	local entities = scene:getEntities()
+
 	for i=1, #entities do
 		for j=i+1, #entities do
 			local v = entities[i]
@@ -36,9 +38,7 @@ end
 function CollisionHandler.checkBoxPoint(a, x, y)
 	if math.abs(a.x + a.collider.ox - x) < a.collider.w/2
 	and math.abs(a.y + a.collider.oy - y) < a.collider.h/2 then
-		return true
-	end
-
+		return true end 
 	return false
 end
 
@@ -80,12 +80,14 @@ function CollisionHandler.checkLineBox(l, a)
 	return dist < a.collider.w/2
 end
 
-function CollisionHandler.checkClicked(entities)
+function CollisionHandler.checkClicked(scene)
 	if Mouse.wasPressed("l") == false then
 		return
 	end
 
-	local mx, my = Mouse.getPositionCamera()
+	local entities = scene:getEntities()
+
+	local mx, my = Mouse.getPositionCamera(scene:getCamera())
 	for i,v in ipairs(entities) do
 		if v.collider then
 			local collision
@@ -103,8 +105,8 @@ function CollisionHandler.checkClicked(entities)
 	end
 end
 
-function CollisionHandler.checkMouseHover(v)
-	local mx, my = Mouse.getPositionCamera()
+function CollisionHandler.checkMouseHover(camera, v)
+	local mx, my = Mouse.getPositionCamera(camera)
 	if v.collider and v.collider:getType() == "box" then
 		return CollisionHandler.checkBoxPoint(v, mx, my)
 	end

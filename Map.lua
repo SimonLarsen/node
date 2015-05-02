@@ -1,4 +1,3 @@
-local MapCover = require("MapCover")
 local MapCollider = require("MapCollider")
 local Robot = require("Robot")
 local Spider = require("Spider")
@@ -17,10 +16,17 @@ function Map:initialize()
 	self:setName("map")
 
 	self.img_tiles = Resources.getImage("tiles.png")
-end
 
-function Map:enter()
-	self.scene:add(MapCover(self.front_batch))
+	self.shader = Resources.getShader("glitch.lua")
+	self.dispswitch = 0
+	self.disppause = 0
+	self.glitch = false
+	self.glitchfactor = 0
+
+	self.disp = {}
+	for i = 1,6 do
+		self.disp[i] = Resources.getImage("disp/" .. i .. ".png")
+	end
 end
 
 function Map:loadLevel(id)
@@ -67,8 +73,7 @@ function Map:loadLevel(id)
 	end
 
 	-- Add walls
-	self.back_batch = love.graphics.newSpriteBatch(self.img_tiles, self.width*self.height)
-	self.front_batch = love.graphics.newSpriteBatch(self.img_tiles, self.width*self.height)
+	self.batch = love.graphics.newSpriteBatch(self.img_tiles, self.width*self.height)
 	self:createQuads()
 	self:createSpriteBatches()
 
@@ -159,25 +164,53 @@ function Map:createQuads()
 end
 
 function Map:createSpriteBatches()
-	self.back_batch:clear()
-	self.front_batch:clear()
+	self.batch:clear()
 	for ix = 0, self.width-1 do
 		for iy = 0, self.height-1 do
 			local tile = self:get(ix, iy)
 			if tile > 0 then
-				self.back_batch:add(self.quad_tiles[tile], ix*32, iy*32)
-			end
-
-			if iy < self.height-2
-			and not self:isSolid(ix, iy) and self:isSolid(ix, iy+1) then
-				self.front_batch:add(self.quad_tiles[1], ix*32, iy*32)
+				self.batch:add(self.quad_tiles[tile], ix*32, iy*32)
 			end
 		end
 	end
 end
 
+function Map:update(dt)
+	if self.glitch then
+		self.glitchfactor = math.movetowards(self.glitchfactor, 1, 5*dt)
+
+		self.dispswitch = self.dispswitch - dt
+		self.disppause = self.disppause - dt
+		if self.dispswitch <= 0 then
+			self.dispswitch = love.math.random() * 0.05
+			if love.math.random(1,8) == 1 then
+				self.disppause = love.math.random() * 0.2
+			else
+				self.shader:send("disp", self.disp[love.math.random(1,6)])
+			end
+		end
+	else
+		self.glitchfactor = math.movetowards(self.glitchfactor, 0, 10*dt)
+	end
+end
+
 function Map:draw()
-	love.graphics.draw(self.back_batch, 0, 0)
+	love.graphics.draw(self.batch, 0, 0)
+
+	if self.glitch then
+		love.graphics.setColor(120, 220, 220, 100*self.glitchfactor)
+		love.graphics.push()
+		love.graphics.origin()
+		love.graphics.scale(1, 0.5)
+		love.graphics.circle("fill", WIDTH/2, HEIGHT, self.glitchfactor*math.max(WIDTH,HEIGHT)/2, 32)
+		love.graphics.pop()
+		love.graphics.setColor(255, 255, 255)
+
+		if self.disppause < 0 then
+			self.shader:send("factor", self.glitchfactor)
+			self.scene:drawFullscreenShader(self.shader)
+		end
+	end
 end
 
 function Map:getPlayerStart()
