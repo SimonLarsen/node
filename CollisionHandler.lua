@@ -48,7 +48,7 @@ function CollisionHandler.checkMapBox(a, b)
 	for offx = -1, 1, 2 do
 		for offy = -1, 1, 2 do
 			local cx = math.floor((b.x + offx*r) / a.collider.tilesize)
-			local cy = math.floor((b.y + offy*r) / a.collider.tilesize)
+			local cy = math.floor((b.y + offy*r/4) / a.collider.tilesize)
 
 			if a.collider.map:isSolid(cx, cy) then
 				return true

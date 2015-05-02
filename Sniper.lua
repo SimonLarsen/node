@@ -110,12 +110,13 @@ function Sniper:update(dt)
 end
 
 function Sniper:draw()
-	self.animator:draw(self.x, self.y, 0, self.dir, 1, 16, 32)
+	self.animator:draw(self.x, self.y, 0, self.dir, 1, 16, 26)
+
 	if self.state == Sniper.static.STATE_CHARGE
 	and self.time <= Sniper.static.CHARGE_TIME/2 then
 		love.graphics.setColor(234, 45, 45)
 		love.graphics.setLineWidth(1)
-		love.graphics.line(self.x+2*self.dir, self.y-12, self.aimx, self.aimy-12)
+		love.graphics.line(self.x+2*self.dir, self.y-6, self.aimx, self.aimy-6)
 		love.graphics.setColor(255, 255, 255)
 	end
 end

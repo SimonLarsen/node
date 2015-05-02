@@ -18,6 +18,9 @@ function GlitchOverlay:initialize()
 end
 
 function GlitchOverlay:update(dt)
+	music:setVolume((1-self.glitchfactor)*0.5)
+	music_slow:setVolume(self.glitchfactor * 0.5)
+
 	if self.active then
 		self.glitchfactor = math.movetowards(self.glitchfactor, 1, 5*dt)
 		self.r = self.glitchfactor * math.max(WIDTH/2, HEIGHT)
@@ -26,7 +29,7 @@ function GlitchOverlay:update(dt)
 		self.disppause = self.disppause - dt
 		if self.dispswitch <= 0 then
 			self.dispswitch = love.math.random() * 0.05
-			if love.math.random(1,8) == 1 then
+			if love.math.random(1,7) == 1 then
 				self.disppause = love.math.random() * 0.2
 			else
 				self.shader:send("disp", self.disp[love.math.random(1,6)])
@@ -53,6 +56,14 @@ function GlitchOverlay:draw()
 end
 
 function GlitchOverlay:setActive(s)
+	if self.active ~= s then
+		if s == true then
+			music_slow:seek(2*music:tell())
+		else
+			music:seek(0.5 * music_slow:tell())
+		end
+	end
+
 	self.active = s
 end
 

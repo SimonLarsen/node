@@ -130,11 +130,13 @@ function Player:update(dt)
 
 	self.x = self.x + self.xspeed * dt
 	if CollisionHandler.checkMapBox(self.map, self) then
+		self.xspeed = 0
 		self.x = oldx
 	end
 
 	self.y = self.y + self.yspeed * dt
 	if CollisionHandler.checkMapBox(self.map, self) then
+		self.yspeed = 0
 		self.y = oldy
 	end
 
@@ -174,7 +176,7 @@ function Player:draw()
 		
 		for i,v in ipairs(self.ghosts) do
 			love.graphics.setColor(col)
-			love.graphics.draw(self.img_ghost, v.x, v.y, 0, self.dir, 1, 24, 48)
+			love.graphics.draw(self.img_ghost, v.x, v.y, 0, self.dir, 1, 24, 47)
 			col[1] = col[1] + col_diff[1]*inc
 			col[2] = col[2] + col_diff[2]*inc
 			col[3] = col[3] + col_diff[3]*inc
@@ -183,7 +185,7 @@ function Player:draw()
 	love.graphics.setColor(255, 255, 255)
 
 	if self:isInvulnerable() == false or love.timer.getTime() % 0.2 < 0.1 then
-		self.animator:draw(self.x, self.y, 0, self.dir, 1, nil, 48)
+		self.animator:draw(self.x, self.y, 0, self.dir, 1, nil, 46)
 	end
 end
 

@@ -95,7 +95,7 @@ function Robot:shoot(targetx, targety)
 end
 
 function Robot:draw()
-	self.animator:draw(self.x, self.y, 0, self.dir, 1, nil, 40)
+	self.animator:draw(self.x, self.y, 0, self.dir, 1, nil, 37)
 end
 
 return Robot

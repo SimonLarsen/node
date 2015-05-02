@@ -26,3 +26,7 @@ function math.signz(x)
 		return 0
 	end
 end
+
+function math.round(x)
+	return math.floor(x + 0.5)
+end
