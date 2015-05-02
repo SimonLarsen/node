@@ -8,6 +8,7 @@ function Scene:initialize()
 	self.hasEntered = false
 	self.speed = 0
 	self.camera = Camera()
+	self.bgcolor = {r=255, g=255, b=255}
 
 	Timer.clear()
 end
@@ -48,7 +49,7 @@ function Scene:update(dt)
 end
 
 function Scene:draw()
-	canvas:clear(35, 28, 55, 255)
+	canvas:clear(self.bgcolor.r, self.bgcolor.g, self.bgcolor.b, 255)
 
 	love.graphics.push()
 	self.camera:apply()
@@ -86,7 +87,7 @@ function Scene:drawFullscreenShader(shader)
 
 	love.graphics.pop()
 
-	canvas:clear(35, 28, 55, 0)
+	canvas:clear(self.bgcolor.r, self.bgcolor.g, self.bgcolor.b, 0)
 	love.graphics.setCanvas(canvas)
 	love.graphics.setShader()
 end
@@ -122,6 +123,10 @@ end
 
 function Scene:getCamera()
 	return self.camera
+end
+
+function Scene:setBackgroundColor(r, g, b)
+	self.bgcolor = {r=r, g=g, b=b}
 end
 
 return Scene

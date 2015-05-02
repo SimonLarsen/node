@@ -32,6 +32,8 @@ function GameScene:initialize(level)
 
 	self:add(PauseMenu())
 
+	self:setBackgroundColor(35, 28, 55)
+
 	self:enter()
 end
 

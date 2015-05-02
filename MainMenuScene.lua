@@ -14,8 +14,9 @@ function MainMenuScene:initialize()
 	self.img_credits = Resources.getImage("credits.png")
 
 	self.highlighted = 0
-
 	self.state = 0
+
+	self:setBackgroundColor(72, 117, 167)
 end
 
 function MainMenuScene:update(dt)

@@ -195,6 +195,10 @@ end
 
 function Player:gui()
 	love.graphics.setColor(0, 0, 0)
+	if self:isLinking() then
+		self.glitchoverlay.shader:send("factor", self.glitchoverlay.glitchfactor*0.5)
+		love.graphics.setShader(self.glitchoverlay.shader)
+	end
 
 	if WIDTH > 800 then
 		love.graphics.rectangle("fill", 0, 0, WIDTH/2-400, HEIGHT)
@@ -207,6 +211,7 @@ function Player:gui()
 
 	love.graphics.draw(self.img_viewcircle, WIDTH/2, HEIGHT/2, 0, 1, 1, 400, 200)
 
+	love.graphics.setShader()
 	love.graphics.setColor(255, 255, 255)
 end
 
