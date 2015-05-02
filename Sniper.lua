@@ -34,8 +34,9 @@ function Sniper:initialize(x, y)
 end
 
 function Sniper:enter()
+	Enemy.enter(self)
+
 	self.map = self.scene:find("map")
-	self.player = self.scene:find("player")
 end
 
 function Sniper:update(dt)

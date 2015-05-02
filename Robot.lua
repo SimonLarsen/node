@@ -32,7 +32,7 @@ function Robot:initialize(x, y)
 end
 
 function Robot:enter()
-	self.player = self.scene:find("player")
+	Enemy.enter(self)
 	self.map = self.scene:find("map")
 end
 

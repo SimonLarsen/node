@@ -33,8 +33,9 @@ function Spider:initialize(x, y)
 end
 
 function Spider:enter()
+	Enemy.enter(self)
+
 	self.map = self.scene:find("map")
-	self.player = self.scene:find("player")
 end
 
 function Spider:update(dt)

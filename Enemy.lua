@@ -13,6 +13,10 @@ function Enemy:initialize(x, y, z, mass, solid, linkz)
 	self.linked = false
 end
 
+function Enemy:enter()
+	self.player = self.scene:find("player")
+end
+
 function Enemy:isLinked()
 	return self.linked
 end
@@ -26,7 +30,7 @@ function Enemy:isSolid()
 end
 
 function Enemy:checkLinked()
-	if  Mouse.isDown("l")
+	if  self.player:isLinking()
 	and CollisionHandler.checkMouseHover(self.scene:getCamera(), self) then
 		local link = self.scene:find("link")
 		link:addLink(self)

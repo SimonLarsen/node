@@ -148,7 +148,11 @@ function Player:update(dt)
 		end
 	end
 
-	if Mouse.isDown("l")
+	if Mouse.wasPressed("l") then
+		self.linking = true
+	end
+
+	if self.linking and Mouse.isDown("l")
 	and self:useStamina(Player.static.LINK_COST * dt) then
 		self.scene:setSpeed(Player.static.SLOWMO_FACTOR)
 		self.linking = true
