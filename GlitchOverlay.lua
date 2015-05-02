@@ -46,7 +46,7 @@ function GlitchOverlay:draw()
 	love.graphics.pop()
 	love.graphics.setColor(255, 255, 255)
 
-	if self.disppause < 0 then
+	if self.active and self.disppause < 0 then
 		self.shader:send("factor", self.glitchfactor)
 		self.scene:drawFullscreenShader(self.shader)
 	end
