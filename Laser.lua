@@ -2,7 +2,7 @@ local LineCollider = require("LineCollider")
 
 local Laser = class("Laser", Entity)
 
-Laser.static.LIFETIME = 0.4
+Laser.static.TIME = 0.4
 
 function Laser:initialize(x1, y1, x2, y2)
 	Entity.initialize(self, (x1+x2)/2, (y1+y2)/2)
@@ -13,13 +13,18 @@ function Laser:initialize(x1, y1, x2, y2)
 	self.x2 = x2
 	self.y2 = y2
 
-	self.time = Laser.static.LIFETIME
+	self.time = Laser.static.TIME
 
 	self.collider = LineCollider(x1, y1, x2, y2)
 end
 
 function Laser:update(dt)
 	self.time = self.time - dt
+
+	if self.time < Laser.static.TIME/2 then
+		self.collider = nil
+	end
+
 	if self.time <= 0 then
 		self:kill()
 	end

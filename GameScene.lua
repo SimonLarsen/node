@@ -8,6 +8,7 @@ local HUD = require("HUD")
 local Score = require("Score")
 local PauseMenu = require("PauseMenu")
 local Winscreen = require("Winscreen")
+local Fade = require("Fade")
 
 local ClearScreen = require("ClearScreen")
 
@@ -29,6 +30,7 @@ function GameScene:initialize(level)
 	self:add(Link())
 	self:add(HUD())
 	self:add(Score(map:getNumEnemies()))
+	self:add(Fade(Fade.static.FADE_IN, 1))
 
 	self:add(PauseMenu())
 

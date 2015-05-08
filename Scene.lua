@@ -6,7 +6,7 @@ local Scene = class("Scene")
 function Scene:initialize()
 	self.entities = {}
 	self.hasEntered = false
-	self.speed = 0
+	self.speed = 1
 	self.camera = Camera()
 	self.bgcolor = {r=255, g=255, b=255}
 
