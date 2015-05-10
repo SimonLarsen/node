@@ -44,8 +44,7 @@ end
 function Resources.getShader(path)
 	if shaders[path] == nil then
 		local f = love.filesystem.load("data/shaders/" .. path)
-		local data = f()
-		shaders[path] = love.graphics.newShader(data.pixelcode)
+		shaders[path] = f()
 	end
 	return shaders[path]
 end

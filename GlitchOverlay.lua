@@ -4,17 +4,14 @@ function GlitchOverlay:initialize()
 	Entity.initialize(self, 0, 0, 9)
 	self:setName("glitchoverlay")
 
-	self.shader = Resources.getShader("glitch.lua")
+	self.shader = love.graphics.newShader(Resources.getShader("glitch.lua").pixelcode)
 	self.dispswitch = 0
 	self.disppause = 0
 	self.active = false
 	self.glitchfactor = 0
 	self.r = 0
 
-	self.disp = {}
-	for i = 1,6 do
-		self.disp[i] = Resources.getImage("disp/" .. i .. ".png")
-	end
+	self.shader:send("disp", Resources.getImage("displacement.png"))
 end
 
 function GlitchOverlay:update(dt)
@@ -32,7 +29,7 @@ function GlitchOverlay:update(dt)
 			if love.math.random(1,7) == 1 then
 				self.disppause = love.math.random() * 0.2
 			else
-				self.shader:send("disp", self.disp[love.math.random(1,6)])
+				self.shader:send("offset", love.math.random())
 			end
 		end
 	else

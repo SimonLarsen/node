@@ -2,13 +2,14 @@ return {
 	default = "idle",
 
 	states = {
-		["idle"] = { image = "player_idle.png", fw = 48, fh = 48, delay = 0.14 },
-		["run"] = { image = "player_run.png", fw = 50, fh = 48, delay = 0.1 },
-		["kick"] = { image = "player_kick.png", fw = 89, fh = 48, delay = 0.06 },
-		["hit"] = { image = "player_hit.png", fw = 48, fh = 48, delay = 0.1 },
-		["trigger"] = { image = "player_trigger.png", fw = 50, fh = 48, delay = 0.06 },
-		["dash"] = { image = "player_dash.png", fw = 48, fh = 48, delay = 1 },
-		["die"] = { image = "player_death.png", fw = 50, fh = 48, delay = 0.1, loop = false }
+		["idle"] = { image = "player_idle.png", fw = 48, fh = 48, delay = 0.14, oy = 46 },
+		["run"] = { image = "player_run.png", fw = 50, fh = 48, delay = 0.1, oy = 46 },
+		["kick"] = { image = "player_kick.png", fw = 89, fh = 48, delay = 0.06, oy = 46 },
+		["hit"] = { image = "player_hit.png", fw = 48, fh = 48, delay = 0.1, oy = 46 },
+		["trigger"] = { image = "player_trigger.png", fw = 50, fh = 48, delay = 0.06, oy = 46 },
+		["dash"] = { image = "player_dash.png", fw = 48, fh = 48, delay = 1, oy = 46 },
+		["die"] = { image = "player_death.png", fw = 50, fh = 48, delay = 0.1, loop = false, oy = 46 },
+		["spawn"] = { image = "player_spawn.png", fw = 48, fh = 53, delay = 0.1, loop = false, oy = 47 }
 	},
 
 	properties = {
@@ -43,6 +44,10 @@ return {
 		{
 			from = "any", to = "die",
 			property = "state", value = 6
+		},
+		{
+			from = "any", to = "spawn",
+			property = "state", value = 7
 		}
 	}
 }

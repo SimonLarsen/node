@@ -9,6 +9,7 @@ local Score = require("Score")
 local PauseMenu = require("PauseMenu")
 local Winscreen = require("Winscreen")
 local Fade = require("Fade")
+local GlitchFade = require("GlitchFade")
 
 local ClearScreen = require("ClearScreen")
 
@@ -30,7 +31,7 @@ function GameScene:initialize(level)
 	self:add(Link())
 	self:add(HUD())
 	self:add(Score(map:getNumEnemies()))
-	self:add(Fade(Fade.static.FADE_IN, 1))
+	self:add(GlitchFade(GlitchFade.static.FADE_IN, 2, {255,255,255}))
 
 	self:add(PauseMenu())
 

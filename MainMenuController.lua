@@ -37,11 +37,8 @@ function MainMenuController:update(dt)
 	if self.state == 1 then
 		if Mouse.wasPressed("l") then
 			if self.highlighted == 1 then
-				self.scene:add(Fade(Fade.static.FADE_OUT, 1))
 				Resources.playSound("laser.wav")
-				Timer.add(1, function()
-					gamestate.switch(GameScene(1))
-				end)
+				gamestate.switch(GameScene(1))
 			elseif self.highlighted == 2 then
 				self.state = 2
 				Resources.playSound("laser.wav")

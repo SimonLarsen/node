@@ -23,6 +23,7 @@ Player.static.STATE_HIT		= 3
 Player.static.STATE_TRIGGER	= 4
 Player.static.STATE_DASH 	= 5
 Player.static.STATE_DEAD	= 6
+Player.static.STATE_SPAWN	= 7
 
 Player.static.STAMINA_INCREASE = 0.5
 Player.static.STAMINA_COOLDOWN = 0.6
@@ -40,9 +41,9 @@ function Player:initialize(x, y)
 	self.yspeed = 100.0
 
 	self.dir = 1
-	self.state = Player.static.STATE_IDLE
 	self.invulnerable = 0
-	self.time = 0
+	self.state = Player.static.STATE_SPAWN
+	self.time = 17 * 0.1
 
 	self.health = 3
 	self.stamina = Player.static.MAX_STAMINA
@@ -126,6 +127,12 @@ function Player:update(dt)
 		if Mouse.wasPressed("r") then
 			self:kick()
 		end
+	
+	elseif self.state == Player.static.STATE_SPAWN then
+		animstate = 7
+		if self.time <= 0 then
+			self.state = Player.static.STATE_IDLE
+		end
 	end
 
 	self.x = self.x + self.xspeed * dt
@@ -166,53 +173,6 @@ function Player:update(dt)
 	self:updateStamina(dt)
 	self.animator:setProperty("state", animstate)
 	self.scene:getCamera():setPosition(self.x, self.y)
-end
-
-function Player:draw()
-	if self.state == Player.static.STATE_DASH then
-		local inc = 1 / #self.ghosts-1
-		local col_start = Player.static.GHOST_COLOR_START
-		local col_diff = Player.static.GHOST_COLOR_DIFF
-
-		local col = {
-			col_start[1], col_start[2], col_start[3]
-		}
-		
-		for i,v in ipairs(self.ghosts) do
-			love.graphics.setColor(col)
-			love.graphics.draw(self.img_ghost, v.x, v.y, 0, self.dir, 1, 24, 47)
-			col[1] = col[1] + col_diff[1]*inc
-			col[2] = col[2] + col_diff[2]*inc
-			col[3] = col[3] + col_diff[3]*inc
-		end
-	end
-	love.graphics.setColor(255, 255, 255)
-
-	if self:isInvulnerable() == false or love.timer.getTime() % 0.2 < 0.1 then
-		self.animator:draw(self.x, self.y, 0, self.dir, 1, nil, 46)
-	end
-end
-
-function Player:gui()
-	love.graphics.setColor(0, 0, 0)
-	if self:isLinking() then
-		self.glitchoverlay.shader:send("factor", self.glitchoverlay.glitchfactor*0.5)
-		love.graphics.setShader(self.glitchoverlay.shader)
-	end
-
-	if WIDTH > 800 then
-		love.graphics.rectangle("fill", 0, 0, WIDTH/2-400, HEIGHT)
-		love.graphics.rectangle("fill", WIDTH/2+400, 0, WIDTH/2-400, HEIGHT)
-	end
-	if HEIGHT > 400 then
-		love.graphics.rectangle("fill", WIDTH/2-400, 0, 800, HEIGHT/2-200)
-		love.graphics.rectangle("fill", WIDTH/2-400, HEIGHT/2+200, 800, HEIGHT/2-200)
-	end
-
-	love.graphics.draw(self.img_viewcircle, WIDTH/2, HEIGHT/2, 0, 1, 1, 400, 200)
-
-	love.graphics.setShader()
-	love.graphics.setColor(255, 255, 255)
 end
 
 function Player:updateMovement()
@@ -329,6 +289,53 @@ end
 
 function Player:isDead()
 	return self.state == Player.static.STATE_DEAD
+end
+
+function Player:draw()
+	if self.state == Player.static.STATE_DASH then
+		local inc = 1 / #self.ghosts-1
+		local col_start = Player.static.GHOST_COLOR_START
+		local col_diff = Player.static.GHOST_COLOR_DIFF
+
+		local col = {
+			col_start[1], col_start[2], col_start[3]
+		}
+		
+		for i,v in ipairs(self.ghosts) do
+			love.graphics.setColor(col)
+			love.graphics.draw(self.img_ghost, v.x, v.y, 0, self.dir, 1, 24, 47)
+			col[1] = col[1] + col_diff[1]*inc
+			col[2] = col[2] + col_diff[2]*inc
+			col[3] = col[3] + col_diff[3]*inc
+		end
+	end
+	love.graphics.setColor(255, 255, 255)
+
+	if self:isInvulnerable() == false or love.timer.getTime() % 0.2 < 0.1 then
+		self.animator:draw(self.x, self.y, 0, self.dir, 1)
+	end
+end
+
+function Player:gui()
+	love.graphics.setColor(0, 0, 0)
+	if self:isLinking() then
+		self.glitchoverlay.shader:send("factor", self.glitchoverlay.glitchfactor*0.5)
+		love.graphics.setShader(self.glitchoverlay.shader)
+	end
+
+	if WIDTH > 800 then
+		love.graphics.rectangle("fill", 0, 0, WIDTH/2-400, HEIGHT)
+		love.graphics.rectangle("fill", WIDTH/2+400, 0, WIDTH/2-400, HEIGHT)
+	end
+	if HEIGHT > 400 then
+		love.graphics.rectangle("fill", WIDTH/2-400, 0, 800, HEIGHT/2-200)
+		love.graphics.rectangle("fill", WIDTH/2-400, HEIGHT/2+200, 800, HEIGHT/2-200)
+	end
+
+	love.graphics.draw(self.img_viewcircle, WIDTH/2, HEIGHT/2, 0, 1, 1, 400, 200)
+
+	love.graphics.setShader()
+	love.graphics.setColor(255, 255, 255)
 end
 
 return Player
