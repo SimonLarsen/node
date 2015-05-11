@@ -53,7 +53,7 @@ function GlitchFade:draw()
 	love.graphics.setColor(255, 255, 255, 255)
 
 	if self.disppause < 0 then
-		self.shader:send("factor", alpha/255)
+		self.shader:send("factor", alpha/128)
 		self.scene:drawFullscreenShader(self.shader)
 	end
 end
