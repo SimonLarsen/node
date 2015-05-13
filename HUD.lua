@@ -1,3 +1,5 @@
+local Enemy = require("Enemy")
+
 local HUD = class("HUD", Entity)
 
 HUD.static.COOLDOWN = 0.2
@@ -18,9 +20,16 @@ function HUD:initialize()
 	self.img_healthbar = Resources.getImage("healthbar.png")
 	self.img_staminabar = Resources.getImage("stamina_bar.png")
 	self.img_substaminabar = Resources.getImage("stamina_subbar.png")
+	self.img_minimap = Resources.getImage("minimap.png")
+	self.img_minimap_overlay = Resources.getImage("minimap_overlay.png")
+	self.img_enemy_dot = Resources.getImage("enemy_dot.png")
 
 	self.quad_stamina = love.graphics.newQuad(0, 0, 78, 3, 78, 3)
 	self.quad_substamina = love.graphics.newQuad(0, 0, 78, 3, 78, 3)
+end
+
+function HUD:enter()
+	self.player = self.scene:find("player")
 end
 
 function HUD:setHealth(value)
@@ -69,6 +78,23 @@ function HUD:gui()
 		love.graphics.draw(self.img_substaminabar, self.quad_substamina, 4, 36)
 	end
 	love.graphics.draw(self.img_staminabar, self.quad_stamina, 4, 36)
+
+	love.graphics.draw(self.img_minimap, WIDTH-117, 6)
+	local cx = WIDTH-40
+	local cy = 26
+	for i,v in ipairs(self.scene:getEntities()) do
+		if v:isInstanceOf(Enemy) then
+			local offx = math.cap((v.x - self.player.x) / 20, -26, 26)
+			local offy = math.cap((v.y - self.player.y) / 20, -17, 17)
+			if offy > 8 then
+				offx = math.max(offx, -26 + offy - 8)
+			elseif offy < -7 then
+				offx = math.min(offx, 26 + 7 + offy)
+			end
+			love.graphics.draw(self.img_enemy_dot, cx+offx, cy+offy, 0, 1, 1, 1, 1)
+		end
+	end
+	love.graphics.draw(self.img_minimap_overlay, WIDTH-68, 6)
 end
 
 return HUD

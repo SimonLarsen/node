@@ -30,3 +30,7 @@ end
 function math.round(x)
 	return math.floor(x + 0.5)
 end
+
+function math.cap(x, a, b)
+	return math.min(math.max(x, a), b)
+end
