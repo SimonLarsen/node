@@ -43,7 +43,7 @@ function Player:initialize(x, y)
 	self.dir = 1
 	self.invulnerable = 0
 	self.state = Player.static.STATE_SPAWN
-	self.time = 17 * 0.1
+	self.time = 20 * 0.1
 
 	self.health = 3
 	self.stamina = Player.static.MAX_STAMINA
