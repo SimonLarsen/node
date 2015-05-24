@@ -1,6 +1,7 @@
 local BoxCollider = require("BoxCollider")
 local CollisionHandler = require("CollisionHandler")
 local Kick = require("Kick")
+local GlitchFade = require("GlitchFade")
 
 local Player = class("Player", Entity)
 
@@ -15,6 +16,7 @@ Player.static.TRIGGER_TIME = 0.42
 Player.static.SLOWMO_FACTOR = 0.5
 Player.static.DASH_TIME = 0.2
 Player.static.GHOST_INTERVAL = 0.06
+Player.static.KNOCKBACK_TIME = 0.5
 
 Player.static.STATE_IDLE	= 0
 Player.static.STATE_RUN		= 1
@@ -44,6 +46,7 @@ function Player:initialize(x, y)
 	self.invulnerable = 0
 	self.state = Player.static.STATE_SPAWN
 	self.time = 20 * 0.1
+	self.knockback = 0
 
 	self.health = 3
 	self.stamina = Player.static.MAX_STAMINA
@@ -72,6 +75,7 @@ function Player:update(dt)
 	self.yspeed = math.movetowards(self.yspeed, 0, 1000*dt)
 
 	self.time = self.time - dt
+	self.knockback = self.knockback - dt
 
 	if self.state == Player.static.STATE_DEAD then
 		self.animator:setProperty("state", self.state)
@@ -176,6 +180,8 @@ function Player:update(dt)
 end
 
 function Player:updateMovement()
+	if self.knockback > 0 then return end
+
 	if Keyboard.isDown("a") then
 		self.xspeed = -Player.static.MOVE_SPEED
 		self.dir = -1
@@ -193,7 +199,7 @@ function Player:updateMovement()
 	end
 end
 
-function Player:hit()
+function Player:hit(o)
 	if self.health > 0 then
 		self.health = self.health - 1
 		self.hud:setHealth(self.health)
@@ -207,7 +213,24 @@ function Player:hit()
 			Resources.playSound("death.wav")
 		else
 			self.invulnerable = Player.static.INVUL_TIME
+			self.scene:find("panicoverlay"):panic()
+			self.scene:add(GlitchFade(GlitchFade.static.FADE_IN, 1.0, {240, 50, 50}, 128))
 		end
+	end
+
+	if o:getName() == "bullet" then
+		self.xspeed = o.xspeed * 2
+		self.yspeed = o.yspeed * 2
+		self.knockback = 0.5
+
+	elseif o:getName() == "bigexplosion" then
+		local xdist = self.x - o.x
+		local ydist = self.y - o.y
+
+		self.xspeed = math.cos(xdist) * 400
+		self.yspeed = math.sin(-ydist) * 400
+
+		self.knockback = 0.5
 	end
 end
 
@@ -283,7 +306,7 @@ function Player:onCollide(o)
 	if o:getName() == "bullet"
 	or o:getName() == "laser"
 	or o:getName() == "bigexplosion" then
-		self:hit()
+		self:hit(o)
 	end
 end
 

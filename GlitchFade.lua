@@ -3,13 +3,14 @@ local GlitchFade = class("GlitchFade", Entity)
 GlitchFade.static.FADE_IN = 0
 GlitchFade.static.FADE_OUT = 1
 
-function GlitchFade:initialize(dir, time, color)
+function GlitchFade:initialize(dir, time, color, alpha)
 	Entity.initialize(self, 0, 0, -1000)
 
 	self.dir = dir
 	self.total_time = time
 	self.time = time
 	self.color = color or {0, 0, 0}
+	self.alpha = alpha or 255
 
 	self.dispswitch = 0
 	self.disppause = 0
@@ -40,9 +41,9 @@ end
 function GlitchFade:draw()
 	local alpha
 	if self.dir == GlitchFade.static.FADE_IN then
-		alpha = self.time / self.total_time * 255
+		alpha = self.time / self.total_time * self.alpha
 	else
-		alpha = 255 - self.time / self.total_time * 255
+		alpha = 255 - self.time / self.total_time * self.alpha
 	end
 
 	love.graphics.setColor(self.color[1], self.color[2], self.color[3], alpha)
