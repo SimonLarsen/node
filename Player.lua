@@ -213,25 +213,25 @@ function Player:hit(o)
 			Resources.playSound("death.wav")
 		else
 			self.invulnerable = Player.static.INVUL_TIME
-			self.scene:find("panicoverlay"):panic()
-			self.scene:add(GlitchFade(GlitchFade.static.FADE_IN, 1.0, {240, 50, 50}, 128))
 		end
 	end
 
 	if o:getName() == "bullet" then
 		self.xspeed = o.xspeed * 2
 		self.yspeed = o.yspeed * 2
-		self.knockback = 0.5
 
 	elseif o:getName() == "bigexplosion" then
 		local xdist = self.x - o.x
 		local ydist = self.y - o.y
+		local dist = math.sqrt(xdist^2 + ydist^2)
 
-		self.xspeed = math.cos(xdist) * 400
-		self.yspeed = math.sin(-ydist) * 400
-
-		self.knockback = 0.5
+		self.xspeed = xdist / dist * 400
+		self.yspeed = ydist / dist * 400
 	end
+
+	self.knockback = 0.5
+	self.scene:find("panicoverlay"):panic()
+	self.scene:add(GlitchFade(GlitchFade.static.FADE_IN, 1.0, {240, 50, 50}, 128))
 end
 
 function Player:trigger()

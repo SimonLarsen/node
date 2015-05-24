@@ -1,5 +1,4 @@
 local CollisionHandler = require("CollisionHandler")
-
 local Map = require("Map")
 local Player = require("Player")
 local GlitchOverlay = require("GlitchOverlay")
@@ -11,7 +10,6 @@ local PauseMenu = require("PauseMenu")
 local Winscreen = require("Winscreen")
 local Fade = require("Fade")
 local GlitchFade = require("GlitchFade")
-
 local ClearScreen = require("ClearScreen")
 
 local GameScene = class("GameScene", Scene)
