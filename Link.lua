@@ -55,7 +55,7 @@ function Link:update(dt)
 		end
 
 		if Keyboard.wasPressed(" ") then
-			self:clear()
+			self:cancel()
 		end
 	else
 		self.time = self.time - dt
@@ -183,6 +183,10 @@ function Link:clear()
 	self.links = {}
 	self.active = false
 	self.hasSolid = false
+end
+
+function Link:cancel()
+	self:clear()
 end
 
 return Link

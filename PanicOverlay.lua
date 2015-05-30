@@ -1,6 +1,6 @@
 local PanicOverlay = class("PanicOverlay", Entity)
 
-PanicOverlay.static.TIME = 0.5
+PanicOverlay.static.TIME = 0.25
 PanicOverlay.static.MAX_FACTOR = 0.04
 
 function PanicOverlay:initialize()

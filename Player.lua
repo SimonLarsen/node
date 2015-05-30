@@ -200,20 +200,20 @@ function Player:updateMovement()
 end
 
 function Player:hit(o)
-	if self.health > 0 then
-		self.health = self.health - 1
-		self.hud:setHealth(self.health)
-		Resources.playSound("hurt.wav")
-		if self.health == 0 then
-			self.state = Player.static.STATE_DEAD
-			local menu = self.scene:find("pausemenu")
-			menu:setDead()
-			self.time = 1.5
-			self.scene:setSpeed(1)
-			Resources.playSound("death.wav")
-		else
-			self.invulnerable = Player.static.INVUL_TIME
-		end
+	if self.health <= 0 then return end
+
+	self.health = self.health - 1
+	self.hud:setHealth(self.health)
+	Resources.playSound("hurt.wav")
+	if self.health == 0 then
+		self.state = Player.static.STATE_DEAD
+		local menu = self.scene:find("pausemenu")
+		menu:setDead()
+		self.time = 1.5
+		self.scene:setSpeed(1)
+		Resources.playSound("death.wav")
+	else
+		self.invulnerable = Player.static.INVUL_TIME
 	end
 
 	if o:getName() == "bullet" then
@@ -232,6 +232,8 @@ function Player:hit(o)
 	self.knockback = 0.5
 	self.scene:find("panicoverlay"):panic()
 	self.scene:add(GlitchFade(GlitchFade.static.FADE_IN, 1.0, {240, 50, 50}, 128))
+
+	self.scene:find("link"):cancel()
 end
 
 function Player:trigger()
