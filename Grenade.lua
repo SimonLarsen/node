@@ -12,7 +12,7 @@ Grenade.static.TIME = 2.0
 Grenade.static.SPEED = 250
 
 function Grenade:initialize(x, y, targetx, targety)
-	Enemy.initialize(self, x, y, 0, Grenade.static.MASS, Grenade.static.SOLID, 0)
+	Enemy.initialize(self, x, y, 0, Grenade.static.MASS, Grenade.static.SOLID, 0, 0.15)
 	self:setName("grenade")
 
 	self.height = 19
@@ -28,6 +28,7 @@ function Grenade:initialize(x, y, targetx, targety)
 end
 
 function Grenade:update(dt)
+	Enemy.update(self, dt)
 	self.animator:update(dt)
 	self.time = self.time - dt
 
@@ -54,6 +55,8 @@ function Grenade:draw()
 		love.graphics.setColor(255, 255, 255, 255)
 	end
 	self.animator:draw(self.x, self.y-self.height, 0, 1, 1, 7, 7)
+
+	self:drawLink()
 end
 
 function Grenade:destroy()

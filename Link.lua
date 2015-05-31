@@ -2,6 +2,7 @@ local BoxCollider = require("BoxCollider")
 local Explosion = require("Explosion")
 local BigExplosion = require("BigExplosion")
 local LinkEffect = require("LinkEffect")
+local Player = require("Player")
 
 local Link = class("Link", Entity)
 
@@ -20,7 +21,7 @@ function Link:initialize()
 	self.hasReach = false
 
 	self.crosshair = Animation(Resources.getImage("crosshair.png"), 36, 36, 0.2)
-	self.collider = BoxCollider(32, 32)
+	self.collider = BoxCollider(48, 64, 0, 16)
 end
 
 function Link:enter()
@@ -138,6 +139,7 @@ function Link:addLink(e)
 
 	table.insert(self.links, e)
 	self.scene:add(LinkEffect(e))
+	self.player:giveStamina(e.link_time * Player.static.LINK_COST)
 	Resources.playSound("targeting.wav")
 	return true
 end

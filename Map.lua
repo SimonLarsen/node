@@ -26,6 +26,7 @@ function Map:loadLevel(id)
 	self.width = data.width
 	self.height = data.height
 	self.enemies = 0
+	self.num_waves = 0
 	self.waves = {}
 	self.current_wave = 0
 	self:clear()
@@ -49,6 +50,7 @@ function Map:loadLevel(id)
 				end
 			else
 				local id = tonumber(layer.name)
+				self.num_waves = math.max(self.num_waves, id)
 				self.waves[id] = {}
 				for j, o in ipairs(layer.objects) do
 					table.insert(self.waves[id], o)
@@ -90,6 +92,10 @@ end
 function Map:addKill()
 	self.enemies = self.enemies - 1
 	self.scene:find("score"):addKill()
+
+	if self:getNumEnemies() == 0 then
+		self:advance()
+	end
 end
 
 function Map:createQuads()

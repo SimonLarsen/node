@@ -17,6 +17,7 @@ Player.static.SLOWMO_FACTOR = 0.5
 Player.static.DASH_TIME = 0.2
 Player.static.GHOST_INTERVAL = 0.06
 Player.static.KNOCKBACK_TIME = 0.5
+Player.static.DASH_MIN_SPEED = 100
 
 Player.static.STATE_IDLE	= 0
 Player.static.STATE_RUN		= 1
@@ -31,7 +32,7 @@ Player.static.STAMINA_INCREASE = 0.5
 Player.static.STAMINA_COOLDOWN = 0.6
 Player.static.MAX_STAMINA = 1
 
-Player.static.LINK_COST = 0.5
+Player.static.LINK_COST = 1
 Player.static.DASH_COST = 0.2
 Player.static.KICK_COST = 0.5
 
@@ -54,7 +55,7 @@ function Player:initialize(x, y)
 
 	self.animator = Animator(Resources.getAnimator("player.lua"))
 	self.img_ghost = Resources.getImage("dash_ghost.png")
-	self.collider = BoxCollider(20, 48, 0, 0)
+	self.collider = BoxCollider(20, 20, 0, 0)
 
 	self.img_viewcircle = Resources.getImage("viewcircle.png")
 end
@@ -223,7 +224,7 @@ function Player:hit(o)
 	elseif o:getName() == "bigexplosion" then
 		local xdist = self.x - o.x
 		local ydist = self.y - o.y
-		local dist = math.sqrt(xdist^2 + ydist^2)
+		local dist = vector.length(xdist, ydist)
 
 		self.xspeed = xdist / dist * 400
 		self.yspeed = ydist / dist * 400
@@ -242,7 +243,8 @@ function Player:trigger()
 end
 
 function Player:dash()
-	if self:useStamina(Player.static.DASH_COST) then
+	if self:useStamina(Player.static.DASH_COST)
+	and vector.length(self.xspeed, self.yspeed) > Player.static.DASH_MIN_SPEED then
 		self.state = Player.static.STATE_DASH
 		self.time = Player.static.DASH_TIME
 
@@ -286,10 +288,17 @@ function Player:isLinking()
 	return self.linking
 end
 
+function Player:giveStamina(amount)
+	self.stamina = math.min(
+		Player.static.MAX_STAMINA,
+		self.stamina + amount
+	)
+end
+
 function Player:updateStamina(dt)
 	if self.stamina_cooldown > 0 then
 		self.stamina_cooldown = self.stamina_cooldown - dt
-	else
+	elseif self.linking == false then
 		self.stamina = math.min(
 			Player.static.MAX_STAMINA,
 			self.stamina + Player.static.STAMINA_INCREASE * dt

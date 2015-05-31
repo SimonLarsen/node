@@ -1,6 +1,6 @@
 local CollisionHandler = {}
 
-function CollisionHandler.checkAll(scene)
+function CollisionHandler.checkAll(scene, dt)
 	local entities = scene:getEntities()
 
 	for i=1, #entities do
@@ -8,27 +8,38 @@ function CollisionHandler.checkAll(scene)
 			local v = entities[i]
 			local w = entities[j]
 			if v.collider and w.collider then
-				local collision = false
-				if v.collider:getType() == "box" and w.collider:getType() == "box" then
-					collision = CollisionHandler.checkBoxBox(v, w)
-				elseif v.collider:getType() == "line" and w.collider:getType() == "box" then
-					collision = CollisionHandler.checkLineBox(v, w)
-				elseif v.collider:getType() == "box" and w.collider:getType() == "line" then
-					collision = CollisionHandler.checkLineBox(w, v)
-				end
-
-				if collision == true then
-					v:onCollide(w)
-					w:onCollide(v)
+				if CollisionHandler.check(v, w) then
+					v:onCollide(w, dt)
+					w:onCollide(v, dt)
 				end
 			end
 		end
 	end
 end
 
+function CollisionHandler.check(v, w)
+	if v.collider:getType() == "multi" then
+		local collision = false
+		for _, c in ipairs(v.collider:getColliders()) do
+			collision = collision or CollisionHandler.check(c, w)
+		end
+	elseif w.collider:getType() == "multi" then
+		local collision = false
+		for _, c in ipairs(w.collider:getColliders()) do
+			collision = collision or CollisionHandler.check(c, v)
+		end
+	elseif v.collider:getType() == "box" and w.collider:getType() == "box" then
+		return CollisionHandler.checkBoxBox(v, w)
+	elseif v.collider:getType() == "line" and w.collider:getType() == "box" then
+		return CollisionHandler.checkLineBox(v, w)
+	elseif v.collider:getType() == "box" and w.collider:getType() == "line" then
+		return CollisionHandler.checkLineBox(w, v)
+	end
+end
+
 function CollisionHandler.checkBoxBox(a, b)
-	if math.abs(a.x-b.x) > (a.collider.w+b.collider.w)/2
-	or math.abs(a.y-b.y) > (a.collider.w+b.collider.w)/4 then
+	if math.abs((a.x+a.collider.ox) - (b.x+b.collider.ox)) > (a.collider.h+b.collider.h)/2
+	or math.abs((a.y+a.collider.oy) - (b.y+b.collider.oy)) > (a.collider.h+b.collider.h)/4 then
 		return false
 	end
 

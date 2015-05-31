@@ -14,7 +14,7 @@ function Kick:initialize(x, y, xspeed, yspeed)
 	self.image = Resources.getImage("kick.png")
 	self.time = Kick.static.TIME
 
-	self.collider = BoxCollider(96, 48, 0, 0)
+	self.collider = BoxCollider(96, 96, 0, 0)
 end
 
 function Kick:update(dt)

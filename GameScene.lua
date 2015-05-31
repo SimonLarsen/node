@@ -20,7 +20,7 @@ function GameScene:initialize(level)
 	Scene.initialize(self)
 	love.mouse.setVisible(false)
 
-	self.level = "arena1"
+	self.level = 1
 
 	local map = self:add(Map())
 	map:loadLevel(self.level)

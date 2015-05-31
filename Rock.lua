@@ -10,7 +10,7 @@ function Rock:initialize(x, y)
 	self:setName("rock")
 
 	self.animator = Animator(Resources.getAnimator("rock.lua"))
-	self.collider = BoxCollider(32, 32, 0, -16)
+	self.collider = BoxCollider(32, 32, 0, 0)
 end
 
 function Rock:update(dt)

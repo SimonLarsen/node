@@ -8,11 +8,11 @@ local Commander = class("Commander", Robot)
 Commander.static.RANGE = 200
 
 function Commander:initialize(x, y)
-	Enemy.initialize(self, x, y, 0, Robot.static.MASS, Robot.static.SOLID, -17)
+	Enemy.initialize(self, x, y, 0, Robot.static.MASS, Robot.static.SOLID, -17, 0.3)
 	self:setName("commander")
 	
 	self.animator = Animator(Resources.getAnimator("commander.lua"))
-	self.collider = BoxCollider(20, 32, 0, -16)
+	self.collider = BoxCollider(20, 20, 0, 0)
 
 	self.state = Robot.static.STATE_IDLE
 	self.time = love.math.random() * 2

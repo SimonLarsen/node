@@ -18,14 +18,14 @@ Sniper.static.STATE_WALK = 1
 Sniper.static.STATE_CHARGE = 2
 
 function Sniper:initialize(x, y)
-	Enemy.initialize(self, x, y, 0, Sniper.static.MASS, Sniper.static.SOLID, -12)
+	Enemy.initialize(self, x, y, 0, Sniper.static.MASS, Sniper.static.SOLID, -12, 0.25)
 
 	self.xspeed = 0
 	self.yspeed = 0
 	self.dir = -1 + love.math.random(0, 1) * 2
 
 	self.animator = Animator(Resources.getAnimator("sniper.lua"))
-	self.collider = BoxCollider(32, 32, 0, -16)
+	self.collider = BoxCollider(32, 32, 0, 0)
 
 	self.state = Sniper.static.STATE_IDLE
 	self.time = love.math.random() * 2
@@ -40,6 +40,7 @@ function Sniper:enter()
 end
 
 function Sniper:update(dt)
+	Enemy.update(self, dt)
 	self.animator:update(dt)
 
 	self.time = self.time - dt
@@ -119,6 +120,8 @@ function Sniper:draw()
 		love.graphics.line(self.x+2*self.dir, self.y-6, self.aimx, self.aimy-6)
 		love.graphics.setColor(255, 255, 255)
 	end
+
+	self:drawLink()
 end
 
 return Sniper

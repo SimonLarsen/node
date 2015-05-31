@@ -11,6 +11,7 @@ util = require("util")
 Animation = require("Animation")
 Animator = require("Animator")
 require("mymath")
+vector = require("vector")
 
 local MainMenuScene = require("MainMenuScene")
 local GameScene = require("GameScene")

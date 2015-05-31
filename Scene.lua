@@ -23,10 +23,10 @@ end
 function Scene:update(dt)
 	self.camera:update(dt)
 
-	CollisionHandler.checkAll(self)
-
 	local rt = dt
 	dt = dt * self.speed
+
+	CollisionHandler.checkAll(self, dt)
 
 	for i,v in ipairs(self.entities) do
 		if v:isAlive() and v.update then
