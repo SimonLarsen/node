@@ -8,7 +8,7 @@ Score.static.SHOW_TIME = 1.5
 Score.static.total_score = 0
 Score.static.total_time = 0
 
-function Score:initialize(enemies)
+function Score:initialize()
 	Entity.initialize(self, 0, 0, -200)
 	self:setName("score")
 
@@ -21,7 +21,6 @@ function Score:initialize(enemies)
 	self.score = 0
 	self.kills = 0
 	self.cooldown = 0
-	self.enemies = enemies
 
 	self.combo = 0
 	self.time = 0
@@ -36,6 +35,10 @@ function Score:initialize(enemies)
 
 	self.quad_chain = love.graphics.newQuad(156, 145, 119, 47, imgw, imgh)
 	self.quad_node = love.graphics.newQuad(0, 150, 131, 47, imgw, imgh)
+end
+
+function Score:enter()
+	self.map = self.scene:find("map")
 end
 
 function Score:update(dt, rt)
@@ -67,8 +70,7 @@ function Score:addKill()
 	self.cooldown = Score.static.COOLDOWN
 	self.time = Score.static.SHOW_TIME
 
-	self.enemies = self.enemies - 1
-	if self.enemies == 0 then
+	if self.map:getNumEnemies() == 0 then
 		Score.static.total_score = Score.static.total_score + self.score
 		Score.static.total_time = Score.static.total_time + self.elapsed_time
 		Timer.add(1, function()

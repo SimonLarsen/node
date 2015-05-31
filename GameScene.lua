@@ -20,7 +20,7 @@ function GameScene:initialize(level)
 	Scene.initialize(self)
 	love.mouse.setVisible(false)
 
-	self.level = level
+	self.level = "arena1"
 
 	local map = self:add(Map())
 	map:loadLevel(self.level)
@@ -30,8 +30,12 @@ function GameScene:initialize(level)
 	self:add(PanicOverlay())
 	self:add(Link())
 	self:add(HUD())
-	self:add(Score(map:getNumEnemies()))
+	self:add(Score())
 	self:add(GlitchFade(GlitchFade.static.FADE_IN, 2, {255,255,255}))
+
+	Timer.add(1.5, function()
+		map:advance()
+	end)
 
 	self:add(PauseMenu())
 

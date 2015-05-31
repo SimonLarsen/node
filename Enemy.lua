@@ -29,14 +29,6 @@ function Enemy:isSolid()
 	return self.solid
 end
 
-function Enemy:checkLinked()
-	if  self.player:isLinking()
-	and CollisionHandler.checkMouseHover(self.scene:getCamera(), self) then
-		local link = self.scene:find("link")
-		link:addLink(self)
-	end
-end
-
 function Enemy:destroy(playSound)
 	if playSound == nil then
 		playSound = true
@@ -54,6 +46,10 @@ function Enemy:onCollide(o)
 		self:destroy()
 	end
 
+	if o:getName() == "link" and self.player:isLinking() then
+		self.scene:find("link"):addLink(self)
+	end
+
 	if o:getName() == "kick"
 	or o:getName() == "bigexplosion" then
 		self:destroy()
@@ -62,7 +58,7 @@ end
 
 function Enemy:onRemove()
 	if self:getName() ~= "grenade" then
-		self.scene:find("score"):addKill()
+		self.scene:find("map"):addKill()
 	end
 end
 

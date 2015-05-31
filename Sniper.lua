@@ -41,7 +41,6 @@ end
 
 function Sniper:update(dt)
 	self.animator:update(dt)
-	self:checkLinked()
 
 	self.time = self.time - dt
 	if self.state == Sniper.static.STATE_IDLE then

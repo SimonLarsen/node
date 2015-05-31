@@ -6,6 +6,7 @@ local Commander = require("Commander")
 local Demobot = require("Demobot")
 local Sentinel = require("Sentinel")
 local Sniper = require("Sniper")
+local Spawner = require("Spawner")
 
 local bresenham = require("bresenham.bresenham")
 
@@ -25,6 +26,8 @@ function Map:loadLevel(id)
 	self.width = data.width
 	self.height = data.height
 	self.enemies = 0
+	self.waves = {}
+	self.current_wave = 0
 	self:clear()
 
 	for i, layer in ipairs(data.layers) do
@@ -36,32 +39,24 @@ function Map:loadLevel(id)
 			end
 
 		elseif layer.type == "objectgroup" then
-			for j, o in ipairs(layer.objects) do
-				local x, y = o.x, o.y
-				if o.type == "player" then
-					self.startx = x
-					self.starty = y
-				elseif o.type == "robot" then
-					self.scene:add(Robot(x, y))
-					self.enemies = self.enemies + 1
-				elseif o.type == "commander" then
-					self.scene:add(Commander(x, y))
-					self.enemies = self.enemies + 1
-				elseif o.type == "demobot" then
-					self.scene:add(Demobot(x, y))
-					self.enemies = self.enemies + 1
-				elseif o.type == "spider" then
-					self.scene:add(Spider(x, y))
-					self.enemies = self.enemies + 1
-				elseif o.type == "sniper" then
-					self.scene:add(Sniper(x, y))
-					self.enemies = self.enemies + 1
+			if layer.name == "base" then
+				for j, o in ipairs(layer.objects) do
+					local x, y = o.x, o.y
+					if o.type == "player" then
+						self.startx = x
+						self.starty = y
+					end
+				end
+			else
+				local id = tonumber(layer.name)
+				self.waves[id] = {}
+				for j, o in ipairs(layer.objects) do
+					table.insert(self.waves[id], o)
 				end
 			end
 		end
 	end
 
-	-- Add walls
 	self.batch = love.graphics.newSpriteBatch(self.img_tiles, self.width*self.height)
 	self:createQuads()
 	self:createSpriteBatches()
@@ -69,73 +64,32 @@ function Map:loadLevel(id)
 	self.collider = MapCollider(self, self.width, self.height, 32)
 end
 
-function Map:generate()
-	self:clear()
-
-	local lastx, lasty
-	for i=1, 10 do
-		local cx = love.math.random(4, self.width-5)
-		local cy = love.math.random(4, self.width-5)
-		local r = love.math.random(3, 6)
-		if i == 1 then
-			self.startx = cx*32 + 16
-			self.starty = cy*32 + 16
-		else
-			self:setPath(lastx, lasty, cx, cy)
-			for j=1, r do
-				local dir = love.math.random()*2*math.pi
-				local x = cx*32+16 + math.cos(dir) * r*32/2
-				local y = cy*32+16 + math.sin(dir) * r*32/2
-
-				local dice = love.math.random(1, 7)
-				if dice >= 1 and dice <= 2 then
-					self.scene:add(Robot(x, y))
-				elseif dice >= 3 and dice <= 4 then
-					self.scene:add(Commander(x, y))
-				elseif dice == 5 then
-					self.scene:add(Demobot(x, y))
-				elseif dice == 6 then
-					self.scene:add(Spider(x, y))
-				elseif dice == 7 then
-					self.scene:add(Sniper(x, y))
-				end
-			end
-		end
-		self:setCircle(cx, cy, r)
-		lastx, lasty = cx, cy
-	end
-	
-	for ix = 0, self.width-1 do
-		for iy=0, self.height-2 do
-			if self:get(ix, iy) == 0 and self:get(ix, iy+1) == 1 then
-				self:set(ix, iy, 2)
-			end
-		end
-	end
-
-	self:createQuads()
-	self:createSpriteBatches()
-
-	self.collider = MapCollider(self.map, self.width, self.height, 32)
-end
-
-function Map:setCircle(x, y, r)
-	for ix = x-r+1, x+r-1 do
-		for iy = y-r+1, y+r-1 do
-			if ix > 0 and ix < self.width-1
-			and iy > 0 and iy < self.height-1
-			and (ix-x)^2+(iy-y)^2 <= r^2 then
-				self:set(ix, iy, 1)
-			end
+function Map:advance()
+	self.current_wave = self.current_wave + 1
+	for i, o in ipairs(self.waves[self.current_wave]) do
+		local x, y = o.x, o.y
+		if o.type == "robot" then
+			self.scene:add(Spawner(x, y, Robot(x, y)))
+			self.enemies = self.enemies + 1
+		elseif o.type == "commander" then
+			self.scene:add(Spawner(x, y, Commander(x, y)))
+			self.enemies = self.enemies + 1
+		elseif o.type == "demobot" then
+			self.scene:add(Spawner(x, y, Demobot(x, y)))
+			self.enemies = self.enemies + 1
+		elseif o.type == "spider" then
+			self.scene:add(Spawner(x, y, Spider(x, y)))
+			self.enemies = self.enemies + 1
+		elseif o.type == "sniper" then
+			self.scene:add(Spawner(x, y, Sniper(x, y)))
+			self.enemies = self.enemies + 1
 		end
 	end
 end
 
-function Map:setPath(x1, y1, x2, y2)
-	local path, found = bresenham.line(x1, y1, x2, y2, function() return true end)
-	for i,v in ipairs(path) do
-		self:setCircle(v[1], v[2], 2)
-	end
+function Map:addKill()
+	self.enemies = self.enemies - 1
+	self.scene:find("score"):addKill()
 end
 
 function Map:createQuads()

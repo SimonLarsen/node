@@ -1,4 +1,4 @@
-local LinkJoint = require("LinkJoint")
+local BoxCollider = require("BoxCollider")
 local Explosion = require("Explosion")
 local BigExplosion = require("BigExplosion")
 local LinkEffect = require("LinkEffect")
@@ -20,6 +20,7 @@ function Link:initialize()
 	self.hasReach = false
 
 	self.crosshair = Animation(Resources.getImage("crosshair.png"), 36, 36, 0.2)
+	self.collider = BoxCollider(32, 32)
 end
 
 function Link:enter()
@@ -28,6 +29,8 @@ end
 
 function Link:update(dt)
 	self.crosshair:update(dt)
+
+	self.x, self.y = Mouse.getPositionCamera(self.scene:getCamera())
 
 	if self.player:isDead() then
 		self.hasReach = false
@@ -80,9 +83,8 @@ function Link:update(dt)
 		end
 	end
 
-	local mx, my = Mouse.getPositionCamera(self.scene:getCamera())
-	local xdist = self.player.x - mx
-	local ydist = self.player.y - my
+	local xdist = self.player.x - self.x
+	local ydist = self.player.y - self.y
 	self.hasReach = xdist^2 + (2*ydist)^2 < Link.static.PLAYER_REACH^2
 end
 
@@ -94,14 +96,13 @@ function Link:draw()
 		love.graphics.line(self.links[i].x, self.links[i].y+self.links[i].linkz, self.links[i+1].x, self.links[i+1].y+self.links[i+1].linkz)
 	end
 
-	local mx, my = Mouse.getPositionCamera(self.scene:getCamera())
 	if #self.links > 0 and self.active == false then
 		if self.hasReach then
 			love.graphics.setColor(255, 255, 255)
 		else
 			love.graphics.setColor(255, 33, 33)
 		end
-		love.graphics.line(self.links[#self.links].x, self.links[#self.links].y+self.links[#self.links].linkz, mx, my)
+		love.graphics.line(self.links[#self.links].x, self.links[#self.links].y+self.links[#self.links].linkz, self.x, self.y)
 		love.graphics.setColor(255, 255, 255)
 	end
 end

@@ -38,7 +38,6 @@ end
 
 function Robot:update(dt)
 	self.animator:update(dt)
-	self:checkLinked()
 
 	if self.state == Robot.static.STATE_IDLE then
 		self.time = self.time - dt

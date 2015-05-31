@@ -15,7 +15,7 @@ function Sentinel:initialize(x, y)
 end
 
 function Sentinel:update(dt)
-	self:checkLinked()
+
 end
 
 function Sentinel:draw()

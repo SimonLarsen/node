@@ -15,7 +15,6 @@ end
 
 function Rock:update(dt)
 	self.animator:update(dt)
-	self:checkLinked()
 end
 
 function Rock:draw()

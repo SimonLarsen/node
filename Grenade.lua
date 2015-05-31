@@ -30,7 +30,6 @@ end
 function Grenade:update(dt)
 	self.animator:update(dt)
 	self.time = self.time - dt
-	self:checkLinked()
 
 	if self:isLinked() == false then
 		self.xtween:update(dt)

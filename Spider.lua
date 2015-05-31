@@ -40,7 +40,6 @@ end
 
 function Spider:update(dt)
 	self.animator:update(dt)
-	self:checkLinked()
 
 	local xdist = self.player.x - self.x
 	local ydist = self.player.y - self.y
