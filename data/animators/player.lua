@@ -7,7 +7,7 @@ return {
 		["kick"] = { image = "player_kick.png", fw = 89, fh = 48, delay = 0.06, oy = 46 },
 		["hit"] = { image = "player_hit.png", fw = 48, fh = 48, delay = 0.1, oy = 46 },
 		["trigger"] = { image = "player_trigger.png", fw = 50, fh = 48, delay = 0.06, oy = 46 },
-		["dash"] = { image = "player_dash.png", fw = 48, fh = 48, delay = 1, oy = 46 },
+		["dash"] = { image = "player_dash.png", fw = 48, fh = 48, delay = 0.2/4, oy = 46, loop = false },
 		["die"] = { image = "player_death.png", fw = 50, fh = 48, delay = 0.1, loop = false, oy = 46 },
 		["spawn"] = { image = "player_spawn.png", fw = 48, fh = 53, delay = 0.1, loop = false, oy = 47 }
 	},
