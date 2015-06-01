@@ -19,6 +19,11 @@ function Camera:setPosition(x, y)
 	self.x, self.y = x, y
 end
 
+function Camera:move(dx, dy)
+	self.x = self.x + dx
+	self.y = self.y + dy
+end
+
 function Camera:getPosition()
 	return self.x, self.y
 end
