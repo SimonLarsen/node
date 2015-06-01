@@ -1,9 +1,12 @@
 local Resources = {}
 
+Resources.SOUND_INTERVAL = 0.1
+
 local images = {}
 local animators = {}
 local fonts = {}
 local sounds = {}
+local sound_last_play = {}
 local shaders = {}
 
 function Resources.getImage(path)
@@ -36,9 +39,14 @@ function Resources.getSound(path)
 end
 
 function Resources.playSound(path, volume)
-	local sound = Resources.getSound(path)
-	sound:setVolume(volume or 1)
-	love.audio.play(sound)
+	if sound_last_play[path] == nil
+	or love.timer.getTime() - sound_last_play[path] > Resources.SOUND_INTERVAL then
+		sound_last_play[path] = love.timer.getTime()
+
+		local sound = Resources.getSound(path)
+		sound:setVolume(volume or 1)
+		love.audio.play(sound)
+	end
 end
 
 function Resources.getShader(path)
