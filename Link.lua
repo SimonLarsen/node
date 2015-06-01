@@ -57,10 +57,6 @@ function Link:update(dt)
 				self:trigger()
 			end
 		end
-
-		if Keyboard.wasPressed(" ") then
-			self:cancel()
-		end
 	else
 		self.time = self.time - dt
 		if self.time <= 0 then
@@ -189,6 +185,9 @@ function Link:clear()
 end
 
 function Link:cancel()
+	if self.active == true then
+		return
+	end
 	self:clear()
 end
 

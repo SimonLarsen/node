@@ -7,6 +7,8 @@ local Demobot = require("Demobot")
 local Sentinel = require("Sentinel")
 local Sniper = require("Sniper")
 local Spawner = require("Spawner")
+local Score = require("Score")
+local ClearScreen = require("ClearScreen")
 
 local bresenham = require("bresenham.bresenham")
 
@@ -68,6 +70,16 @@ end
 
 function Map:advance()
 	self.current_wave = self.current_wave + 1
+
+	if self.current_wave > self.num_waves then
+		local score = self.scene:find("score")
+		score:updateTotalScore()
+		Timer.add(1, function()
+			self.scene:add(ClearScreen(score:getScore(), score:getElapsedTime()))
+		end)
+		return
+	end
+
 	for i, o in ipairs(self.waves[self.current_wave]) do
 		local x, y = o.x, o.y
 		if o.type == "robot" then

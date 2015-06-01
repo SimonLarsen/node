@@ -1,5 +1,3 @@
-local ClearScreen = require("ClearScreen")
-
 local Score = class("Score", Entity)
 
 Score.static.COOLDOWN = 0.5
@@ -69,16 +67,6 @@ function Score:addKill()
 	self.combo = self.kills
 	self.cooldown = Score.static.COOLDOWN
 	self.time = Score.static.SHOW_TIME
-
-	if self.map:getNumEnemies() == 0 then
-		Score.static.total_score = Score.static.total_score + self.score
-		Score.static.total_time = Score.static.total_time + self.elapsed_time
-		--[[
-		Timer.add(1, function()
-			self.scene:add(ClearScreen(self.score, self.elapsed_time))
-		end)
-		]]
-	end
 end
 
 function Score:gui()
@@ -89,6 +77,19 @@ function Score:gui()
 		love.graphics.draw(self.img_text, self.quad_numbers[self.combo], WIDTH-200+self.offx, HEIGHT-75+self.offy)
 		love.graphics.draw(self.img_text, self.quad_chain, WIDTH-130+self.offx, HEIGHT-60+self.offy)
 	end
+end
+
+function Score:updateTotalScore()
+	Score.static.total_score = Score.static.total_score + self.score
+	Score.static.total_time = Score.static.total_time + self.elapsed_time
+end
+
+function Score:getScore()
+	return self.score
+end
+
+function Score:getElapsedTime()
+	return self.elapsed_time
 end
 
 return Score
