@@ -12,7 +12,7 @@ Grenade.static.TIME = 2.0
 Grenade.static.SPEED = 250
 
 function Grenade:initialize(x, y, targetx, targety)
-	Enemy.initialize(self, x, y, 0, Grenade.static.MASS, Grenade.static.SOLID, 0, 0.15)
+	Enemy.initialize(self, x, y, 0, Grenade.static.MASS, Grenade.static.SOLID, 0, 0.1)
 	self:setName("grenade")
 
 	self.height = 19
