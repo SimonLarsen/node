@@ -32,13 +32,13 @@ function Grenade:update(dt)
 	self.animator:update(dt)
 	self.time = self.time - dt
 
-	if self:isLinked() == false then
+	if self:isTriggered() == false then
 		self.xtween:update(dt)
 		self.ytween:update(dt)
 		self.heighttween:update(dt)
 	end
 
-	if self.time <= 0 and self:isLinked() == false then
+	if self.time <= 0 and self:isTriggered() == false then
 		self.scene:add(BigExplosion(self.x, self.y, true))
 		self:kill()
 	end

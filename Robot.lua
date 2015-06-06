@@ -13,12 +13,13 @@ Robot.static.WALK_SPEED = 40
 
 Robot.static.STATE_IDLE = 0
 Robot.static.STATE_RUN = 1
+Robot.static.STATE_LINKED = 2
 
 Robot.static.RANGE = 200
 Robot.static.COOLDOWN = 1.0
 
 function Robot:initialize(x, y)
-	Enemy.initialize(self, x, y, 0, Robot.static.MASS, Robot.static.SOLID, -17, 0.25)
+	Enemy.initialize(self, x, y, 0, Robot.static.MASS, Robot.static.SOLID, -17, 0.20)
 	self:setName("robot")
 	
 	self.animator = Animator(Resources.getAnimator("robot.lua"))
@@ -40,7 +41,11 @@ function Robot:update(dt)
 	Enemy.update(self, dt)
 	self.animator:update(dt)
 
-	if self.state == Robot.static.STATE_IDLE then
+	local animstate = self.state
+
+	if self:isLinked() then
+		animstate = Robot.static.STATE_LINKED
+	elseif self.state == Robot.static.STATE_IDLE then
 		self.time = self.time - dt
 		if self.time <= 0 then
 			self.state = Robot.static.STATE_RUN
@@ -53,8 +58,7 @@ function Robot:update(dt)
 		end
 
 		self.cooldown = self.cooldown - dt
-		if self.cooldown <= 0 and self:isLinked() == false
-		and self.map:canSee(self, self.player) then
+		if self.cooldown <= 0 and self.map:canSee(self, self.player) then
 			self.cooldown = Robot.static.COOLDOWN
 
 			local dx = self.player.x - self.x
@@ -85,7 +89,7 @@ function Robot:update(dt)
 		end
 	end
 
-	self.animator:setProperty("state", self.state)
+	self.animator:setProperty("state", animstate)
 end
 
 function Robot:shoot(targetx, targety)

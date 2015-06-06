@@ -4,7 +4,8 @@ return {
 	states = {
 		["idle"] = { image = "demobot_idle.png", fw = 40, fh = 40, delay = 0.1 },
 		["run"] = { image = "demobot_run.png", fw = 32, fh = 40, delay = 0.1 },
-		["fire"] = { image = "demobot_fire.png", fw = 32, fh = 40, delay = 0.15 }
+		["fire"] = { image = "demobot_fire.png", fw = 32, fh = 40, delay = 0.15 },
+		["linked"] = { image = "demobot_linked.png", fw = 40, fh = 40, delay = 0.05 }
 	},
 
 	properties = {
@@ -28,6 +29,14 @@ return {
 		{
 			from = "fire", to = "idle",
 			property = "_finished", value = true
+		},
+		{
+			from = "any", to = "linked",
+			property = "state", value = 2
+		},
+		{
+			from = "linked", to = "idle",
+			property = "state", value = 0
 		}
 	}
 }

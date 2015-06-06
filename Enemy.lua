@@ -13,8 +13,8 @@ function Enemy:initialize(x, y, z, mass, solid, linkz, link_time)
 	self.linkz = linkz or 0
 	self.link_time = link_time
 
-	self.linking = false
 	self.linked = false
+	self.triggered = false
 	self.link_progress = 0
 end
 
@@ -34,6 +34,14 @@ function Enemy:setLinked(state)
 	self.linked = state
 end
 
+function Enemy:isTriggered()
+	return self.triggered
+end
+
+function Enemy:setTriggered(state)
+	self.triggered = state
+end
+
 function Enemy:isSolid()
 	return self.solid
 end
@@ -50,8 +58,8 @@ function Enemy:destroy(playSound)
 end
 
 function Enemy:onCollide(o, dt)
-	if self:isLinked() == false
-	and o.isLinked and o:isLinked() and o:isSolid() == false then
+	if self:isTriggered() == false
+	and o.isTriggered and o:isTriggered() and o:isSolid() == false then
 		self:destroy()
 	end
 

@@ -1,7 +1,7 @@
 return {
   version = "1.1",
   luaversion = "5.1",
-  tiledversion = "0.12.2",
+  tiledversion = "0.12.3",
   orientation = "orthogonal",
   width = 48,
   height = 48,
@@ -393,7 +393,7 @@ return {
         {
           id = 37,
           name = "",
-          type = "robot",
+          type = "commander",
           shape = "rectangle",
           x = 384,
           y = 640,
@@ -406,7 +406,7 @@ return {
         {
           id = 38,
           name = "",
-          type = "robot",
+          type = "commander",
           shape = "rectangle",
           x = 384,
           y = 832,
@@ -419,7 +419,7 @@ return {
         {
           id = 40,
           name = "",
-          type = "robot",
+          type = "commander",
           shape = "rectangle",
           x = 640,
           y = 1088,
@@ -432,7 +432,7 @@ return {
         {
           id = 41,
           name = "",
-          type = "robot",
+          type = "commander",
           shape = "rectangle",
           x = 832,
           y = 1088,
@@ -445,7 +445,7 @@ return {
         {
           id = 42,
           name = "",
-          type = "robot",
+          type = "commander",
           shape = "rectangle",
           x = 1088,
           y = 832,
@@ -458,7 +458,7 @@ return {
         {
           id = 43,
           name = "",
-          type = "robot",
+          type = "commander",
           shape = "rectangle",
           x = 1088,
           y = 640,
@@ -471,7 +471,7 @@ return {
         {
           id = 44,
           name = "",
-          type = "robot",
+          type = "commander",
           shape = "rectangle",
           x = 640,
           y = 384,
@@ -484,7 +484,7 @@ return {
         {
           id = 45,
           name = "",
-          type = "robot",
+          type = "commander",
           shape = "rectangle",
           x = 832,
           y = 384,

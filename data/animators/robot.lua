@@ -4,7 +4,8 @@ return {
 	states = {
 		["idle"] = { image = "robot_idle.png", fw = 40, fh = 40, delay = 0.1 },
 		["run"] = { image = "robot_run.png", fw = 40, fh = 40, delay = 0.1 },
-		["fire"] = { image = "robot_fire.png", fw = 40, fh = 40, delay = 0.15 }
+		["fire"] = { image = "robot_fire.png", fw = 40, fh = 40, delay = 0.15 },
+		["linked"] = { image = "robot_linked.png", fw = 40, fh = 40, delay = 0.05 }
 	},
 
 	properties = {
@@ -28,6 +29,14 @@ return {
 		{
 			from = "fire", to = "idle",
 			property = "_finished", value = true
+		},
+		{
+			from = "any", to = "linked",
+			property = "state", value = 2
+		},
+		{
+			from = "linked", to = "idle",
+			property = "state", value = 0
 		}
 	}
 }

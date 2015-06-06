@@ -16,9 +16,10 @@ Sniper.static.CHARGE_TIME = 1.2
 Sniper.static.STATE_IDLE = 0
 Sniper.static.STATE_WALK = 1
 Sniper.static.STATE_CHARGE = 2
+Sniper.static.STATE_LINKED = 3
 
 function Sniper:initialize(x, y)
-	Enemy.initialize(self, x, y, 0, Sniper.static.MASS, Sniper.static.SOLID, -12, 0.25)
+	Enemy.initialize(self, x, y, 0, Sniper.static.MASS, Sniper.static.SOLID, -12, 0.20)
 
 	self.xspeed = 0
 	self.yspeed = 0
@@ -43,8 +44,13 @@ function Sniper:update(dt)
 	Enemy.update(self, dt)
 	self.animator:update(dt)
 
+	local animstate = self.state
+
 	self.time = self.time - dt
-	if self.state == Sniper.static.STATE_IDLE then
+
+	if self:isLinked() then
+		animstate = Sniper.static.STATE_LINKED
+	elseif self.state == Sniper.static.STATE_IDLE then
 		if self.time <= 0 then
 			self.state = Sniper.static.STATE_WALK
 			local dir = love.math.random() * 2 * math.pi
@@ -98,7 +104,7 @@ function Sniper:update(dt)
 			self.dir = math.sign(xdist)
 		end
 
-		if self.time <= 0 and self:isLinked() == false then
+		if self.time <= 0 then
 			self.state = Sniper.static.STATE_IDLE
 			self.time = 1
 			self.cooldown = Sniper.static.COOLDOWN
@@ -107,7 +113,7 @@ function Sniper:update(dt)
 		end
 	end
 
-	self.animator:setProperty("state", self.state)
+	self.animator:setProperty("state", animstate)
 end
 
 function Sniper:draw()

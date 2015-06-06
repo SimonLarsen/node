@@ -16,9 +16,10 @@ Spider.static.STATE_IDLE = 0
 Spider.static.STATE_WALK = 1
 Spider.static.STATE_ALERT = 2
 Spider.static.STATE_CHARGE = 3
+Spider.static.STATE_LINKED = 4
 
 function Spider:initialize(x, y)
-	Enemy.initialize(self, x, y, 0, Spider.static.MASS, Spider.static.SOLID, -12, 0.25)
+	Enemy.initialize(self, x, y, 0, Spider.static.MASS, Spider.static.SOLID, -12, 0.20)
 	self:setName("spider")
 
 	self.xspeed = 0
@@ -45,6 +46,7 @@ function Spider:update(dt)
 	local xdist = self.player.x - self.x
 	local ydist = self.player.y - self.y
 
+	local animstate = self.state
 
 	if self.state == Spider.static.STATE_IDLE
 	or self.state == Spider.static.STATE_WALK then
@@ -55,7 +57,10 @@ function Spider:update(dt)
 	end
 
 	self.time = self.time - dt
-	if self.state == Spider.static.STATE_IDLE then
+	if self:isLinked() then
+		animstate = Spider.static.STATE_LINKED
+
+	elseif self.state == Spider.static.STATE_IDLE then
 		if self.time <= 0 then
 			self.state = Spider.static.STATE_WALK
 			local dir = love.math.random() * 2 * math.pi
@@ -110,7 +115,7 @@ function Spider:update(dt)
 		end
 	end
 
-	self.animator:setProperty("state", self.state)
+	self.animator:setProperty("state", animstate)
 end
 
 function Spider:explode()

@@ -39,10 +39,9 @@ function Link:update(dt)
 	end
 
 	if self.active == false then
-		for i,v in ipairs(self.links) do
-			if v:isAlive() == false then
-				self:clear()
-				return
+		for i=#self.links, 1, -1 do
+			if self.links[i]:isAlive() == false then
+				table.remove(self.links, i)
 			end
 		end
 
@@ -116,11 +115,8 @@ function Link:gui()
 end
 
 function Link:addLink(e)
-	for i,v in ipairs(self.links) do
-		if v == e then
-			return false
-		end
-	end
+	if e:isLinked() then return false end
+
 	if self.hasReach == false or self.active == true then
 		return false
 	end
@@ -133,6 +129,7 @@ function Link:addLink(e)
 		end
 	end
 
+	e:setLinked(true)
 	table.insert(self.links, e)
 	self.scene:add(LinkEffect(e))
 	self.player:giveStamina(e.link_time * Player.static.LINK_COST)
@@ -162,7 +159,7 @@ function Link:trigger()
 	local ty = 0
 
 	for i,v in ipairs(self.links) do
-		v:setLinked(true)
+		v:setTriggered(true)
 		tx = tx + v.x * v.mass
 		ty = ty + v.y * v.mass
 		mass = mass + v.mass
