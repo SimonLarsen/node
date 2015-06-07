@@ -1,9 +1,8 @@
 local LinkChain = class("LinkChain", Entity)
 
-LinkChain.static.STEPTIME = 1/60
-LinkChain.static.STEPSIZE = 16
-LinkChain.static.RESTLENGTH = 18
-LinkChain.static.GRAVITY = 150
+LinkChain.static.STEPTIME = 1/100
+LinkChain.static.STEPSIZE = 10
+LinkChain.static.RESTLENGTH = 10
 
 function LinkChain:initialize(x1, y1, x2, y2, count)
 	Entity.initialize(self, (x1+x2)/2, (y1+y2)/2, -1)
@@ -26,12 +25,8 @@ function LinkChain:initialize(x1, y1, x2, y2, count)
 		p.lasty = p.y
 		if i == 0 or i == count then
 			p.fixed = true
-			p.accx = 0
-			p.accy = 0
 		else
 			p.fixed = false
-			p.accx = 0
-			p.accy = LinkChain.static.GRAVITY
 		end
 
 		table.insert(self.points, p)
@@ -53,8 +48,8 @@ function LinkChain:step(dt)
 			local velx = p.x - p.lastx
 			local vely = p.y - p.lasty
 
-			local nextx = p.x + velx + p.accx * dt^2
-			local nexty = p.y + vely + p.accy * dt^2
+			local nextx = p.x + velx
+			local nexty = p.y + vely
 
 			p.lastx, p.lasty = p.x, p.y
 			p.x, p.y = nextx, nexty
