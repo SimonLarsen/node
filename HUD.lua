@@ -1,4 +1,7 @@
 local Enemy = require("Enemy")
+local Explosion = require("Explosion")
+local BigExplosion = require("BigExplosion")
+local Spawner = require("Spawner")
 
 local HUD = class("HUD", Entity)
 
@@ -22,7 +25,6 @@ function HUD:initialize()
 	self.img_substaminabar = Resources.getImage("stamina_subbar.png")
 	self.img_minimap = Resources.getImage("minimap.png")
 	self.img_minimap_overlay = Resources.getImage("minimap_overlay.png")
-	self.img_enemy_dot = Resources.getImage("enemy_dot.png")
 
 	self.quad_stamina = love.graphics.newQuad(0, 0, 78, 3, 78, 3)
 	self.quad_substamina = love.graphics.newQuad(0, 0, 78, 3, 78, 3)
@@ -83,7 +85,20 @@ function HUD:gui()
 	local cx = WIDTH-40
 	local cy = 26
 	for i,v in ipairs(self.scene:getEntities()) do
+		draw = false
+
 		if v:isInstanceOf(Enemy) then
+			love.graphics.setColor(255, 98, 98)
+			draw = true
+		elseif v:isInstanceOf(Explosion) or v:isInstanceOf(BigExplosion) then
+			love.graphics.setColor(255, 186, 88)
+			draw = true
+		elseif v:isInstanceOf(Spawner) then
+			love.graphics.setColor(112, 218, 217, v:progress()*255)
+			draw = true
+		end
+
+		if draw then
 			local offx = math.cap((v.x - self.player.x) / 20, -26, 26)
 			local offy = math.cap((v.y - self.player.y) / 20, -17, 17)
 			if offy > 8 then
@@ -91,10 +106,14 @@ function HUD:gui()
 			elseif offy < -7 then
 				offx = math.min(offx, 26 + 7 + offy)
 			end
-			love.graphics.draw(self.img_enemy_dot, cx+offx, cy+offy, 0, 1, 1, 1, 1)
+			love.graphics.rectangle("fill", cx+offx-1, cy+offy-1, 2, 2)
 		end
 	end
+
+	love.graphics.setColor(255, 255, 255)
 	love.graphics.draw(self.img_minimap_overlay, WIDTH-68, 6)
+
+	love.graphics.rectangle("fill", WIDTH-41, 25, 2, 2)
 end
 
 return HUD

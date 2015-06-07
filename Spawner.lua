@@ -24,4 +24,8 @@ function Spawner:draw()
 	self.animation:draw(self.x, self.y, 0, 1, 1, 36, 70)
 end
 
+function Spawner:progress()
+	return 1 - (self.time / Spawner.static.DEFAULT_TIME)
+end
+
 return Spawner

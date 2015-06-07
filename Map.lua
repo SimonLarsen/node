@@ -103,11 +103,6 @@ end
 
 function Map:addKill()
 	self.enemies = self.enemies - 1
-	self.scene:find("score"):addKill()
-
-	if self:getNumEnemies() == 0 then
-		self:advance()
-	end
 end
 
 function Map:createQuads()

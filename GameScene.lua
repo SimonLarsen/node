@@ -1,4 +1,3 @@
-local CollisionHandler = require("CollisionHandler")
 local Map = require("Map")
 local Player = require("Player")
 local GlitchOverlay = require("GlitchOverlay")
@@ -10,6 +9,7 @@ local PauseMenu = require("PauseMenu")
 local Winscreen = require("Winscreen")
 local Fade = require("Fade")
 local GlitchFade = require("GlitchFade")
+local WaveGameController = require("WaveGameController")
 local ClearScreen = require("ClearScreen")
 
 local GameScene = class("GameScene", Scene)
@@ -32,6 +32,7 @@ function GameScene:initialize(level)
 	self:add(HUD())
 	self:add(Score())
 	self:add(GlitchFade(GlitchFade.static.FADE_IN, 2, {255,255,255}))
+	self:add(WaveGameController())
 
 	Timer.add(1.5, function()
 		map:advance()
@@ -46,14 +47,6 @@ end
 
 function GameScene:restart()
 	gamestate.switch(GameScene(self.level))
-end
-
-function GameScene:nextLevel()
-	if self.level == GameScene.static.NUM_LEVELS then
-		gamestate.switch(Winscreen())
-	else
-		gamestate.switch(GameScene(self.level+1))
-	end
 end
 
 return GameScene

@@ -78,7 +78,7 @@ end
 
 function Enemy:onRemove()
 	if self:getName() ~= "grenade" then
-		self.scene:find("map"):addKill()
+		self.scene:find("controller"):addKill()
 	end
 end
 

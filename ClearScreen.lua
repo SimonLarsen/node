@@ -11,9 +11,7 @@ function ClearScreen:initialize(score, time)
 end
 
 function ClearScreen:update(dt)
-	if Keyboard.wasPressed("return") then
-		self.scene:nextLevel()
-	end
+
 end
 
 function ClearScreen:gui()
