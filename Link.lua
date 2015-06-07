@@ -2,6 +2,7 @@ local BoxCollider = require("BoxCollider")
 local Explosion = require("Explosion")
 local BigExplosion = require("BigExplosion")
 local LinkEffect = require("LinkEffect")
+local LinkChain = require("LinkChain")
 local Player = require("Player")
 
 local Link = class("Link", Entity)
@@ -16,6 +17,7 @@ function Link:initialize()
 	self:setName("link")
 
 	self.links = {}
+	self.chains = {}
 	self.active = false
 	self.hasSolid = false
 	self.hasReach = false
@@ -43,6 +45,12 @@ function Link:update(dt)
 			if self.links[i]:isAlive() == false then
 				table.remove(self.links, i)
 			end
+		end
+
+		if #self.chains > 0 then
+			local mx, my = Mouse.getPositionCamera(self.scene:getCamera())
+			self.chains[#self.chains].points[1].x = mx
+			self.chains[#self.chains].points[1].y = my
 		end
 
 		if Mouse.wasReleased("l")
@@ -85,9 +93,11 @@ function Link:update(dt)
 end
 
 function Link:draw()
-	love.graphics.setLineWidth(2)
+	if not self.active then return end
 
+	love.graphics.setLineWidth(2)
 	love.graphics.setColor(255, 128, 248)
+
 	for i=1, #self.links-1 do
 		love.graphics.line(self.links[i].x, self.links[i].y+self.links[i].linkz, self.links[i+1].x, self.links[i+1].y+self.links[i+1].linkz)
 	end
@@ -129,11 +139,23 @@ function Link:addLink(e)
 		end
 	end
 
-	e:setLinked(true)
 	table.insert(self.links, e)
-	self.scene:add(LinkEffect(e))
+
+	e:setLinked(true)
 	self.player:giveStamina(e.link_time * Player.static.LINK_COST)
 	Resources.playSound("targeting.wav")
+	self.scene:add(LinkEffect(e))
+
+	local p = self.links[#self.links]
+	if #self.links > 1 then
+		self.chains[#self.chains].points[1].x = p.x
+		self.chains[#self.chains].points[1].y = p.y + p.linkz
+	end
+
+	local mx, my = Mouse.getPositionCamera(self.scene:getCamera())
+	local c = self.scene:add(LinkChain(mx, my, p.x, p.y+p.linkz, 10))
+	table.insert(self.chains, c)
+
 	return true
 end
 
@@ -165,6 +187,10 @@ function Link:trigger()
 		mass = mass + v.mass
 	end
 
+	for i,v in ipairs(self.chains) do
+		v:kill()
+	end
+
 	self.targetx = tx / mass
 	self.targety = ty / mass
 
@@ -177,6 +203,12 @@ function Link:clear()
 		v:setLinked(false)
 	end
 	self.links = {}
+
+	for i,v in ipairs(self.chains) do
+		v:kill()
+	end
+	self.chains = {}
+
 	self.active = false
 	self.hasSolid = false
 end
