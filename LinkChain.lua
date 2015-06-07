@@ -2,7 +2,7 @@ local LinkChain = class("LinkChain", Entity)
 
 LinkChain.static.STEPTIME = 1/60
 LinkChain.static.STEPSIZE = 16
-LinkChain.static.RESTLENGTH = 12
+LinkChain.static.RESTLENGTH = 18
 LinkChain.static.GRAVITY = 150
 
 function LinkChain:initialize(x1, y1, x2, y2, count)
@@ -73,8 +73,8 @@ function LinkChain:step(dt)
 		if d > LinkChain.static.RESTLENGTH then
 			local difference = (LinkChain.static.RESTLENGTH - d) / d
 
-			local translatex = diffx * 0.5 * difference
-			local translatey = diffy * 0.5 * difference
+			local translatex = diffx * 0.7 * difference
+			local translatey = diffy * 0.7 * difference
 
 			if not p1.fixed then
 				p1.x = p1.x + translatex
