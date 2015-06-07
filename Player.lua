@@ -28,7 +28,7 @@ Player.static.STATE_DASH 	= 5
 Player.static.STATE_DEAD	= 6
 Player.static.STATE_SPAWN	= 7
 
-Player.static.STAMINA_INCREASE = 0.5
+Player.static.STAMINA_INCREASE = 0.7
 Player.static.STAMINA_COOLDOWN = 0.6
 Player.static.MAX_STAMINA = 1
 
