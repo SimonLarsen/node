@@ -84,7 +84,7 @@ end
 
 function Enemy:drawLink()
 	if self.link_progress > 0 and self.link_progress < 1 then
-		love.graphics.arc("fill", self.x, self.y+self.linkz, 8, 0, self.link_progress*2*math.pi, 32)
+		love.graphics.arc("fill", self.x, self.y+self.linkz, 10, 0, self.link_progress*2*math.pi, 32)
 	end
 end
 
