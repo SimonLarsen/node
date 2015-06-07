@@ -10,7 +10,7 @@ Sniper.static.SOLID = false
 Sniper.static.AIM_DIST = 200
 
 Sniper.static.WALK_SPEED = 60
-Sniper.static.COOLDOWN = 1.5
+Sniper.static.COOLDOWN = 1.0
 Sniper.static.CHARGE_TIME = 1.2
 
 Sniper.static.STATE_IDLE = 0
