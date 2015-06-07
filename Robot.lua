@@ -19,7 +19,7 @@ Robot.static.RANGE = 200
 Robot.static.COOLDOWN = 1.0
 
 function Robot:initialize(x, y)
-	Enemy.initialize(self, x, y, 0, Robot.static.MASS, Robot.static.SOLID, -17, 0.20)
+	Enemy.initialize(self, x, y, 0, Robot.static.MASS, Robot.static.SOLID, -17, 0.15)
 	self:setName("robot")
 	
 	self.animator = Animator(Resources.getAnimator("robot.lua"))

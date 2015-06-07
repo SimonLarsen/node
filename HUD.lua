@@ -94,7 +94,7 @@ function HUD:gui()
 			love.graphics.setColor(255, 186, 88)
 			draw = true
 		elseif v:isInstanceOf(Spawner) then
-			love.graphics.setColor(112, 218, 217, v:progress()*255)
+			love.graphics.setColor(255, 98, 98, v:progress()*255)
 			draw = true
 		end
 

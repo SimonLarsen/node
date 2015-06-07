@@ -8,7 +8,7 @@ local Commander = class("Commander", Robot)
 Commander.static.RANGE = 200
 
 function Commander:initialize(x, y)
-	Enemy.initialize(self, x, y, 0, Robot.static.MASS, Robot.static.SOLID, -17, 0.25)
+	Enemy.initialize(self, x, y, 0, Robot.static.MASS, Robot.static.SOLID, -17, 0.15)
 	self:setName("commander")
 	
 	self.animator = Animator(Resources.getAnimator("commander.lua"))

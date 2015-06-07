@@ -19,7 +19,7 @@ Sniper.static.STATE_CHARGE = 2
 Sniper.static.STATE_LINKED = 3
 
 function Sniper:initialize(x, y)
-	Enemy.initialize(self, x, y, 0, Sniper.static.MASS, Sniper.static.SOLID, -12, 0.20)
+	Enemy.initialize(self, x, y, 0, Sniper.static.MASS, Sniper.static.SOLID, -12, 0.15)
 
 	self.xspeed = 0
 	self.yspeed = 0

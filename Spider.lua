@@ -19,7 +19,7 @@ Spider.static.STATE_CHARGE = 3
 Spider.static.STATE_LINKED = 4
 
 function Spider:initialize(x, y)
-	Enemy.initialize(self, x, y, 0, Spider.static.MASS, Spider.static.SOLID, -12, 0.20)
+	Enemy.initialize(self, x, y, 0, Spider.static.MASS, Spider.static.SOLID, -12, 0.15)
 	self:setName("spider")
 
 	self.xspeed = 0

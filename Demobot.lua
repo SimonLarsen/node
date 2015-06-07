@@ -8,7 +8,7 @@ local Demobot = class("Demobot", Robot)
 Demobot.static.RANGE = 170
 
 function Demobot:initialize(x, y)
-	Enemy.initialize(self, x, y, 0, Robot.static.MASS, Robot.static.SOLID, -17, 0.25)
+	Enemy.initialize(self, x, y, 0, Robot.static.MASS, Robot.static.SOLID, -17, 0.20)
 	self:setName("demobot")
 	
 	self.animator = Animator(Resources.getAnimator("demobot.lua"))
