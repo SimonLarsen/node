@@ -70,7 +70,7 @@ function Link:update(dt)
 			for i,v in ipairs(self.links) do
 				v.x = v.x + love.math.random() * 16 - 8
 				v.y = v.y + love.math.random() * 16 - 8
-				v:destroy(false)
+				v:destroy(false, #self.links)
 			end
 			Resources.playSound("explosion_deep.wav")
 			self:clear()

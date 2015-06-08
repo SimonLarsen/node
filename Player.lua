@@ -319,6 +319,10 @@ function Player:onCollide(o)
 	or o:getName() == "bigexplosion" then
 		self:hit(o)
 	end
+
+	if o:getName() == "blip" then
+		o:kill()
+	end
 end
 
 function Player:isDead()
