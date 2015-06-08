@@ -70,6 +70,13 @@ function CollisionHandler.checkMapBox(a, b)
 	return false
 end
 
+function CollisionHandler.checkMapPoint(a, b)
+	local cx = math.floor(b.x / a.collider.tilesize)
+	local cy = math.floor(b.y / a.collider.tilesize)
+
+	return a.collider.map:isSolid(cx, cy)
+end
+
 function CollisionHandler.checkLineBox(l, a)
 	local bx = l.collider.x2 - l.collider.x1
 	local by = l.collider.y2 - l.collider.y1
