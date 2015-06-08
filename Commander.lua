@@ -5,7 +5,7 @@ local BoxCollider = require("BoxCollider")
 
 local Commander = class("Commander", Robot)
 
-Commander.static.RANGE = 200
+Commander.static.RANGE = 230
 
 function Commander:initialize(x, y)
 	Enemy.initialize(self, x, y, 0, Robot.static.MASS, Robot.static.SOLID, -17, 0.15)
