@@ -35,8 +35,8 @@ return {
 			property = "state", value = 2
 		},
 		{
-			from = "linked", to = "idle",
-			property = "state", value = 0
+			from = "linked", to = "run",
+			property = "state", value = 1
 		}
 	}
 }
