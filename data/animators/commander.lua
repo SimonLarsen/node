@@ -2,10 +2,10 @@ return {
 	default = "idle",
 
 	states = {
-		["idle"] = { image = "commander_idle.png", fw = 40, fh = 40, delay = 0.1 },
-		["run"] = { image = "commander_run.png", fw = 40, fh = 40, delay = 0.1 },
-		["fire"] = { image = "commander_fire.png", fw = 40, fh = 40, delay = 0.15 },
-		["linked"] = { image = "commander_linked.png", fw = 40, fh = 40, delay = 0.05 }
+		["idle"] = { image = "commander_idle.png", fw = 40, fh = 40, delay = 0.1, oy = 37 },
+		["run"] = { image = "commander_run.png", fw = 40, fh = 40, delay = 0.1, oy = 37 },
+		["fire"] = { image = "commander_fire.png", fw = 40, fh = 40, delay = 0.15, oy = 37 },
+		["linked"] = { image = "commander_linked.png", fw = 40, fh = 40, delay = 0.05, oy = 37 }
 	},
 
 	properties = {

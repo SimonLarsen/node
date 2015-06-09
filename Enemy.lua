@@ -59,7 +59,7 @@ function Enemy:destroy(playSound, blipcount)
 	self:kill()
 
 	for i=1, blipcount do
-		local speed = love.math.random(100, 250)
+		local speed = love.math.random(100, 300)
 		local dir = love.math.random() * 2 * math.pi
 		local xspeed = math.cos(dir) * speed
 		local yspeed = math.sin(dir) * speed

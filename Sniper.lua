@@ -117,7 +117,7 @@ function Sniper:update(dt)
 end
 
 function Sniper:draw()
-	self.animator:draw(self.x, self.y, 0, self.dir, 1, 16, 26)
+	self.animator:draw(self.x, self.y, 0, self.dir, 1)
 
 	if self.state == Sniper.static.STATE_CHARGE
 	and self.time <= Sniper.static.CHARGE_TIME/2 then

@@ -15,7 +15,7 @@ Robot.static.STATE_IDLE = 0
 Robot.static.STATE_RUN = 1
 Robot.static.STATE_LINKED = 2
 
-Robot.static.RANGE = 230
+Robot.static.RANGE = 200
 Robot.static.COOLDOWN = 0.5
 
 function Robot:initialize(x, y)
@@ -99,7 +99,7 @@ function Robot:shoot(targetx, targety)
 end
 
 function Robot:draw()
-	self.animator:draw(self.x, self.y, 0, self.dir, 1, nil, 37)
+	self.animator:draw(self.x, self.y, 0, self.dir, 1)
 
 	self:drawLink()
 end

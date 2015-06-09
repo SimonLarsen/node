@@ -125,7 +125,7 @@ function Spider:explode()
 end
 
 function Spider:draw()
-	self.animator:draw(self.x, self.y, 0, self.dir, 1, 16, 26)
+	self.animator:draw(self.x, self.y, 0, self.dir, 1)
 
 	self:drawLink()
 end

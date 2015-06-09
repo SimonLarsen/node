@@ -54,7 +54,7 @@ function Grenade:draw()
 		love.graphics.circle("fill", self.x, self.y, 4, 8)
 		love.graphics.setColor(255, 255, 255, 255)
 	end
-	self.animator:draw(self.x, self.y-self.height, 0, 1, 1, 7, 7)
+	self.animator:draw(self.x, self.y-self.height, 0, 1, 1)
 
 	self:drawLink()
 end
