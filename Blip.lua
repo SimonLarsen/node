@@ -9,7 +9,7 @@ function Blip:initialize(x, y, xspeed, yspeed)
 	Entity.initialize(self, x, y)
 	self:setName("blip")
 
-	self.acceleration = 500
+	self.acceleration = 300
 	self.xspeed = xspeed or 0
 	self.yspeed = yspeed or 0
 	self.time = 0
@@ -35,7 +35,7 @@ function Blip:update(dt)
 	local tyspeed = dy / dist * Blip.static.SPEED
 	self.xspeed = math.movetowards(self.xspeed, txspeed, self.acceleration*dt)
 	self.yspeed = math.movetowards(self.yspeed, tyspeed, self.acceleration*dt)
-	self.acceleration = self.acceleration + 200*dt
+	self.acceleration = self.acceleration + 1000*dt
 
 	if self.time >= Blip.static.LIFETIME and not following then
 		self:kill()
