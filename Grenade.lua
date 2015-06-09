@@ -65,4 +65,8 @@ function Grenade:destroy()
 	self:kill()
 end
 
+function Grenade:countsInWave()
+	return false
+end
+
 return Grenade

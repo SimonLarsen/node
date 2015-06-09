@@ -101,8 +101,10 @@ function Map:advance()
 	end
 end
 
-function Map:addKill()
-	self.enemies = self.enemies - 1
+function Map:addKill(o)
+	if o:countsInWave() then
+		self.enemies = self.enemies - 1
+	end
 end
 
 function Map:createQuads()

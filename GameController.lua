@@ -6,9 +6,9 @@ function GameController:initialize()
 	self:setName("controller")
 end
 
-function GameController:addKill()
-	self.scene:find("map"):addKill()
-	self.scene:find("score"):addKill()
+function GameController:addKill(o)
+	self.scene:find("map"):addKill(o)
+	self.scene:find("score"):addKill(o)
 end
 
 return GameController

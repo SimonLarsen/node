@@ -10,8 +10,8 @@ function WaveGameController:enter()
 	self.map = self.scene:find("map")
 end
 
-function WaveGameController:addKill()
-	GameController.addKill(self)
+function WaveGameController:addKill(o)
+	GameController.addKill(self, o)
 
 	if self.map:getNumEnemies() == 0 then
 		self.map:advance()

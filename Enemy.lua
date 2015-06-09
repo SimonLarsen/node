@@ -87,15 +87,17 @@ function Enemy:onCollide(o, dt)
 end
 
 function Enemy:onRemove()
-	if self:getName() ~= "grenade" then
-		self.scene:find("controller"):addKill()
-	end
+	self.scene:find("controller"):addKill(self)
 end
 
 function Enemy:drawLink()
 	if self.link_progress > 0 and self.link_progress < 1 then
 		love.graphics.arc("fill", self.x, self.y+self.linkz, 10, 0, self.link_progress*2*math.pi, 32)
 	end
+end
+
+function Enemy:countsInWave()
+	return true
 end
 
 return Enemy
