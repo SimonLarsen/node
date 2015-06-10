@@ -1,6 +1,5 @@
 local CollisionHandler = require("CollisionHandler")
 local Explosion = require("Explosion")
-local Blip = require("Blip")
 
 local Enemy = class("Enemy", Entity)
 
@@ -47,9 +46,8 @@ function Enemy:isSolid()
 	return self.solid
 end
 
-function Enemy:destroy(playSound, blipcount)
+function Enemy:destroy(playSound)
 	if playSound == nil then playSound = true end
-	if blipcount == nil then blipcount = 0 end
 
 	if playSound then
 		Resources.playSound("explosion_light.wav")
@@ -57,14 +55,6 @@ function Enemy:destroy(playSound, blipcount)
 
 	self.scene:add(Explosion(self.x, self.y))
 	self:kill()
-
-	for i=1, blipcount do
-		local speed = love.math.random(100, 250)
-		local dir = love.math.random() * 2 * math.pi
-		local xspeed = math.cos(dir) * speed
-		local yspeed = math.sin(dir) * speed
-		self.scene:add(Blip(self.x, self.y, xspeed, yspeed))
-	end
 end
 
 function Enemy:onCollide(o, dt)

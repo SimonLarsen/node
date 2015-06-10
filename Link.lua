@@ -4,6 +4,7 @@ local BigExplosion = require("BigExplosion")
 local LinkEffect = require("LinkEffect")
 local LinkChain = require("LinkChain")
 local Player = require("Player")
+local Blip = require("Blip")
 
 local Link = class("Link", Entity)
 
@@ -67,6 +68,15 @@ function Link:update(dt)
 	else
 		self.time = self.time - dt
 		if self.time <= 0 then
+			local blipcount = math.round(math.pow(#self.links, 1.5))
+			for i=1, blipcount do
+				local speed = love.math.random(100, 250)
+				local dir = love.math.random() * 2 * math.pi
+				local xspeed = math.cos(dir) * speed
+				local yspeed = math.sin(dir) * speed
+				self.scene:add(Blip(self.targetx, self.targety, xspeed, yspeed))
+			end
+
 			for i,v in ipairs(self.links) do
 				v.x = v.x + love.math.random() * 16 - 8
 				v.y = v.y + love.math.random() * 16 - 8

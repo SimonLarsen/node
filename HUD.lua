@@ -16,6 +16,7 @@ function HUD:initialize()
 	self.health_cooldown = 0
 
 	self.stamina = 1
+	self.power = 0
 	self.substamina = self.stamina
 	self.stamina_cooldown = 0
 
@@ -25,6 +26,7 @@ function HUD:initialize()
 	self.img_substaminabar = Resources.getImage("stamina_subbar.png")
 	self.img_minimap = Resources.getImage("minimap.png")
 	self.img_minimap_overlay = Resources.getImage("minimap_overlay.png")
+	self.img_powerbar_end = Resources.getImage("powerbar_end.png")
 
 	self.quad_stamina = love.graphics.newQuad(0, 0, 78, 3, 78, 3)
 	self.quad_substamina = love.graphics.newQuad(0, 0, 78, 3, 78, 3)
@@ -51,6 +53,10 @@ function HUD:setStamina(value)
 	self.quad_stamina:setViewport(0, 0, self.stamina*78, 3)
 end
 
+function HUD:setPower(value)
+	self.power = value
+end
+
 function HUD:update(dt)
 	if self.stamina_cooldown > 0 then
 		self.stamina_cooldown = self.stamina_cooldown - dt
@@ -63,9 +69,17 @@ function HUD:update(dt)
 end
 
 function HUD:gui()
+	local barlen = self.power * 104 - 16
+	love.graphics.draw(self.img_powerbar_end, barlen, 36)
+	if barlen > 0 then
+		love.graphics.setColor(90, 90, 196)
+		love.graphics.rectangle("fill", 0, 36, barlen, 16)
+		love.graphics.setColor(255, 255 ,255)
+	end
+
 	love.graphics.draw(self.img_hud_top, 0, 8)
 
-	local barlen = self.subhealth * 34
+	barlen = self.subhealth * 34
 	if self.health_cooldown > 0 then
 		love.graphics.polygon("fill", 5, 27, 15, 17, barlen+15, 17, barlen+5, 27)
 	end
@@ -74,7 +88,7 @@ function HUD:gui()
 	love.graphics.polygon("fill", 5, 27, 15, 17, barlen+15, 17, barlen+5, 27)
 
 	love.graphics.setColor(255, 255, 255)
-	love.graphics.draw(self.img_healthbar, 4, 16)
+	love.graphics.draw(self.img_healthbar, 0, 8)
 
 	if self.substamina - self.stamina > 1/78 then
 		love.graphics.draw(self.img_substaminabar, self.quad_substamina, 4, 36)

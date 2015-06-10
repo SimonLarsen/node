@@ -31,6 +31,8 @@ Player.static.STATE_SPAWN	= 7
 Player.static.STAMINA_INCREASE = 0.7
 Player.static.STAMINA_COOLDOWN = 0.6
 Player.static.MAX_STAMINA = 1
+Player.static.MAX_POWER = 1
+Player.static.BLIP_POWER = 1/50
 
 Player.static.LINK_COST = 1
 Player.static.DASH_COST = 0.2
@@ -52,6 +54,7 @@ function Player:initialize(x, y)
 	self.health = 3
 	self.stamina = Player.static.MAX_STAMINA
 	self.stamina_cooldown = 0
+	self.power = 0
 
 	self.animator = Animator(Resources.getAnimator("player.lua"))
 	self.img_ghost = Resources.getImage("dash_ghost.png")
@@ -321,6 +324,8 @@ function Player:onCollide(o)
 	end
 
 	if o:getName() == "blip" then
+		self.power = math.min(self.power + Player.static.BLIP_POWER, Player.static.MAX_POWER)
+		self.hud:setPower(self.power)
 		o:kill()
 	end
 end
