@@ -15,7 +15,7 @@ function Blip:initialize(x, y, xspeed, yspeed)
 	self.time = 0
 
 	self.animation = Animation(Resources.getImage("blip.png"), 9, 9, 0.07)
-	self.collider = BoxCollider(4, 4)
+	self.collider = BoxCollider(8, 8)
 end
 
 function Blip:enter()
@@ -35,7 +35,7 @@ function Blip:update(dt)
 	local tyspeed = dy / dist * Blip.static.SPEED
 	self.xspeed = math.movetowards(self.xspeed, txspeed, self.acceleration*dt)
 	self.yspeed = math.movetowards(self.yspeed, tyspeed, self.acceleration*dt)
-	self.acceleration = self.acceleration + 1000*dt
+	self.acceleration = self.acceleration + 2000*dt
 
 	if self.time >= Blip.static.LIFETIME and not following then
 		self:kill()
