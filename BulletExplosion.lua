@@ -19,9 +19,6 @@ function BulletExplosion:update(dt)
 end
 
 function BulletExplosion:draw()
-	love.graphics.setColor(0, 0, 0, 128)
-	love.graphics.circle("fill", self.x, self.y, 4, 8)
-	love.graphics.setColor(255, 255, 255, 255)
 	self.animation:draw(self.x, self.y-16)
 end
 
