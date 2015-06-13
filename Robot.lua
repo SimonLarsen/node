@@ -15,7 +15,7 @@ Robot.static.STATE_IDLE = 0
 Robot.static.STATE_RUN = 1
 Robot.static.STATE_LINKED = 2
 
-Robot.static.RANGE = 200
+Robot.static.RANGE = 220
 Robot.static.COOLDOWN = 0.5
 
 function Robot:initialize(x, y)

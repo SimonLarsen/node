@@ -1,5 +1,6 @@
 local BoxCollider = require("BoxCollider")
 local CollisionHandler = require("CollisionHandler")
+local BulletExplosion = require("BulletExplosion")
 
 local Bullet = class("Bullet", Entity)
 
@@ -25,6 +26,7 @@ function Bullet:update(dt)
 	self.y = self.y + self.yspeed * dt
 
 	if CollisionHandler.checkMapBox(self.map, self) then
+		self.scene:add(BulletExplosion(self.x, self.y))
 		self:kill()
 	end
 end
@@ -39,6 +41,7 @@ end
 function Bullet:onCollide(o)
 	if o:getName() == "kick"
 	or o:getName() == "player" then
+		self.scene:add(BulletExplosion(self.x, self.y))
 		self:kill()
 	end
 end
