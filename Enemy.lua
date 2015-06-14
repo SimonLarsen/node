@@ -3,7 +3,7 @@ local Explosion = require("Explosion")
 
 local Enemy = class("Enemy", Entity)
 
-Enemy.static.LINK_DECREASE = 5
+Enemy.static.LINK_DECREASE = 4
 
 function Enemy:initialize(x, y, z, mass, solid, linkz, link_time)
 	Entity.initialize(self, x, y, z)
