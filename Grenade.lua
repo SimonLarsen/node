@@ -8,7 +8,7 @@ local Grenade = class("Grenade", Enemy)
 Grenade.static.MASS = 20
 Grenade.static.SOLID = false
 
-Grenade.static.TIME = 2.0
+Grenade.static.TIME = 1.5
 Grenade.static.SPEED = 250
 
 function Grenade:initialize(x, y, targetx, targety)
