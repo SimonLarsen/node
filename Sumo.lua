@@ -23,14 +23,9 @@ function Sumo:initialize(x, y)
 	Enemy.initialize(self, x, y, 0, Sumo.static.MASS, Sumo.static.SOLID, -20, 0.20)
 	self:setName("sumo")
 
-	self.state = Sumo.static.STATE_RUN
-	self.time = 2 + love.math.random()
 	self.shoot_dir = 0
 
-	local dir = love.math.random() * math.pi * 2
-	self.xspeed = math.cos(dir) * Sumo.static.WALK_SPEED
-	self.yspeed = math.sin(dir) * Sumo.static.WALK_SPEED
-	self.dir = math.sign(self.xspeed)
+	self:run()
 
 	self.animator = Animator(Resources.getAnimator("sumo.lua"))
 	self.collider = BoxCollider(44, 44, 0, 0)
@@ -52,8 +47,6 @@ function Sumo:update(dt)
 	if self:isLinked() then
 		animstate = Sumo.static.STATE_LINKED
 
-	elseif self.state == Sumo.static.STATE_IDLE then
-
 	elseif self.state == Sumo.static.STATE_RUN then
 		self.time = self.time - dt
 
@@ -64,10 +57,7 @@ function Sumo:update(dt)
 		local collision = CollisionHandler.checkMapBox(self.map, self)
 		if collision then
 			self.x, self.y = oldx, oldy
-			local dir = love.math.random() * math.pi * 2
-			self.xspeed = math.cos(dir) * Sumo.static.WALK_SPEED
-			self.yspeed = math.sin(dir) * Sumo.static.WALK_SPEED
-			self.dir = math.sign(self.xspeed)
+			self:run()
 		end
 		
 		if self.time <= 0
@@ -76,6 +66,7 @@ function Sumo:update(dt)
 			self.time = Sumo.static.SHOOT_TIME
 			self.cooldown = Sumo.static.COOLDOWN
 		end
+
 	elseif self.state == Sumo.static.STATE_SHOOT then
 		self.time = self.time - dt
 		self.cooldown = self.cooldown - dt
@@ -86,12 +77,7 @@ function Sumo:update(dt)
 		end
 
 		if self.time <= 0 then
-			self.state = Sumo.static.STATE_RUN
-			self.time = 2 + love.math.random()
-			local dir = love.math.random() * math.pi * 2
-			self.xspeed = math.cos(dir) * Sumo.static.WALK_SPEED
-			self.yspeed = math.sin(dir) * Sumo.static.WALK_SPEED
-			self.dir = math.sign(self.xspeed)
+			self:run()
 		end
 	end
 
@@ -102,6 +88,15 @@ function Sumo:draw()
 	self.animator:draw(self.x, self.y, 0, self.dir, 1)
 
 	self:drawLink()
+end
+
+function Sumo:run()
+	self.state = Sumo.static.STATE_RUN
+	self.time = 2 + love.math.random()
+	local dir = love.math.random() * math.pi * 2
+	self.xspeed = math.cos(dir) * Sumo.static.WALK_SPEED
+	self.yspeed = math.sin(dir) * Sumo.static.WALK_SPEED
+	self.dir = math.sign(self.xspeed)
 end
 
 function Sumo:shoot()
