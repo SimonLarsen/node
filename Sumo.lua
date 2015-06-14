@@ -17,7 +17,7 @@ Sumo.static.STATE_LINKED = 3
 
 Sumo.static.RANGE = 220
 Sumo.static.COOLDOWN = 0.15
-Sumo.static.SHOOT_TIME = 1.3
+Sumo.static.SHOOT_TIME = 1.0
 
 function Sumo:initialize(x, y)
 	Enemy.initialize(self, x, y, 0, Sumo.static.MASS, Sumo.static.SOLID, -20, 0.20)
@@ -70,14 +70,11 @@ function Sumo:update(dt)
 			self.dir = math.sign(self.xspeed)
 		end
 		
-		if self.time <= 0 then
-			if vector.length(self.x-self.player.x, self.y-self.player.y) < Sumo.static.RANGE then
-				self.state = Sumo.static.STATE_SHOOT
-				self.time = Sumo.static.SHOOT_TIME
-				self.cooldown = Sumo.static.COOLDOWN
-			else
-				self.time = 2 + love.math.random()
-			end
+		if self.time <= 0
+		and vector.length(self.x-self.player.x, self.y-self.player.y) < Sumo.static.RANGE then
+			self.state = Sumo.static.STATE_SHOOT
+			self.time = Sumo.static.SHOOT_TIME
+			self.cooldown = Sumo.static.COOLDOWN
 		end
 	elseif self.state == Sumo.static.STATE_SHOOT then
 		self.time = self.time - dt
