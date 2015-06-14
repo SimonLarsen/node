@@ -1,4 +1,5 @@
 local MapCollider = require("MapCollider")
+local ClearScreen = require("ClearScreen")
 local Robot = require("Robot")
 local Spider = require("Spider")
 local Rock = require("Rock")

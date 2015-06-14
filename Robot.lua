@@ -46,11 +46,16 @@ function Robot:update(dt)
 	if self:isLinked() then
 		animstate = Robot.static.STATE_LINKED
 	elseif self.state == Robot.static.STATE_IDLE then
+
+		local dx = self.player.x - self.x
+		local dy = self.player.y - self.y
+
 		self.time = self.time - dt
 		if self.time <= 0 then
 			self.state = Robot.static.STATE_RUN
 		
-			local dir = love.math.random() * 2 * math.pi
+			local player_dir = math.atan2(dy, dx)
+			local dir = love.math.randomNormal(math.pi, player_dir)
 			self.xspeed = math.cos(dir) * Robot.static.WALK_SPEED
 			self.yspeed = math.sin(dir) * Robot.static.WALK_SPEED
 			self.dir = math.sign(self.xspeed)
@@ -60,9 +65,6 @@ function Robot:update(dt)
 		self.cooldown = self.cooldown - dt
 		if self.cooldown <= 0 and self.map:canSee(self, self.player) then
 			self.cooldown = Robot.static.COOLDOWN
-
-			local dx = self.player.x - self.x
-			local dy = self.player.y - self.y
 
 			local len = vector.length(dx, dy)
 

@@ -11,7 +11,7 @@
  <objectgroup name="base">
   <object id="1" type="player" x="752" y="752"/>
  </objectgroup>
- <objectgroup name="1" visible="0">
+ <objectgroup name="1">
   <object id="12" type="robot" x="960" y="832"/>
   <object id="13" type="robot" x="960" y="672"/>
   <object id="15" type="robot" x="544" y="832"/>
