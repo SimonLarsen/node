@@ -16,7 +16,7 @@ Robot.static.STATE_RUN = 1
 Robot.static.STATE_LINKED = 2
 
 Robot.static.RANGE = 220
-Robot.static.COOLDOWN = 0.5
+Robot.static.COOLDOWN = 0.7
 
 function Robot:initialize(x, y)
 	Enemy.initialize(self, x, y, 0, Robot.static.MASS, Robot.static.SOLID, -17, 0.15)
