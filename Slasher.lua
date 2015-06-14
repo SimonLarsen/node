@@ -50,7 +50,8 @@ function Slasher:update(dt)
 		local dx = self.player.x - self.x
 		local dy = self.player.y - self.y
 
-		if self.time <= 0 and vector.length(dx, dy) < Slasher.static.RANGE then
+		if self.time <= 0 and vector.length(dx, dy) < Slasher.static.RANGE
+		and self.map:canSee(self, self.player) then
 			self:slash()
 		end
 	elseif self.state == Slasher.static.STATE_SLASH then
