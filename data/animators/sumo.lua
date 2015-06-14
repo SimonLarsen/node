@@ -3,7 +3,7 @@ return {
 
 	states = {
 		["run"] = { image = "sumo_run.png", fw = 52, fh = 47, delay = 0.1, oy = 46 },
-		["fire"] = { image = "sumo_fire.png", fw = 70, fh = 67, delay = 0.1, oy = 66 },
+		["fire"] = { image = "sumo_fire.png", fw = 70, fh = 67, delay = 0.08, oy = 66 },
 		["linked"] = { image = "sumo_linked.png", fw = 52, fh = 47, delay = 0.05, oy = 46 }
 	},
 
