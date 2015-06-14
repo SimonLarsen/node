@@ -7,8 +7,7 @@ local Demobot = require("Demobot")
 local Sentinel = require("Sentinel")
 local Sniper = require("Sniper")
 local Spawner = require("Spawner")
-local Score = require("Score")
-local ClearScreen = require("ClearScreen")
+local Sumo = require("Sumo")
 
 local bresenham = require("bresenham.bresenham")
 
@@ -96,6 +95,9 @@ function Map:advance()
 			self.enemies = self.enemies + 1
 		elseif o.type == "sniper" then
 			self.scene:add(Spawner(x, y, Sniper(x, y)))
+			self.enemies = self.enemies + 1
+		elseif o.type == "sumo" then
+			self.scene:add(Spawner(x, y, Sumo(x, y)))
 			self.enemies = self.enemies + 1
 		end
 	end
