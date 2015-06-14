@@ -13,10 +13,12 @@ Robot.static.WALK_SPEED = 40
 
 Robot.static.STATE_IDLE = 0
 Robot.static.STATE_RUN = 1
-Robot.static.STATE_LINKED = 2
+Robot.static.STATE_SHOOT = 2
+Robot.static.STATE_LINKED = 3
 
 Robot.static.RANGE = 220
-Robot.static.COOLDOWN = 0.7
+Robot.static.COOLDOWN = 0.3
+Robot.static.SHOOT_TIME = 0.3
 
 function Robot:initialize(x, y)
 	Enemy.initialize(self, x, y, 0, Robot.static.MASS, Robot.static.SOLID, -17, 0.15)
@@ -42,40 +44,26 @@ function Robot:update(dt)
 	self.animator:update(dt)
 
 	local animstate = self.state
+	self.time = self.time - dt
 
 	if self:isLinked() then
 		animstate = Robot.static.STATE_LINKED
 	elseif self.state == Robot.static.STATE_IDLE then
-
-		local dx = self.player.x - self.x
-		local dy = self.player.y - self.y
-
-		self.time = self.time - dt
 		if self.time <= 0 then
-			self.state = Robot.static.STATE_RUN
-		
-			local player_dir = math.atan2(dy, dx)
-			local dir = love.math.randomNormal(math.pi, player_dir)
-			self.xspeed = math.cos(dir) * Robot.static.WALK_SPEED
-			self.yspeed = math.sin(dir) * Robot.static.WALK_SPEED
-			self.dir = math.sign(self.xspeed)
-			self.time = love.math.random() * 2
+			self:run()
 		end
 
 		self.cooldown = self.cooldown - dt
-		if self.cooldown <= 0 and self.map:canSee(self, self.player) then
-			self.cooldown = Robot.static.COOLDOWN
-
+		if self.cooldown <= 0 then
+			local dx = self.player.x - self.x
+			local dy = self.player.y - self.y
 			local len = vector.length(dx, dy)
-
-			if len < self.range then
-				self.dir = math.sign(dx)
-				self:shoot(self.player.x, self.player.y)
+			if len < self.range and self.map:canSee(self, self.player) then
+				self.state = Robot.static.STATE_SHOOT
+				self.time = Robot.static.SHOOT_TIME
 			end
 		end
 	elseif self.state == Robot.static.STATE_RUN then
-		self.time = self.time - dt
-
 		local oldx, oldy = self.x, self.y
 		self.x = self.x + self.xspeed * dt
 		self.y = self.y + self.yspeed * dt
@@ -89,15 +77,40 @@ function Robot:update(dt)
 			self.state = Robot.static.STATE_IDLE
 			self.time = love.math.random() * 1.5
 		end
+
+	elseif self.state == Robot.static.STATE_SHOOT then
+		self.cooldown = self.cooldown - dt
+		if self.cooldown <= 0 then
+			self.cooldown = Robot.static.COOLDOWN
+			self:shoot(self.player.x, self.player.y)
+			self.dir = math.sign(self.player.x - self.x)
+		end
+
+		if self.time <= 0 then
+			self:run()
+		end
 	end
 
 	self.animator:setProperty("state", animstate)
 end
 
+function Robot:run()
+	self.state = Robot.static.STATE_RUN
+
+	local dx = self.player.x - self.x
+	local dy = self.player.y - self.y
+
+	local player_dir = math.atan2(dy, dx)
+	local dir = love.math.randomNormal(math.pi, player_dir)
+	self.xspeed = math.cos(dir) * Robot.static.WALK_SPEED
+	self.yspeed = math.sin(dir) * Robot.static.WALK_SPEED
+	self.dir = math.sign(self.xspeed)
+	self.time = 1.0 + love.math.random() * 1.5
+end
+
 function Robot:shoot(targetx, targety)
 	local dir = math.atan2(targety - self.y, targetx - self.x)
 	self.scene:add(Bullet(self.x, self.y+0.01, dir))
-	self.animator:setProperty("fire", true)
 end
 
 function Robot:draw()
