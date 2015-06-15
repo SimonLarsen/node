@@ -28,7 +28,8 @@ function Robot:initialize(x, y)
 	self.collider = BoxCollider(20, 20, 0, 0)
 
 	self.state = Robot.static.STATE_IDLE
-	self.time = love.math.random() * 2
+	self.time = love.math.random()
+	self.cooldown = love.math.random()
 	self.range = Robot.static.RANGE
 
 	self.cooldown = Robot.static.COOLDOWN

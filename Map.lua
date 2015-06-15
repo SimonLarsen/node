@@ -15,11 +15,13 @@ local bresenham = require("bresenham.bresenham")
 
 local Map = class("Map", Entity)
 
+Map.static.TILE_SIZE = 16
+
 function Map:initialize()
 	Entity.initialize(self, 0, 0, 10)
 	self:setName("map")
 
-	self.img_tiles = Resources.getImage("tiles.png")
+	self.img_tiles = Resources.getImage("tileset.png")
 end
 
 function Map:loadLevel(id)
@@ -66,7 +68,7 @@ function Map:loadLevel(id)
 	self:createQuads()
 	self:createSpriteBatches()
 
-	self.collider = MapCollider(self, self.width, self.height, 32)
+	self.collider = MapCollider(self, self.width, self.height, Map.static.TILE_SIZE)
 end
 
 function Map:advance()
@@ -116,14 +118,14 @@ end
 
 function Map:createQuads()
 	local imgw, imgh = self.img_tiles:getDimensions()
-	local xtiles = math.floor(imgw / 32)
-	local ytiles = math.floor(imgh / 32)
+	local xtiles = math.floor(imgw / Map.static.TILE_SIZE)
+	local ytiles = math.floor(imgh / Map.static.TILE_SIZE)
 
 	self.quad_tiles = {}
 
 	for ix = 0, xtiles-1 do
 		for iy = 0, ytiles-1 do
-			self.quad_tiles[iy*xtiles + ix + 1] = love.graphics.newQuad(ix*32, iy*32, 32, 32, imgw, imgh)
+			self.quad_tiles[iy*xtiles + ix + 1] = love.graphics.newQuad(ix*Map.static.TILE_SIZE, iy*Map.static.TILE_SIZE, Map.static.TILE_SIZE, Map.static.TILE_SIZE, imgw, imgh)
 		end
 	end
 end
@@ -134,7 +136,7 @@ function Map:createSpriteBatches()
 		for iy = 0, self.height-1 do
 			local tile = self:get(ix, iy)
 			if tile > 0 then
-				self.batch:add(self.quad_tiles[tile], ix*32, iy*32)
+				self.batch:add(self.quad_tiles[tile], ix*Map.static.TILE_SIZE, iy*Map.static.TILE_SIZE)
 			end
 		end
 	end
@@ -178,7 +180,7 @@ function Map:get(x, y)
 end
 
 function Map:isSolid(x, y)
-	return self:get(x, y) <= 24
+	return self:get(x, y) >= 512
 end
 
 function Map:los(x1, y1, x2, y2)
@@ -188,18 +190,18 @@ function Map:los(x1, y1, x2, y2)
 end
 
 function Map:canSee(e1, e2)
-	local x1 = math.floor(e1.x / 32)
-	local y1 = math.floor(e1.y / 32)
-	local x2 = math.floor(e2.x / 32)
-	local y2 = math.floor(e2.y / 32)
+	local x1 = math.floor(e1.x / Map.static.TILE_SIZE)
+	local y1 = math.floor(e1.y / Map.static.TILE_SIZE)
+	local x2 = math.floor(e2.x / Map.static.TILE_SIZE)
+	local y2 = math.floor(e2.y / Map.static.TILE_SIZE)
 	return self:los(x1, y1, x2, y2)
 end
 
 function Map:canSeeLine(e1, e2)
-	local x1 = math.floor(e1.x / 32)
-	local y1 = math.floor(e1.y / 32)
-	local x2 = math.floor(e2.x / 32)
-	local y2 = math.floor(e2.y / 32)
+	local x1 = math.floor(e1.x / Map.static.TILE_SIZE)
+	local y1 = math.floor(e1.y / Map.static.TILE_SIZE)
+	local x2 = math.floor(e2.x / Map.static.TILE_SIZE)
+	local y2 = math.floor(e2.y / Map.static.TILE_SIZE)
 	return bresenham.line(x1, y1, x2, y2, function(x, y)
 		return not self:isSolid(x, y)
 	end)

@@ -1,46 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="48" height="48" tilewidth="32" tileheight="32" nextobjectid="51">
- <tileset firstgid="1" name="tiles" tilewidth="32" tileheight="32">
-  <image source="../images/tiles.png" width="256" height="256"/>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="40" tilewidth="16" tileheight="16" nextobjectid="61">
+ <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16">
+  <image source="../images/tileset.png" width="512" height="512"/>
  </tileset>
- <layer name="tiles" width="48" height="48">
+ <layer name="tiles" width="50" height="40">
   <data encoding="base64" compression="zlib">
-   eJztltEKgzAMRcWtY7/gy172//+4CROK1C69TdIG7oHgS6PnRgwuCyGExOfxrfS7luo5Tq3K4bcJ6jg7Ay3eM+Xo8R6dQ8u7lMOaZOTukcFq7l4ZPNyP0qY2eyTfv56k7C+dEzJb63cgmb2Fv9Z3UHNZs3Or0L+lpxfJzrk3uOcZJD15VgRkd+z1LhR6L2//3fVVKDSDp/+Ve08G+tOf/j7+tQwR9k+eYYb9L8mAZG29t5V/y1mkR4sR/ppcPQP5/7wJe7SpZdD+/7QA2R1oWRHZ3SODF5Hdc6J6n4nqfSaqNyGEkHh8AE0nUIs=
+   eJztmW1u00AQhr2bpPQbrtAkrkrTL45QpBboF1yhQdDS9hLQH00DB2kL9wBUThEJFak9BK+VGXmzrG12TeI18OPRRPZ6dmbfmdXGFjIIJKiAagltDYyBOVAHDdAsoQ3BPFgHj4EIoAuogCqogTHP7TjYQNCbSh5zuFYH78CppR3VM7pdCH7VYx/XXoK2gx3VM7pdMOjxNse6/M169MAE/E6CKTALvnuih00e0RwP4bcFlsAK9aBtHnn1CMG85temRpLysK2r/3ok239VjzX43QLb4FFJ9aiL+HzANhTpz2yATc/0yLK+6eGSg2lfLLo/9HEH4BC8AUfa72OHdShKjzPQUTgHF6AL3lvGWYQerMMxevmKYu9Q/JeUzxPceyr81EONv0Pxq1wRUS4HGHMo0uusKD24jroaU2AazIBZcB88UPThOjsZsh69YPC8Og1mZHxuZX8tYc6jBZbAMlgBq2CN7nVIo4/ggxJX1pwuekjRP1csyvhssSz754uaiP19Bl+i9ReDeWyDHbAL9sBz8CKIe75LeXxS4sqa00WPyOczGZ8rdsAu2COf7G9R9FHz4R7X+0PNgfM4VeLKmtNFj+hc0SCaio0IxWD9RtyAH1Rneo1dUi76dTWPtjJn02BDRz1+d7/i+6wL53FuiJu5hzHj4JqeTevnUe1XfLZjXbi+vhrinlDij8begm8Z65d3v7LVo021dRPE/d+lnK5T/N5lrN+o9Egbzz1z6xhnUXqoNmlumzh90KMXmN/7lE2PpP/nvuqRNw+2vO/9aT1M769sdE/Kw7auhqFHEXU1jP6w1cP03qdseiS99/FJD+6dvHH4pEeRVtejIov/7upqq6RHQ/rx3dXVvgKvwU/Kdtku
   </data>
  </layer>
  <objectgroup name="base">
-  <object id="1" type="player" x="752" y="752"/>
+  <object id="1" type="player" x="402.333" y="333.333"/>
  </objectgroup>
  <objectgroup name="1">
-  <object id="12" type="robot" x="960" y="832"/>
-  <object id="13" type="robot" x="960" y="672"/>
-  <object id="15" type="robot" x="544" y="832"/>
-  <object id="16" type="robot" x="544" y="672"/>
-  <object id="17" type="robot" x="672" y="544"/>
-  <object id="19" type="robot" x="832" y="544"/>
-  <object id="20" type="robot" x="832" y="960"/>
-  <object id="22" type="robot" x="672" y="960"/>
-  <object id="28" type="spider" x="672" y="672"/>
-  <object id="29" type="spider" x="832" y="672"/>
-  <object id="30" type="spider" x="832" y="832"/>
-  <object id="31" type="spider" x="672" y="832"/>
+  <object id="6" type="robot" x="658.333" y="222"/>
+  <object id="8" type="robot" x="556.667" y="118.667"/>
+  <object id="9" type="robot" x="652.333" y="133.333"/>
+  <object id="10" type="robot" x="567.333" y="209.667"/>
+  <object id="11" type="robot" x="237" y="128"/>
+  <object id="12" type="robot" x="144" y="230.334"/>
+  <object id="13" type="robot" x="147.334" y="143.334"/>
+  <object id="14" type="robot" x="227" y="218.667"/>
+  <object id="15" type="robot" x="223.667" y="473.333"/>
+  <object id="16" type="robot" x="148.667" y="546.667"/>
+  <object id="17" type="robot" x="137.001" y="460.667"/>
+  <object id="18" type="robot" x="226.667" y="558"/>
+  <object id="19" type="robot" x="640.333" y="457.333"/>
+  <object id="20" type="robot" x="555.333" y="549.667"/>
+  <object id="21" type="robot" x="559.667" y="468.667"/>
+  <object id="22" type="robot" x="641.333" y="537"/>
+  <object id="53" type="robot" x="325" y="588"/>
+  <object id="54" type="robot" x="458" y="586"/>
+  <object id="55" type="robot" x="717" y="386"/>
+  <object id="56" type="robot" x="718" y="306"/>
+  <object id="57" type="robot" x="456" y="67"/>
+  <object id="58" type="robot" x="348" y="67"/>
+  <object id="59" type="robot" x="76" y="288"/>
+  <object id="60" type="robot" x="73" y="394"/>
  </objectgroup>
- <objectgroup name="2">
-  <object id="32" type="demobot" x="512" y="736" width="32" height="32"/>
-  <object id="34" type="demobot" x="736" y="512" width="32" height="32"/>
-  <object id="35" type="demobot" x="960" y="736" width="32" height="32"/>
-  <object id="36" type="demobot" x="736" y="960" width="32" height="32"/>
-  <object id="37" type="commander" x="384" y="640" width="32" height="32"/>
-  <object id="38" type="commander" x="384" y="832" width="32" height="32"/>
-  <object id="40" type="commander" x="640" y="1088" width="32" height="32"/>
-  <object id="41" type="commander" x="832" y="1088" width="32" height="32"/>
-  <object id="42" type="commander" x="1088" y="832" width="32" height="32"/>
-  <object id="43" type="commander" x="1088" y="640" width="32" height="32"/>
-  <object id="44" type="commander" x="640" y="384" width="32" height="32"/>
-  <object id="45" type="commander" x="832" y="384" width="32" height="32"/>
-  <object id="47" type="sniper" x="736" y="1184" width="32" height="32"/>
-  <object id="48" type="sniper" x="1184" y="736" width="32" height="32"/>
-  <object id="49" type="sniper" x="736" y="288" width="32" height="32"/>
-  <object id="50" type="sniper" x="288" y="736" width="32" height="32"/>
+ <objectgroup name="2" visible="0">
+  <object id="25" type="commander" x="245" y="463"/>
+  <object id="28" type="commander" x="552" y="215"/>
+  <object id="29" type="commander" x="545" y="453"/>
+  <object id="30" type="commander" x="243" y="221"/>
+  <object id="35" type="sniper" x="119" y="116"/>
+  <object id="36" type="sniper" x="138" y="533"/>
+  <object id="37" type="sniper" x="670" y="537"/>
+  <object id="38" type="sniper" x="663" y="122"/>
+  <object id="39" type="robot" x="667" y="260"/>
+  <object id="40" type="robot" x="520" y="116"/>
+  <object id="41" type="robot" x="277" y="96"/>
+  <object id="42" type="robot" x="100" y="248"/>
+  <object id="43" type="robot" x="118" y="405"/>
+  <object id="44" type="robot" x="261" y="560"/>
+  <object id="45" type="robot" x="531" y="565"/>
+  <object id="46" type="robot" x="689" y="427"/>
+  <object id="47" type="robot" x="278" y="343"/>
+  <object id="48" type="robot" x="407" y="243"/>
+  <object id="49" type="robot" x="507" y="341"/>
+  <object id="50" type="robot" x="407" y="405"/>
  </objectgroup>
 </map>
