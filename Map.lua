@@ -21,7 +21,7 @@ function Map:initialize()
 	Entity.initialize(self, 0, 0, 10)
 	self:setName("map")
 
-	self.img_tiles = Resources.getImage("tileset.png")
+	self.img_tiles = Resources.getImage("tiles.png")
 end
 
 function Map:loadLevel(id)
