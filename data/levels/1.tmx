@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="50" tilewidth="16" tileheight="16" nextobjectid="84">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="50" tilewidth="16" tileheight="16" nextobjectid="99">
  <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16">
   <image source="../images/tileset.png" width="512" height="512"/>
  </tileset>
@@ -11,7 +11,7 @@
  <objectgroup name="base">
   <object id="1" type="player" x="482.333" y="413.333"/>
  </objectgroup>
- <objectgroup name="1">
+ <objectgroup name="1" visible="0">
   <object id="61" type="sumo" x="720" y="208"/>
   <object id="63" type="sumo" x="194" y="621"/>
   <object id="64" type="robot" x="583" y="157"/>
@@ -33,5 +33,20 @@
   <object id="82" type="robot" x="158" y="726"/>
   <object id="83" type="robot" x="94" y="646"/>
  </objectgroup>
- <objectgroup name="2"/>
+ <objectgroup name="2">
+  <object id="84" type="slasher" x="288" y="576"/>
+  <object id="85" type="slasher" x="281" y="260"/>
+  <object id="86" type="slasher" x="648" y="256"/>
+  <object id="87" type="slasher" x="644" y="556"/>
+  <object id="89" type="sniper" x="817" y="678"/>
+  <object id="90" type="sniper" x="127" y="129"/>
+  <object id="91" type="commander" x="818" y="232"/>
+  <object id="92" type="commander" x="709" y="128"/>
+  <object id="93" type="commander" x="232" y="705"/>
+  <object id="94" type="commander" x="123" y="601"/>
+  <object id="95" type="robot" x="429" y="410"/>
+  <object id="96" type="robot" x="484" y="372"/>
+  <object id="97" type="robot" x="534" y="409"/>
+  <object id="98" type="robot" x="485" y="455"/>
+ </objectgroup>
 </map>

@@ -7,7 +7,7 @@ return {
   height = 50,
   tilewidth = 16,
   tileheight = 16,
-  nextobjectid = 84,
+  nextobjectid = 99,
   properties = {},
   tilesets = {
     {
@@ -119,7 +119,7 @@ return {
     {
       type = "objectgroup",
       name = "1",
-      visible = true,
+      visible = false,
       opacity = 1,
       properties = {},
       objects = {
@@ -391,7 +391,190 @@ return {
       visible = true,
       opacity = 1,
       properties = {},
-      objects = {}
+      objects = {
+        {
+          id = 84,
+          name = "",
+          type = "slasher",
+          shape = "rectangle",
+          x = 288,
+          y = 576,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 85,
+          name = "",
+          type = "slasher",
+          shape = "rectangle",
+          x = 281,
+          y = 260,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 86,
+          name = "",
+          type = "slasher",
+          shape = "rectangle",
+          x = 648,
+          y = 256,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 87,
+          name = "",
+          type = "slasher",
+          shape = "rectangle",
+          x = 644,
+          y = 556,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 89,
+          name = "",
+          type = "sniper",
+          shape = "rectangle",
+          x = 817,
+          y = 678,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 90,
+          name = "",
+          type = "sniper",
+          shape = "rectangle",
+          x = 127,
+          y = 129,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 91,
+          name = "",
+          type = "commander",
+          shape = "rectangle",
+          x = 818,
+          y = 232,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 92,
+          name = "",
+          type = "commander",
+          shape = "rectangle",
+          x = 709,
+          y = 128,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 93,
+          name = "",
+          type = "commander",
+          shape = "rectangle",
+          x = 232,
+          y = 705,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 94,
+          name = "",
+          type = "commander",
+          shape = "rectangle",
+          x = 123,
+          y = 601,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 95,
+          name = "",
+          type = "robot",
+          shape = "rectangle",
+          x = 429,
+          y = 410,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 96,
+          name = "",
+          type = "robot",
+          shape = "rectangle",
+          x = 484,
+          y = 372,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 97,
+          name = "",
+          type = "robot",
+          shape = "rectangle",
+          x = 534,
+          y = 409,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 98,
+          name = "",
+          type = "robot",
+          shape = "rectangle",
+          x = 485,
+          y = 455,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        }
+      }
     }
   }
 }
