@@ -11,13 +11,16 @@ Player.static.GHOST_COLOR_DIFF = {220-91, 239-200, 237-186}
 Player.static.MOVE_SPEED = 200
 Player.static.DASH_SPEED = 500
 
-Player.static.INVUL_TIME = 1.4
-Player.static.TRIGGER_TIME = 0.42
 Player.static.SLOWMO_FACTOR = 0.5
-Player.static.DASH_TIME = 0.2
 Player.static.GHOST_INTERVAL = 0.06
-Player.static.KNOCKBACK_TIME = 0.5
 Player.static.DASH_MIN_SPEED = 100
+
+Player.static.TRIGGER_TIME = 0.42
+Player.static.INVUL_TIME = 1.4
+Player.static.DASH_TIME = 0.2
+Player.static.KNOCKBACK_TIME = 0.5
+Player.static.KICK_TIME = 7 * 0.06
+Player.static.SPAWN_TIME = 20 * 0.1
 
 Player.static.STATE_IDLE	= 0
 Player.static.STATE_RUN		= 1
@@ -48,7 +51,7 @@ function Player:initialize(x, y)
 	self.dir = 1
 	self.invulnerable = 0
 	self.state = Player.static.STATE_SPAWN
-	self.time = 20 * 0.1
+	self.time = Player.static.SPAWN_TIME
 	self.knockback = 0
 
 	self.health = 3
@@ -100,7 +103,7 @@ function Player:update(dt)
 			self:dash()
 		end
 
-		if self.xspeed^2+self.yspeed^2 > 50^2 then
+		if vector.length(self.xspeed, self.yspeed) > 50 then
 			animstate = 1
 		end
 
@@ -265,7 +268,7 @@ end
 function Player:kick()
 	if self:useStamina(Player.static.KICK_COST) then
 		self.state = Player.static.STATE_KICK
-		self.time = 7 * 0.06
+		self.time = Player.static.KICK_TIME
 		self.scene:add(Kick(self.x, self.y, self.xspeed, self.yspeed))
 		Resources.playSound("kick.wav")
 	else
