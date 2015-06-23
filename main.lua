@@ -22,16 +22,6 @@ function love.load()
 
 	updateViewport()
 
-	local s_music = love.audio.newSource("data/music/redemption.ogg", "stream")
-	s_music:setLooping(true)
-	s_music:setVolume(0.5)
-	music = love.audio.play(s_music)
-
-	s_music_slow = love.audio.newSource("data/music/redemption_slow.ogg", "stream")
-	s_music_slow:setLooping(true)
-	s_music_slow:setVolume(0)
-	music_slow = love.audio.play(s_music_slow)
-
 	gamestate.registerEvents()
 	gamestate.switch(MainMenuScene())
 end

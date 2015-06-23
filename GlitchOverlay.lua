@@ -15,9 +15,6 @@ function GlitchOverlay:initialize()
 end
 
 function GlitchOverlay:update(dt)
-	music:setVolume((1-self.glitchfactor)*0.5)
-	music_slow:setVolume(self.glitchfactor * 0.5)
-
 	if self.active then
 		self.glitchfactor = math.movetowards(self.glitchfactor, 1, 5*dt)
 		self.r = self.glitchfactor * math.max(WIDTH/2, HEIGHT)
@@ -53,14 +50,6 @@ function GlitchOverlay:draw()
 end
 
 function GlitchOverlay:setActive(s)
-	if self.active ~= s then
-		if s == true then
-			music_slow:seek(2*music:tell())
-		else
-			music:seek(0.5 * music_slow:tell())
-		end
-	end
-
 	self.active = s
 end
 

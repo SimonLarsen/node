@@ -5,8 +5,6 @@ Resources.SOUND_INTERVAL = 0.1
 local images = {}
 local animators = {}
 local fonts = {}
-local sounds = {}
-local sound_last_play = {}
 local shaders = {}
 
 function Resources.getImage(path)
@@ -29,24 +27,6 @@ function Resources.getFont(path, size)
 		fonts[path .. size] = love.graphics.newFont("data/fonts/" .. path, size)
 	end
 	return fonts[path .. size]
-end
-
-function Resources.getSound(path)
-	if sounds[path] == nil then
-		sounds[path] = love.audio.newSource("data/sounds/" .. path)
-	end
-	return sounds[path]
-end
-
-function Resources.playSound(path, volume)
-	if sound_last_play[path] == nil
-	or love.timer.getTime() - sound_last_play[path] > Resources.SOUND_INTERVAL then
-		sound_last_play[path] = love.timer.getTime()
-
-		local sound = Resources.getSound(path)
-		sound:setVolume(volume or 1)
-		love.audio.play(sound)
-	end
 end
 
 function Resources.getShader(path)

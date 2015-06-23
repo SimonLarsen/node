@@ -60,7 +60,6 @@ function Grenade:draw()
 end
 
 function Grenade:destroy()
-	Resources.playSound("explosion_deep.wav")
 	self.scene:add(BigExplosion(self.x, self.y, true))
 	self:kill()
 end

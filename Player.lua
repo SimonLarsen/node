@@ -211,14 +211,12 @@ function Player:hit(o)
 
 	self.health = self.health - 1
 	self.hud:setHealth(self.health)
-	Resources.playSound("hurt.wav")
 	if self.health == 0 then
 		self.state = Player.static.STATE_DEAD
 		local menu = self.scene:find("pausemenu")
 		menu:setDead()
 		self.time = 1.5
 		self.scene:setSpeed(1)
-		Resources.playSound("death.wav")
 	else
 		self.invulnerable = Player.static.INVUL_TIME
 	end
@@ -259,10 +257,16 @@ function Player:dash()
 
 		self.xspeed = self.xspeed / Player.static.MOVE_SPEED * Player.static.DASH_SPEED
 		self.yspeed = self.yspeed / Player.static.MOVE_SPEED * Player.static.DASH_SPEED
-		Resources.playSound("dash.wav")
-	else
-		Resources.playSound("denied.wav")
 	end
+end
+
+function Player:shoot()
+	local mx, my = Mouse.getPositionCamera(self.scene:getCamera())
+	local dx = mx - self.x
+	local dy = my - self.y
+	local dir = math.atan2(dy, dx)
+
+	self.scene:add(PlayerBullet(self.x, self.y, dir))
 end
 
 function Player:kick()
@@ -270,9 +274,6 @@ function Player:kick()
 		self.state = Player.static.STATE_KICK
 		self.time = Player.static.KICK_TIME
 		self.scene:add(Kick(self.x, self.y, self.xspeed, self.yspeed))
-		Resources.playSound("kick.wav")
-	else
-		Resources.playSound("denied.wav")
 	end
 end
 

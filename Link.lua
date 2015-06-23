@@ -58,7 +58,6 @@ function Link:update(dt)
 		or self.player:isLinking() == false then
 			if #self.links >= 2 then
 				self.player:trigger()
-				Resources.playSound("denied.wav")
 			end
 
 			if #self.links >= 1 then
@@ -82,7 +81,6 @@ function Link:update(dt)
 				v.y = v.y + love.math.random() * 16 - 8
 				v:destroy(false, #self.links)
 			end
-			Resources.playSound("explosion_deep.wav")
 			self:clear()
 			return
 		end
@@ -153,7 +151,6 @@ function Link:addLink(e)
 
 	e:setLinked(true)
 	self.player:giveStamina(e.link_time * Player.static.LINK_COST)
-	Resources.playSound("targeting.wav")
 	self.scene:add(LinkEffect(e))
 
 	local p = self.links[#self.links]

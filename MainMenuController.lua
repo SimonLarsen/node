@@ -37,11 +37,9 @@ function MainMenuController:update(dt)
 	if self.state == 1 then
 		if Mouse.wasPressed("l") then
 			if self.highlighted == 1 then
-				Resources.playSound("laser.wav")
 				gamestate.switch(GameScene(1))
 			elseif self.highlighted == 2 then
 				self.state = 2
-				Resources.playSound("laser.wav")
 			elseif self.highlighted == 3 then
 				love.event.quit()
 			end
@@ -49,7 +47,6 @@ function MainMenuController:update(dt)
 	elseif self.state == 0 or self.state == 2 then
 		if Keyboard.wasPressed(" ") then
 			self.state = 1
-			Resources.playSound("laser.wav")
 		end
 	end
 end
