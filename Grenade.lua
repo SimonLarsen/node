@@ -50,12 +50,15 @@ function Grenade:update(dt)
 end
 
 function Grenade:draw()
-	if self.height > 0.1 then
-		love.graphics.setColor(0, 0, 0, 128)
-		love.graphics.circle("fill", self.x, self.y, 4, 8)
-		love.graphics.setColor(255, 255, 255, 255)
+	love.graphics.setColor(0, 0, 0, 128)
+	love.graphics.circle("fill", self.x, self.y, 4, 8)
+	love.graphics.setColor(255, 255, 255, 255)
+
+	if self:isStunned() then
+		self.animator:draw(self.x, self.y, 0, 1, 1)
+	else
+		self.animator:draw(self.x, self.y-self.height, 0, 1, 1)
 	end
-	self.animator:draw(self.x, self.y-self.height, 0, 1, 1)
 
 	self:drawLink()
 end
