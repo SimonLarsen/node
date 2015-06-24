@@ -150,7 +150,6 @@ function Link:addLink(e)
 	table.insert(self.links, e)
 
 	e:setLinked(true)
-	self.player:giveStamina(e.link_time * Player.static.LINK_COST)
 	self.scene:add(LinkEffect(e))
 
 	local p = self.links[#self.links]

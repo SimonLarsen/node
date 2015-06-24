@@ -8,6 +8,7 @@ local Robot = class("Robot", Enemy)
 
 Robot.static.MASS = 200
 Robot.static.SOLID = false
+Robot.static.MAX_HP = 2
 
 Robot.static.WALK_SPEED = 40
 
@@ -21,7 +22,7 @@ Robot.static.COOLDOWN = 0.3
 Robot.static.SHOOT_TIME = 0.3
 
 function Robot:initialize(x, y)
-	Enemy.initialize(self, x, y, 0, Robot.static.MASS, Robot.static.SOLID, -17, 0.15)
+	Enemy.initialize(self, x, y, 0, Robot.static.MASS, Robot.static.SOLID, -17, Robot.static.MAX_HP)
 	self:setName("robot")
 	
 	self.animator = Animator(Resources.getAnimator("robot.lua"))
@@ -31,8 +32,6 @@ function Robot:initialize(x, y)
 	self.time = love.math.random()
 	self.cooldown = love.math.random()
 	self.range = Robot.static.RANGE
-
-	self.cooldown = Robot.static.COOLDOWN
 end
 
 function Robot:enter()
@@ -47,7 +46,7 @@ function Robot:update(dt)
 	local animstate = self.state
 	self.time = self.time - dt
 
-	if self:isLinked() then
+	if self:isStunned() then
 		animstate = Robot.static.STATE_LINKED
 	elseif self.state == Robot.static.STATE_IDLE then
 		if self.time <= 0 then

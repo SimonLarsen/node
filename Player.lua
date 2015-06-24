@@ -2,6 +2,7 @@ local BoxCollider = require("BoxCollider")
 local CollisionHandler = require("CollisionHandler")
 local Kick = require("Kick")
 local GlitchFade = require("GlitchFade")
+local PlayerBullet = require("PlayerBullet")
 
 local Player = class("Player", Entity)
 
@@ -37,7 +38,7 @@ Player.static.MAX_STAMINA = 1
 Player.static.MAX_POWER = 1
 Player.static.BLIP_POWER = 1/50
 
-Player.static.LINK_COST = 1
+Player.static.LINK_COST = 2
 Player.static.DASH_COST = 0.2
 Player.static.KICK_COST = 0.5
 
@@ -103,6 +104,10 @@ function Player:update(dt)
 			self:dash()
 		end
 
+		if Mouse.wasPressed("l") and not self:isLinking() then
+			self:shoot()
+		end
+
 		if vector.length(self.xspeed, self.yspeed) > 50 then
 			animstate = 1
 		end
@@ -166,11 +171,11 @@ function Player:update(dt)
 		end
 	end
 
-	if Mouse.wasPressed("l") then
+	if Keyboard.wasPressed("lshift") then
 		self.linking = true
 	end
 
-	if self.linking and Mouse.isDown("l")
+	if self.linking and Keyboard.isDown("lshift")
 	and self:useStamina(Player.static.LINK_COST * dt) then
 		self.scene:setSpeed(Player.static.SLOWMO_FACTOR)
 		self.linking = true

@@ -7,6 +7,8 @@ local Sniper = class("Sniper", Enemy)
 
 Sniper.static.MASS = 50
 Sniper.static.SOLID = false
+Sniper.static.MAX_HP = 2
+
 Sniper.static.AIM_DIST = 200
 
 Sniper.static.WALK_SPEED = 60
@@ -19,7 +21,7 @@ Sniper.static.STATE_CHARGE = 2
 Sniper.static.STATE_LINKED = 3
 
 function Sniper:initialize(x, y)
-	Enemy.initialize(self, x, y, 0, Sniper.static.MASS, Sniper.static.SOLID, -12, 0.15)
+	Enemy.initialize(self, x, y, 0, Sniper.static.MASS, Sniper.static.SOLID, -12, Sniper.static.MAX_HP)
 
 	self.xspeed = 0
 	self.yspeed = 0
@@ -48,7 +50,7 @@ function Sniper:update(dt)
 
 	self.time = self.time - dt
 
-	if self:isLinked() then
+	if self:isStunned() then
 		animstate = Sniper.static.STATE_LINKED
 	elseif self.state == Sniper.static.STATE_IDLE then
 		if self.time <= 0 then

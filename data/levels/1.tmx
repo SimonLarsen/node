@@ -34,10 +34,10 @@
   <object id="83" type="robot" x="94" y="646"/>
  </objectgroup>
  <objectgroup name="2">
-  <object id="84" type="slasher" x="288" y="576"/>
-  <object id="85" type="slasher" x="281" y="260"/>
-  <object id="86" type="slasher" x="648" y="256"/>
-  <object id="87" type="slasher" x="644" y="556"/>
+  <object id="84" type="sumo" x="288" y="576"/>
+  <object id="85" type="commander" x="281" y="260"/>
+  <object id="86" type="sumo" x="648" y="256"/>
+  <object id="87" type="commander" x="644" y="556"/>
   <object id="89" type="sniper" x="817" y="678"/>
   <object id="90" type="sniper" x="127" y="129"/>
   <object id="91" type="commander" x="818" y="232"/>

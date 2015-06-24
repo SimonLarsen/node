@@ -17,7 +17,7 @@ return {
       tileheight = 16,
       spacing = 0,
       margin = 0,
-      image = "../images/tileset.png",
+      image = "../images/tiles.png",
       imagewidth = 512,
       imageheight = 512,
       tileoffset = {
@@ -395,7 +395,7 @@ return {
         {
           id = 84,
           name = "",
-          type = "slasher",
+          type = "sumo",
           shape = "rectangle",
           x = 288,
           y = 576,
@@ -408,7 +408,7 @@ return {
         {
           id = 85,
           name = "",
-          type = "slasher",
+          type = "commander",
           shape = "rectangle",
           x = 281,
           y = 260,
@@ -421,7 +421,7 @@ return {
         {
           id = 86,
           name = "",
-          type = "slasher",
+          type = "sumo",
           shape = "rectangle",
           x = 648,
           y = 256,
@@ -434,7 +434,7 @@ return {
         {
           id = 87,
           name = "",
-          type = "slasher",
+          type = "commander",
           shape = "rectangle",
           x = 644,
           y = 556,

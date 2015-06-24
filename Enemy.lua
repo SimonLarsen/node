@@ -10,4 +10,14 @@ function Enemy:countsInWave()
 	return true
 end
 
+function Enemy:onCollide(o, dt)
+	if o:getName() == "playerbullet" then
+		self:stun()
+	elseif o:getName() == "kick" and self:isStunned() then
+		self:destroy()
+	else
+		Linkable.onCollide(self, o, dt)
+	end
+end
+
 return Enemy

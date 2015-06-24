@@ -7,12 +7,13 @@ local Grenade = class("Grenade", Enemy)
 
 Grenade.static.MASS = 20
 Grenade.static.SOLID = false
+Grenade.static.MAX_HP = 1
 
 Grenade.static.TIME = 1.5
 Grenade.static.SPEED = 250
 
 function Grenade:initialize(x, y, targetx, targety)
-	Enemy.initialize(self, x, y, 0, Grenade.static.MASS, Grenade.static.SOLID, 0, 0.1)
+	Enemy.initialize(self, x, y, 0, Grenade.static.MASS, Grenade.static.SOLID, 0, Grenade.static.MAX_HP)
 	self:setName("grenade")
 
 	self.height = 19
@@ -32,13 +33,13 @@ function Grenade:update(dt)
 	self.animator:update(dt)
 	self.time = self.time - dt
 
-	if self:isLinked() == false then
+	if self:isStunned() == false then
 		self.xtween:update(dt)
 		self.ytween:update(dt)
 		self.heighttween:update(dt)
 	end
 
-	if self.time <= 0 and self:isLinked() == false then
+	if self.time <= 0 and self:isStunned() == false then
 		self.scene:add(BigExplosion(self.x, self.y, true))
 		self:kill()
 	end

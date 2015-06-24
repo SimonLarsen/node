@@ -7,6 +7,7 @@ local Sumo = class("Sumo", Enemy)
 
 Sumo.static.MASS = 300
 Sumo.static.SOLID = false
+Sumo.static.MAX_HP = 5
 
 Sumo.static.WALK_SPEED = 30
 
@@ -20,7 +21,7 @@ Sumo.static.COOLDOWN = 0.15
 Sumo.static.SHOOT_TIME = 1.0
 
 function Sumo:initialize(x, y)
-	Enemy.initialize(self, x, y, 0, Sumo.static.MASS, Sumo.static.SOLID, -20, 0.20)
+	Enemy.initialize(self, x, y, 0, Sumo.static.MASS, Sumo.static.SOLID, -20, Sumo.static.MAX_HP)
 	self:setName("sumo")
 
 	self.shoot_dir = 0
@@ -44,7 +45,7 @@ function Sumo:update(dt)
 
 	local animstate = self.state
 
-	if self:isLinked() then
+	if self:isStunned() then
 		animstate = Sumo.static.STATE_LINKED
 
 	elseif self.state == Sumo.static.STATE_RUN then

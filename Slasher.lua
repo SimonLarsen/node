@@ -6,6 +6,7 @@ local Slasher = class("Slasher", Enemy)
 
 Slasher.static.MASS = 170
 Slasher.static.SOLID = false
+Slasher.static.MAX_HP = 2
 
 Slasher.static.STATE_IDLE = 0
 Slasher.static.STATE_DASH = 1
@@ -18,7 +19,7 @@ Slasher.static.IDLE_TIME = 1.5
 Slasher.static.SLASH_TIME = 0.2
 
 function Slasher:initialize(x, y)
-	Enemy.initialize(self, x, y, 0, Slasher.static.MASS, Slasher.static.SOLID, -32, 0.15)
+	Enemy.initialize(self, x, y, 0, Slasher.static.MASS, Slasher.static.SOLID, -32, Slasher.static.MAX_HP)
 
 	self.state = Slasher.static.STATE_IDLE
 	self.dir = 1
@@ -43,7 +44,7 @@ function Slasher:update(dt)
 	local animstate = self.state
 
 	self.time = self.time - dt
-	if self:isLinked() then
+	if self:isStunned() then
 		animstate = Slasher.static.STATE_LINKED
 	
 	elseif self.state == Slasher.static.STATE_IDLE then

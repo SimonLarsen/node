@@ -5,10 +5,11 @@ local Grenade = require("Grenade")
 
 local Demobot = class("Demobot", Robot)
 
+Demobot.static.MAX_HP = 3
 Demobot.static.RANGE = 170
 
 function Demobot:initialize(x, y)
-	Enemy.initialize(self, x, y, 0, Robot.static.MASS, Robot.static.SOLID, -17, 0.20)
+	Enemy.initialize(self, x, y, 0, Robot.static.MASS, Robot.static.SOLID, -17, Demobot.static.MAX_HP)
 	self:setName("demobot")
 	
 	self.animator = Animator(Resources.getAnimator("demobot.lua"))
@@ -23,7 +24,6 @@ end
 
 function Demobot:shoot(targetx, targety)
 	self.scene:add(Grenade(self.x, self.y+0.01, targetx, targety))
-	self.animator:setProperty("fire", true)
 end
 
 return Demobot

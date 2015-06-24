@@ -7,6 +7,7 @@ local Spider = class("Spider", Enemy)
 
 Spider.static.MASS = 50
 Spider.static.SOLID = false
+Spider.static.MAX_HP = 1
 
 Spider.static.WALK_SPEED = 60
 Spider.static.CHARGE_SPEED = 200
@@ -19,7 +20,7 @@ Spider.static.STATE_CHARGE = 3
 Spider.static.STATE_LINKED = 4
 
 function Spider:initialize(x, y)
-	Enemy.initialize(self, x, y, 0, Spider.static.MASS, Spider.static.SOLID, -12, 0.15)
+	Enemy.initialize(self, x, y, 0, Spider.static.MASS, Spider.static.SOLID, -12, Spider.static.MAX_HP)
 	self:setName("spider")
 
 	self.xspeed = 0
@@ -57,7 +58,7 @@ function Spider:update(dt)
 	end
 
 	self.time = self.time - dt
-	if self:isLinked() then
+	if self:isStunned() then
 		animstate = Spider.static.STATE_LINKED
 
 	elseif self.state == Spider.static.STATE_IDLE then

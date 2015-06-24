@@ -5,10 +5,11 @@ local BoxCollider = require("BoxCollider")
 
 local Commander = class("Commander", Robot)
 
+Commander.static.MAX_HP = 2
 Commander.static.RANGE = 230
 
 function Commander:initialize(x, y)
-	Enemy.initialize(self, x, y, 0, Robot.static.MASS, Robot.static.SOLID, -17, 0.15)
+	Enemy.initialize(self, x, y, 0, Robot.static.MASS, Robot.static.SOLID, -17, Commander.static.MAX_HP)
 	self:setName("commander")
 	
 	self.animator = Animator(Resources.getAnimator("commander.lua"))
@@ -26,7 +27,6 @@ function Commander:shoot(targetx, targety)
 	self.scene:add(Bullet(self.x, self.y+0.01, dir-0.2))
 	self.scene:add(Bullet(self.x, self.y+0.01, dir))
 	self.scene:add(Bullet(self.x, self.y+0.01, dir+0.2))
-	self.animator:setProperty("fire", true)
 end
 
 return Commander
