@@ -21,7 +21,7 @@ function Link:initialize()
 	self.chains = {}
 	self.active = false
 	self.hasSolid = false
-	self.hasReach = false
+	self.hasReach = true
 
 	self.crosshair = Animation(Resources.getImage("crosshair.png"), 36, 36, 0.2)
 	self.collider = BoxCollider(48, 64, 0, 16)
@@ -94,10 +94,6 @@ function Link:update(dt)
 			end
 		end
 	end
-
-	local xdist = self.player.x - self.x
-	local ydist = self.player.y - self.y
-	self.hasReach = xdist^2 + (2*ydist)^2 < Link.static.PLAYER_REACH^2
 end
 
 function Link:draw()

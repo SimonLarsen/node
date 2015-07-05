@@ -9,6 +9,7 @@ local Player = class("Player", Entity)
 Player.static.GHOST_COLOR_START = {220, 239, 237}
 Player.static.GHOST_COLOR_DIFF = {220-91, 239-200, 237-186}
 
+Player.static.ACCELERATION = 2500
 Player.static.MOVE_SPEED = 200
 Player.static.DASH_SPEED = 500
 
@@ -63,8 +64,6 @@ function Player:initialize(x, y)
 	self.animator = Animator(Resources.getAnimator("player.lua"))
 	self.img_ghost = Resources.getImage("dash_ghost.png")
 	self.collider = BoxCollider(20, 20, 0, 0)
-
-	self.img_viewcircle = Resources.getImage("viewcircle.png")
 end
 
 function Player:enter()
@@ -94,7 +93,7 @@ function Player:update(dt)
 	end
 
 	if self.state == Player.static.STATE_IDLE then
-		self:updateMovement()
+		self:updateMovement(dt)
 
 		if Mouse.wasPressed("r") then
 			self:kick()
@@ -123,7 +122,7 @@ function Player:update(dt)
 		end
 
 		if Keyboard.wasPressed(" ") then
-			self:updateMovement()
+			self:updateMovement(dt)
 			self:dash()
 		end
 	
@@ -191,23 +190,23 @@ function Player:update(dt)
 	self.scene:getCamera():setPosition(self.x, self.y)
 end
 
-function Player:updateMovement()
+function Player:updateMovement(dt)
 	if self.knockback > 0 then return end
 
 	if Keyboard.isDown("a") then
-		self.xspeed = -Player.static.MOVE_SPEED
+		self.xspeed = math.max(self.xspeed - Player.static.ACCELERATION*dt, -Player.static.MOVE_SPEED)
 		self.dir = -1
 	end
 	if Keyboard.isDown("d") then
-		self.xspeed = Player.static.MOVE_SPEED
+		self.xspeed = math.min(self.xspeed + Player.static.ACCELERATION*dt, Player.static.MOVE_SPEED)
 		self.dir = 1
 	end
 
 	if Keyboard.isDown("w") then
-		self.yspeed = -Player.static.MOVE_SPEED
+		self.yspeed = math.max(self.yspeed - Player.static.ACCELERATION*dt, -Player.static.MOVE_SPEED)
 	end
 	if Keyboard.isDown("s") then
-		self.yspeed = Player.static.MOVE_SPEED
+		self.yspeed = math.min(self.yspeed + Player.static.ACCELERATION*dt, Player.static.MOVE_SPEED)
 	end
 end
 
@@ -374,17 +373,6 @@ function Player:gui()
 		self.glitchoverlay.shader:send("factor", self.glitchoverlay.glitchfactor*0.5)
 		love.graphics.setShader(self.glitchoverlay.shader)
 	end
-
-	if WIDTH > 800 then
-		love.graphics.rectangle("fill", 0, 0, WIDTH/2-400, HEIGHT)
-		love.graphics.rectangle("fill", WIDTH/2+400, 0, WIDTH/2-400, HEIGHT)
-	end
-	if HEIGHT > 400 then
-		love.graphics.rectangle("fill", WIDTH/2-400, 0, 800, HEIGHT/2-200)
-		love.graphics.rectangle("fill", WIDTH/2-400, HEIGHT/2+200, 800, HEIGHT/2-200)
-	end
-
-	love.graphics.draw(self.img_viewcircle, WIDTH/2, HEIGHT/2, 0, 1, 1, 400, 200)
 
 	love.graphics.setShader()
 	love.graphics.setColor(255, 255, 255)
