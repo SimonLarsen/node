@@ -1,7 +1,6 @@
 local Enemy = require("Enemy")
 local Bullet = require("Bullet")
 local BoxCollider = require("BoxCollider")
-local BulletExplosion = require("BulletExplosion")
 
 local PlayerBullet = class("PlayerBullet", Bullet)
 
@@ -18,11 +17,8 @@ function PlayerBullet:initialize(x, y, dir)
 	self.collider = BoxCollider(16, 32, 0, 0)
 end
 
-function PlayerBullet:onCollide(o)
-	if o:isInstanceOf(Enemy) and o:isStunned() == false then
-		self.scene:add(BulletExplosion(self.x, self.y))
-		self:kill()
-	end
+function PlayerBullet:onCollide(o, dt)
+	
 end
 
 return PlayerBullet

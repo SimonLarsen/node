@@ -3,7 +3,7 @@ local Explosion = require("Explosion")
 
 local Linkable = class("Linkable", Entity)
 
-Linkable.static.HP_INCREASE = 0.5
+Linkable.static.HP_INCREASE = 0.3
 Linkable.static.LINK_DECREASE = 4
 
 function Linkable:initialize(x, y, z, mass, solid, linkz, max_hp)

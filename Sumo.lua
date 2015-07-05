@@ -8,6 +8,7 @@ local Sumo = class("Sumo", Enemy)
 Sumo.static.MASS = 300
 Sumo.static.SOLID = false
 Sumo.static.MAX_HP = 5
+Sumo.static.LIVES = 2
 
 Sumo.static.WALK_SPEED = 30
 
@@ -21,7 +22,7 @@ Sumo.static.COOLDOWN = 0.15
 Sumo.static.SHOOT_TIME = 1.0
 
 function Sumo:initialize(x, y)
-	Enemy.initialize(self, x, y, 0, Sumo.static.MASS, Sumo.static.SOLID, -20, Sumo.static.MAX_HP)
+	Enemy.initialize(self, x, y, 0, Sumo.static.MASS, Sumo.static.SOLID, -20, Sumo.static.MAX_HP, Sumo.static.LIVES)
 	self:setName("sumo")
 
 	self.shoot_dir = 0

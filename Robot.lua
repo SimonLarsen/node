@@ -101,7 +101,7 @@ function Robot:run()
 	local dy = self.player.y - self.y
 
 	local player_dir = math.atan2(dy, dx)
-	local dir = love.math.randomNormal(math.pi/2, player_dir)
+	local dir = love.math.randomNormal(math.pi/3, player_dir)
 	self.xspeed = math.cos(dir) * Robot.static.WALK_SPEED
 	self.yspeed = math.sin(dir) * Robot.static.WALK_SPEED
 	self.dir = math.sign(self.xspeed)
